@@ -6,9 +6,7 @@ const LayoutThree = () => {
   return (
     <>
     <NavbarThree/>
-    <main>
       <Outlet/>
-    </main>
     </>
   )
 }
