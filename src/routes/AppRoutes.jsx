@@ -22,6 +22,7 @@ import LifeCycle from '../assignments/day4/pages/LifeCycle';
 import Day4UseState from '../assignments/day4/pages/UseState';
 import ArrofObj from '../assignments/day4/pages/ArrofObj';
 import Day5UseState from '../assignments/day5/pages/UseState';
+import LayoutFive from '../assignments/day5/layouts/LayoutFive';
 
 
 
@@ -77,7 +78,7 @@ const AppRoutes = () => {
 
         {/* assignmentroutes */}
         {/* day 5 */}
-        <Route element={<LayoutFour />}>
+        <Route element={<LayoutFive />}>
           <Route path='/totaltask' element={<Day5UseState />} />
         </Route>
 

@@ -3,7 +3,7 @@ import React from 'react'
 import { Outlet } from 'react-router-dom'
 import NavbarFive from '../components/NavbarFive'
 
-const LayoutFour = () => {
+const LayoutFive = () => {
   return (
    <>
    <NavbarFive/>
@@ -15,4 +15,4 @@ const LayoutFour = () => {
   )
 }
 
-export default LayoutFour
+export default LayoutFive
