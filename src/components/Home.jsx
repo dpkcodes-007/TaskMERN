@@ -38,6 +38,12 @@ const tasks = [
     description: "Counter, login, theme, and show-hide examples using React state.",
     path: "/totaltask",
   },
+    {
+    day: "Day 6",
+    title: "HOAM RENDER",
+    description: "UseSTATE renders.",
+    path: "/array",
+  },
 ];
 
 const Home = () => {
