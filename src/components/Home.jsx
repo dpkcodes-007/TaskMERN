@@ -44,6 +44,24 @@ const tasks = [
     description: "UseSTATE renders.",
     path: "/array",
   },
+  {
+    day: "Day 7",
+    title: "React useState() Assignment Tasks",
+    description: "Practice useState() by building forms, input fields in React..",
+    path: "/Taskone",
+  },
+    {
+    day: "Day 8",
+    title: "React useState() Assignment Tasks",
+    description: "Practice useState() by building forms, input fields in React..",
+    path: "/Taskone",
+  },
+    {
+    day: "Day 9",
+    title: "React useState() Assignment Tasks",
+    description: "Practice useState() by building forms, input fields in React..",
+    path: "/regis",
+  },
 ];
 
 const Home = () => {
@@ -92,12 +110,12 @@ const Home = () => {
         <section id="progress" className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur-md">
           <h3 className="mb-3 text-2xl font-semibold text-white">Progress Overview</h3>
           <p className="mb-4 text-slate-300">
-            You have completed 6 practice tasks and are making strong progress through the React learning path.
+            You have completed 7 practice tasks and are making strong progress through the React learning path.
           </p>
           <div className="grid gap-4 text-sm sm:grid-cols-3">
             <div className="rounded-2xl border border-white/10 bg-slate-950/70 p-4">
               <p className="text-slate-300">Tasks Completed</p>
-              <p className="text-3xl font-bold text-emerald-400">6</p>
+              <p className="text-3xl font-bold text-emerald-400">9</p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-slate-950/70 p-4">
               <p className="text-slate-300">Current Focus</p>

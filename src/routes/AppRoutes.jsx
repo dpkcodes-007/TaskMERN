@@ -26,6 +26,22 @@ import LayoutFive from '../assignments/day5/layouts/LayoutFive';
 import LayoutSix from '../assignments/day6/layoutsix/LayoutSix';
 import Array from '../assignments/day6/pages/Array';
 import ObjRen from '../assignments/day6/pages/ObjRen';
+import LayoutSeven from '../assignments/day7/layoutseven/LayoutSeven';
+import Taskone from '../assignments/day7/pages/Taskone';
+import Tasktwo from '../assignments/day7/pages/Tasktwo';
+import Taskthree from '../assignments/day7/pages/Taskthree';
+import Taskfour from '../assignments/day7/pages/Taskfour';
+import Taskfive from '../assignments/day7/pages/Taskfive';
+import Tasksix from '../assignments/day7/pages/Tasksix';
+import Taskseven from '../assignments/day7/pages/Taskseven';
+import Taskeghit from '../assignments/day7/pages/Taskeghit';
+import Tasknine from '../assignments/day7/pages/Tasknine';
+import Taskten from '../assignments/day7/pages/Taskten';
+import Layout8 from '../assignments/day8/layouteight/Layout8';
+import Day8Register from '../assignments/day8/pages/Register';
+
+
+
 
 
 
@@ -92,6 +108,27 @@ const AppRoutes = () => {
           <Route path='/objren' element={<ObjRen />} />
           
           </Route>
+
+        {/* assignmentroutes */}
+        {/* day 7 */}
+        <Route element={<LayoutSeven />}>
+          <Route path='/Taskone' element={<Taskone  />} />
+          <Route path='/Tasktwo' element={<Tasktwo />} />
+          <Route path='/Taskthree' element={<Taskthree />} />
+          <Route path='/Taskfour' element={<Taskfour />} />
+          <Route path='/Taskfive' element={<Taskfive />} />
+          <Route path='/Tasksix' element={<Tasksix />} />
+          <Route path='/Taskseven' element={<Taskseven />} />
+          <Route path='/Taskeghit' element={<Taskeghit />} />
+          <Route path='/Tasknine' element={<Tasknine />} />
+          <Route path='/Taskten' element={<Taskten />} />
+        </Route>
+
+        {/* assignmentroutes */}
+        {/* day 8 */}
+        <Route element={<Layout8 />}>
+          <Route path='/regis' element={<Day8Register />} />
+        </Route>
 
 
 
