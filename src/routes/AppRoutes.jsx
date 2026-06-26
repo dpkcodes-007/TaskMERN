@@ -39,6 +39,10 @@ import Tasknine from '../assignments/day7/pages/Tasknine';
 import Taskten from '../assignments/day7/pages/Taskten';
 import Layout8 from '../assignments/day8/layouteight/Layout8';
 import Day8Register from '../assignments/day8/pages/Register';
+import Layout9 from '../assignments/day9/layout/Layout9'
+import BgColor from '../assignments/day9/pages/BgColor';
+import Layout10 from '../assignments/day10/layout/Layout10';
+import StudentTask from '../assignments/day10/pages/StudentTask';
 
 
 
@@ -125,9 +129,19 @@ const AppRoutes = () => {
         </Route>
 
         {/* assignmentroutes */}
-        {/* day 8 */}
+        {/* day 9 */}
         <Route element={<Layout8 />}>
           <Route path='/regis' element={<Day8Register />} />
+        </Route>
+
+        {/* day 8*/}
+        <Route element={<Layout9 />}>
+          <Route path='/bgcolor' element={<BgColor/>} />
+        </Route>
+
+        {/* day 10*/}
+        <Route element={<Layout10 />}>
+          <Route path='/student10' element={<StudentTask/>} />
         </Route>
 
 
