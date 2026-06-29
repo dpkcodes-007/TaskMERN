@@ -43,6 +43,10 @@ import Layout9 from '../assignments/day9/layout/Layout9'
 import BgColor from '../assignments/day9/pages/BgColor';
 import Layout10 from '../assignments/day10/layout/Layout10';
 import StudentTask from '../assignments/day10/pages/StudentTask';
+import Layout11 from '../assignments/day11/layout/Layout11';
+import Register11 from '../assignments/day11/slides/Register';
+import Login11 from '../assignments/day11/slides/Login';
+import Landling11 from '../assignments/day11/slides/Landling';
 
 
 
@@ -142,6 +146,13 @@ const AppRoutes = () => {
         {/* day 10*/}
         <Route element={<Layout10 />}>
           <Route path='/student10' element={<StudentTask/>} />
+        </Route>
+
+        {/* day 11*/}
+        <Route element={<Layout11 />}>
+          <Route path='/reg11' element={<Register11/>} />
+          <Route path='/log11' element={<Login11/>} />
+          <Route path='/land11' element={<Landling11/>} />
         </Route>
 
 
