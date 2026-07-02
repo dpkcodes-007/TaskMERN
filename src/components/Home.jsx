@@ -74,6 +74,18 @@ const tasks = [
     description: "Create a registration and login system using LocalStorage, then redirect the user to the Dashboard after successful login.",
     path: "/reg11",
   },
+    {
+    day: "Day 12",
+    title: "User Registration & Login with LocalStorage",
+    description: "Create a registration and login system using LocalStorage, then redirect the user to the Dashboard after successful login.",
+    path: "/reg11",
+  },
+    {
+    day: "Day 13",
+   title: "Todo List using Fetch API",
+   description: "Fetch todo data from the DummyJSON API, parse the JSON response,and display the todos dynamically using the map() method.",
+    path: "/todo" ,
+  },
 ];
 
 const Home = () => {
@@ -124,10 +136,10 @@ const Home = () => {
           <p className="mb-4 text-slate-300">
             You have completed 11 practice tasks and are making strong progress through the React learning path.
           </p>
-          <div className="grid gap-4 text-sm sm:grid-cols-3">
+           <div className="grid gap-4 text-sm sm:grid-cols-3">
             <div className="rounded-2xl border border-white/10 bg-slate-950/70 p-4">
               <p className="text-slate-300">Tasks Completed</p>
-              <p className="text-3xl font-bold text-emerald-400">10</p>
+              <p className="text-3xl font-bold text-emerald-400">13</p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-slate-950/70 p-4">
               <p className="text-slate-300">Current Focus</p>

@@ -47,6 +47,9 @@ import Layout11 from '../assignments/day11/layout/Layout11';
 import Register11 from '../assignments/day11/slides/Register';
 import Login11 from '../assignments/day11/slides/Login';
 import Landling11 from '../assignments/day11/slides/Landling';
+import Layout13 from '../assignments/day13/layout13/Layout13';
+import FetchApi from '../assignments/day13/slides13/FetchApi';
+import Timer from '../assignments/day13/slides13/Timer';
 
 
 
@@ -153,6 +156,19 @@ const AppRoutes = () => {
           <Route path='/reg11' element={<Register11/>} />
           <Route path='/log11' element={<Login11/>} />
           <Route path='/land11' element={<Landling11/>} />
+        </Route>
+
+                {/* day 12*/}
+        {/* <Route element={<Layout11 />}>
+          <Route path='/reg11' element={<Register11/>} />
+          <Route path='/log11' element={<Login11/>} />
+          <Route path='/land11' element={<Landling11/>} />
+        </Route> */}
+
+                {/* day 13*/}
+        <Route element={<Layout13 />}>
+          <Route path='/todo' element={<FetchApi/>}/>
+          <Route path='/timer' element={<Timer/>}/>
         </Route>
 
 
