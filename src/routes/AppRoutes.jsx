@@ -47,9 +47,14 @@ import Layout11 from '../assignments/day11/layout/Layout11';
 import Register11 from '../assignments/day11/slides/Register';
 import Login11 from '../assignments/day11/slides/Login';
 import Landling11 from '../assignments/day11/slides/Landling';
-import Layout13 from '../assignments/day13/layout13/Layout13';
-import FetchApi from '../assignments/day13/slides13/FetchApi';
-import Timer from '../assignments/day13/slides13/Timer';
+import Layout13 from '../assignments/day12/layout13/Layout13';
+import FetchApi from '../assignments/day12/slides13/FetchApi';
+import Timer from '../assignments/day12/slides13/Timer';
+import Layout013 from '../assignments/day13/layout013/Layout013';
+import CourseSearch from '../assignments/day13/sildes013/CourseSearch';
+import StudentSearch from '../assignments/day13/sildes013/StudentSearch';
+import EmployeeSearch from '../assignments/day13/sildes013/EmployeeSearch';
+import ProductSearch from '../assignments/day13/sildes013/ProductSearch';
 
 
 
@@ -170,6 +175,15 @@ const AppRoutes = () => {
           <Route path='/todo' element={<FetchApi/>}/>
           <Route path='/timer' element={<Timer/>}/>
         </Route>
+
+        
+                {/* day 12*/}
+         <Route element={<Layout013 />}>
+          <Route path='/coursesearch' element={<CourseSearch/>} />
+          <Route path='/stusearch' element={<StudentSearch/>} />
+          <Route path='/empsearch' element={<EmployeeSearch/>} />
+          <Route path='/productsearch' element={<ProductSearch/>}/>
+        </Route> 
 
 
 

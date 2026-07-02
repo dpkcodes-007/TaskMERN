@@ -75,16 +75,22 @@ const tasks = [
     path: "/reg11",
   },
     {
-    day: "Day 12",
+    day: "SPL TEST",
     title: "User Registration & Login with LocalStorage",
     description: "Create a registration and login system using LocalStorage, then redirect the user to the Dashboard after successful login.",
     path: "/reg11",
   },
     {
-    day: "Day 13",
+    day: "Day 12",
    title: "Todo List using Fetch API",
    description: "Fetch todo data from the DummyJSON API, parse the JSON response,and display the todos dynamically using the map() method.",
     path: "/todo" ,
+  },
+      {
+    day: "Day 13",
+  title: "Search Filter",
+  description: "Build a search filter application that allows users to search Students, Products, Employees, and Courses.",
+  path: "/stusearch" ,
   },
 ];
 
@@ -134,7 +140,7 @@ const Home = () => {
         <section id="progress" className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur-md">
           <h3 className="mb-3 text-2xl font-semibold text-white">Progress Overview</h3>
           <p className="mb-4 text-slate-300">
-            You have completed 11 practice tasks and are making strong progress through the React learning path.
+            You have completed 13 practice tasks and are making strong progress through the React learning path.
           </p>
            <div className="grid gap-4 text-sm sm:grid-cols-3">
             <div className="rounded-2xl border border-white/10 bg-slate-950/70 p-4">
