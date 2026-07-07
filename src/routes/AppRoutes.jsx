@@ -55,6 +55,8 @@ import CourseSearch from '../assignments/day13/sildes013/CourseSearch';
 import StudentSearch from '../assignments/day13/sildes013/StudentSearch';
 import EmployeeSearch from '../assignments/day13/sildes013/EmployeeSearch';
 import ProductSearch from '../assignments/day13/sildes013/ProductSearch';
+import Search from '../assignments/day15/sildes15/Search';
+import Layout15 from '../assignments/day15/layout15/Layout15';
 
 
 
@@ -163,26 +165,32 @@ const AppRoutes = () => {
           <Route path='/land11' element={<Landling11/>} />
         </Route>
 
-                {/* day 12*/}
+        {/* day 12*/}
         {/* <Route element={<Layout11 />}>
           <Route path='/reg11' element={<Register11/>} />
           <Route path='/log11' element={<Login11/>} />
           <Route path='/land11' element={<Landling11/>} />
         </Route> */}
 
-                {/* day 13*/}
+        {/* day 13*/}
         <Route element={<Layout13 />}>
           <Route path='/todo' element={<FetchApi/>}/>
+          <Route path='/fetchapi' element={<FetchApi/>}/>
           <Route path='/timer' element={<Timer/>}/>
         </Route>
 
         
-                {/* day 12*/}
+        {/* day 14*/}
          <Route element={<Layout013 />}>
           <Route path='/coursesearch' element={<CourseSearch/>} />
           <Route path='/stusearch' element={<StudentSearch/>} />
           <Route path='/empsearch' element={<EmployeeSearch/>} />
           <Route path='/productsearch' element={<ProductSearch/>}/>
+        </Route> 
+
+        {/* day 15*/}
+         <Route element={<Layout15 />}>
+          <Route path='/searchfilter' element={<Search/>} />
         </Route> 
 
 
