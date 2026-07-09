@@ -89,14 +89,44 @@ const tasks = [
   {
   day: "Day 14",
   title: "Search Filter",
-  description: "Build a search filter application that allows users to search Students, Products, Employees, and Courses.",
+  description: "Built a search filter application that allows users to search Students, Products, Employees, and Courses.",
   path: "/stusearch" ,
   },
   {
   day: "Day 15",
   title: "Search Filter",
-  description: "Build a search filter & sort application that allows users to check the products .",
+  description: "Built a search filter & sort application that allows users to check the products .",
   path: "/searchfilter" ,
+  },
+  {
+  day: "Day 16",
+  title: "Todo Search",
+  description: "Built a Todo list with Search,Edit option.",
+  path: "/todolist" ,
+  },
+  {
+  day: "Day 17",
+  title: "useRef Process",
+  description: "Built a React component using useRef for scroll navigation and input value handling.",
+  path: "/scrollref" ,
+  },
+  {
+  day: "Day 18",
+title: "useContext with Provider Process",
+description: "Built React components using useContext and Context Provider to share and consume data efficiently across multiple components.",
+  path: "/profile" ,
+  },
+  {
+  day: "Day 19",
+  title: "useContext with Provider Process",
+description: "Built React components using useContext and Context Provider to share and consume data efficiently across multiple components.",
+  path: "/" ,
+  },
+  {
+  day: "Day 20",
+ title: "React Hooks & API Projects",
+ description: "Built React components demonstrating Fetch API, custom hooks (toggle and counter).",
+  path: "/countercontext" ,
   },
 ];
 

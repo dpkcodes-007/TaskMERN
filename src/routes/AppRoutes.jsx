@@ -57,6 +57,22 @@ import EmployeeSearch from '../assignments/day13/sildes013/EmployeeSearch';
 import ProductSearch from '../assignments/day13/sildes013/ProductSearch';
 import Search from '../assignments/day15/sildes15/Search';
 import Layout15 from '../assignments/day15/layout15/Layout15';
+import Layout16 from '../assignments/day16/layout16/Layout16';
+import TodoSearch from '../assignments/day16/sildes16/TodoSearch';
+import Layout17 from '../assignments/day17/layout17/Layout17';
+import Scroll from '../assignments/day17/sildes17/Scroll';
+import UseRef from '../assignments/day17/sildes17/UseRef';
+import UserProvider from '../assignments/day18/provider/UserProvider';
+import Profile from '../assignments/day18/sildes18/Profile';
+import ProductProvider from '../assignments/day18/provider/ProductProvider';
+import Products from '../assignments/day18/sildes18/Products'
+import ThemeProvider from '../assignments/day18/provider/ThemeProvider';
+import ThemePagessss from '../assignments/day18/sildes18/ThemePagessss';
+import Layout18 from '../assignments/day18/layout18/Layout18';
+import Counter from '../assignments/day20/sildes20/Counter';
+import Layout20 from '../assignments/day20/layout20/Layout20';
+import Fetchcontext from '../assignments/day20/sildes20/Fetchcontext';
+import Toggle from '../assignments/day20/sildes20/Toggle';
 
 
 
@@ -191,6 +207,48 @@ const AppRoutes = () => {
         {/* day 15*/}
          <Route element={<Layout15 />}>
           <Route path='/searchfilter' element={<Search/>} />
+        </Route> 
+        
+        {/* day 16*/}
+         <Route element={<Layout16 />}>
+          <Route path='/todolist' element={<TodoSearch/>} />
+        </Route> 
+
+        {/* day 17*/}
+         <Route element={<Layout17 />}>
+          <Route path='/scrollref' element={<Scroll/>} />
+          <Route path='/useref' element={<UseRef/>} />
+        </Route> 
+
+        {/* day 18*/}
+        <Route element={<Layout18/>}>
+
+         <Route path="/profile"
+           element={
+            <UserProvider>
+            <Profile />
+            </UserProvider>}
+            />
+
+        <Route path="/productscontext"
+          element={
+      <ProductProvider>
+        <Products/>
+      </ProductProvider>}/>
+
+         <Route path="/themecontext"
+           element={
+      <ThemeProvider>
+        <ThemePagessss/>
+      </ThemeProvider>}/>
+
+         </Route>
+          {/* day 19 is pending */}
+        {/* day 20*/}
+         <Route element={<Layout20 />}>
+          <Route path='/countercontext' element={<Counter/>} />
+          <Route path='/fetchcontext' element={<Fetchcontext/>} />
+           <Route path='/togglecontext' element={<Toggle/>} />
         </Route> 
 
 
