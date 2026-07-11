@@ -6,6 +6,10 @@ import Navbar from "../components/Navbar";
 const Profile = () => {
   const nav = useNavigate();
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [currentTheme, setCurrentTheme] = useState(() => {
+    const savedTheme = localStorage.getItem('theme');
+    return savedTheme || 'dark';
+  });
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -13,6 +17,188 @@ const Profile = () => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
+
+  // Listen for theme changes
+  useEffect(() => {
+    const handleThemeChange = (event) => {
+      setCurrentTheme(event.detail.isDark ? 'dark' : 'light');
+    };
+
+    window.addEventListener('themeChange', handleThemeChange);
+    
+    const checkTheme = () => {
+      const theme = localStorage.getItem('theme');
+      if (theme) setCurrentTheme(theme);
+    };
+    
+    const interval = setInterval(checkTheme, 100);
+    
+    return () => {
+      window.removeEventListener('themeChange', handleThemeChange);
+      clearInterval(interval);
+    };
+  }, []);
+
+  // Dynamic Theme System
+  const getTheme = () => {
+    const hour = currentTime.getHours();
+    const isDark = currentTheme === 'dark';
+    
+    let timeBase;
+    if (hour >= 5 && hour < 17) {
+      timeBase = 'day';
+    } else if (hour >= 17 && hour < 19) {
+      timeBase = 'evening';
+    } else {
+      timeBase = 'night';
+    }
+
+    if (isDark) {
+      return {
+        name: 'dark',
+        background: 'from-[#0a0014] via-[#1a0028] to-[#0d001a]',
+        cardBg: 'bg-white/5',
+        cardBorder: 'border-white/5',
+        cardHover: 'hover:border-purple-500/30 hover:shadow-purple-500/10',
+        text: 'text-white',
+        textSecondary: 'text-slate-300',
+        textMuted: 'text-slate-400',
+        heading: timeBase === 'day' ? 'from-cyan-400 to-blue-500' : 
+                 timeBase === 'evening' ? 'from-orange-400 to-rose-500' : 
+                 'from-purple-400 via-pink-400 to-indigo-400',
+        subheading: timeBase === 'day' ? 'from-blue-300 to-cyan-300' : 
+                    timeBase === 'evening' ? 'from-amber-300 to-orange-300' : 
+                    'from-indigo-300 to-purple-300',
+        accent: timeBase === 'day' ? 'from-cyan-500 to-blue-500' : 
+                timeBase === 'evening' ? 'from-orange-500 to-amber-500' : 
+                'from-purple-500 to-pink-500',
+        accentLight: timeBase === 'day' ? 'from-cyan-500/10 to-blue-500/5' : 
+                     timeBase === 'evening' ? 'from-orange-500/10 to-amber-500/5' : 
+                     'from-indigo-500/10 to-purple-500/5',
+        border: timeBase === 'day' ? 'border-cyan-500/30' : 
+                timeBase === 'evening' ? 'border-orange-500/30' : 
+                'border-indigo-500/30',
+        glow: timeBase === 'day' ? 'shadow-cyan-500/20' : 
+              timeBase === 'evening' ? 'shadow-orange-500/20' : 
+              'shadow-indigo-500/20',
+        button: timeBase === 'day' ? 'from-cyan-500 to-blue-500' : 
+                timeBase === 'evening' ? 'from-orange-500 to-amber-500' : 
+                'from-purple-500 to-pink-500',
+        buttonHover: timeBase === 'day' ? 'hover:shadow-cyan-500/30' : 
+                     timeBase === 'evening' ? 'hover:shadow-orange-500/30' : 
+                     'hover:shadow-purple-500/30',
+        statColors: {
+          cyan: 'text-cyan-400',
+          purple: 'text-purple-400',
+          fuchsia: 'text-fuchsia-400',
+          pink: 'text-pink-400',
+          emerald: 'text-emerald-400',
+          yellow: 'text-yellow-400'
+        },
+        statBg: 'bg-purple-500/10',
+        nebula: ['bg-purple-600/10', 'bg-indigo-600/10', 'bg-fuchsia-600/10', 'bg-pink-600/10'],
+        stars: 'bg-white',
+        iconColor: 'text-purple-400',
+        badge: 'border-purple-400/30 bg-purple-400/10 text-purple-300',
+        progress: {
+          indigo: 'bg-gradient-to-r from-indigo-400 to-purple-500',
+          purple: 'bg-gradient-to-r from-purple-400 to-pink-400',
+          fuchsia: 'bg-gradient-to-r from-fuchsia-400 to-pink-400',
+          pink: 'bg-gradient-to-r from-pink-400 to-rose-400'
+        },
+        footerIcon: 'text-purple-400',
+        footerHover: 'hover:text-purple-400',
+        showStars: true,
+        showNebula: true,
+        tagColors: {
+          cyan: 'bg-cyan-500/10 border-cyan-500/20 text-cyan-400',
+          green: 'bg-green-500/10 border-green-500/20 text-green-400',
+          yellow: 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400',
+          emerald: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400',
+          purple: 'bg-purple-500/10 border-purple-500/20 text-purple-400',
+          pink: 'bg-pink-500/10 border-pink-500/20 text-pink-400',
+          orange: 'bg-orange-500/10 border-orange-500/20 text-orange-400',
+          blue: 'bg-blue-500/10 border-blue-500/20 text-blue-400'
+        }
+      };
+    } else {
+      return {
+        name: 'light',
+        background: timeBase === 'day' ? 'from-blue-50 via-sky-100 to-blue-50' :
+                    timeBase === 'evening' ? 'from-orange-50 via-amber-100 to-orange-50' :
+                    'from-indigo-50 via-purple-50 to-indigo-50',
+        cardBg: 'bg-white/80',
+        cardBorder: timeBase === 'day' ? 'border-blue-200/50' :
+                    timeBase === 'evening' ? 'border-orange-200/50' :
+                    'border-purple-200/50',
+        cardHover: timeBase === 'day' ? 'hover:border-blue-400/50 hover:shadow-blue-500/20' :
+                   timeBase === 'evening' ? 'hover:border-orange-400/50 hover:shadow-orange-500/20' :
+                   'hover:border-purple-400/50 hover:shadow-purple-500/20',
+        text: 'text-slate-800',
+        textSecondary: 'text-slate-600',
+        textMuted: 'text-slate-500',
+        heading: timeBase === 'day' ? 'from-blue-600 to-cyan-600' :
+                 timeBase === 'evening' ? 'from-orange-600 to-amber-600' :
+                 'from-purple-600 to-indigo-600',
+        subheading: timeBase === 'day' ? 'from-blue-500 to-cyan-500' :
+                    timeBase === 'evening' ? 'from-orange-500 to-amber-500' :
+                    'from-indigo-500 to-purple-500',
+        accent: timeBase === 'day' ? 'from-blue-500 to-cyan-500' :
+                timeBase === 'evening' ? 'from-orange-500 to-amber-500' :
+                'from-purple-500 to-indigo-500',
+        accentLight: timeBase === 'day' ? 'from-blue-500/10 to-cyan-500/5' :
+                     timeBase === 'evening' ? 'from-orange-500/10 to-amber-500/5' :
+                     'from-purple-500/10 to-indigo-500/5',
+        border: timeBase === 'day' ? 'border-blue-500/30' :
+                timeBase === 'evening' ? 'border-orange-500/30' :
+                'border-purple-500/30',
+        glow: timeBase === 'day' ? 'shadow-blue-500/20' :
+              timeBase === 'evening' ? 'shadow-orange-500/20' :
+              'shadow-purple-500/20',
+        button: timeBase === 'day' ? 'from-blue-500 to-cyan-500' :
+                timeBase === 'evening' ? 'from-orange-500 to-amber-500' :
+                'from-purple-500 to-indigo-500',
+        buttonHover: timeBase === 'day' ? 'hover:shadow-blue-500/30' :
+                     timeBase === 'evening' ? 'hover:shadow-orange-500/30' :
+                     'hover:shadow-purple-500/30',
+        statColors: {
+          cyan: 'text-blue-600',
+          purple: 'text-cyan-600',
+          fuchsia: 'text-sky-600',
+          pink: 'text-indigo-600',
+          emerald: 'text-emerald-600',
+          yellow: 'text-yellow-600'
+        },
+        statBg: 'bg-blue-500/10',
+        nebula: ['bg-blue-400/10', 'bg-cyan-400/10', 'bg-sky-400/10', 'bg-indigo-400/10'],
+        stars: 'bg-slate-400',
+        iconColor: 'text-blue-500',
+        badge: 'border-blue-400/30 bg-blue-400/10 text-blue-600',
+        progress: {
+          indigo: 'bg-gradient-to-r from-blue-400 to-cyan-500',
+          purple: 'bg-gradient-to-r from-cyan-400 to-sky-500',
+          fuchsia: 'bg-gradient-to-r from-sky-400 to-indigo-500',
+          pink: 'bg-gradient-to-r from-indigo-400 to-blue-500'
+        },
+        footerIcon: 'text-blue-500',
+        footerHover: 'hover:text-blue-500',
+        showStars: false,
+        showNebula: true,
+        tagColors: {
+          cyan: 'bg-cyan-500/10 border-cyan-500/20 text-cyan-600',
+          green: 'bg-green-500/10 border-green-500/20 text-green-600',
+          yellow: 'bg-yellow-500/10 border-yellow-500/20 text-yellow-600',
+          emerald: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-600',
+          purple: 'bg-purple-500/10 border-purple-500/20 text-purple-600',
+          pink: 'bg-pink-500/10 border-pink-500/20 text-pink-600',
+          orange: 'bg-orange-500/10 border-orange-500/20 text-orange-600',
+          blue: 'bg-blue-500/10 border-blue-500/20 text-blue-600'
+        }
+      };
+    }
+  };
+
+  const theme = getTheme();
 
   // SVG Icons
   const Icons = {
@@ -140,7 +326,8 @@ const Profile = () => {
     { name: "Node.js", icon: Icons.Node, color: "green" },
     { name: "Express.js", icon: Icons.Express, color: "yellow" },
     { name: "MongoDB", icon: Icons.MongoDB, color: "emerald" },
-    { name: "JavaScript", icon: Icons.Code, color: "yellow" }
+    { name: "JavaScript", icon: Icons.Code, color: "yellow" },
+    { name: "Tailwind CSS", icon: Icons.Code, color: "purple" }
   ];
 
   const achievements = [
@@ -153,31 +340,53 @@ const Profile = () => {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-[#0a0a1a] relative overflow-x-hidden">
+      <div className={`min-h-screen bg-gradient-to-br ${theme.background} relative overflow-x-hidden transition-all duration-1000`}>
         {/* Animated Background */}
         <div className="fixed inset-0 z-0 pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-radial from-cyan-500/15 via-transparent to-transparent" />
-          <div className="absolute inset-0 bg-gradient-radial from-purple-500/15 via-transparent to-transparent" style={{ backgroundPosition: '80% 50%' }} />
-          <div className="absolute inset-0 bg-gradient-radial from-pink-500/10 via-transparent to-transparent" style={{ backgroundPosition: '50% 100%' }} />
+          {/* Stars - Only show at night */}
+          {theme.showStars && (
+            <div className="absolute inset-0">
+              {[...Array(50)].map((_, i) => (
+                <div
+                  key={i}
+                  className={`absolute rounded-full ${theme.stars} animate-twinkle`}
+                  style={{
+                    width: Math.random() * 3 + 1 + 'px',
+                    height: Math.random() * 3 + 1 + 'px',
+                    top: Math.random() * 100 + '%',
+                    left: Math.random() * 100 + '%',
+                    animationDelay: Math.random() * 5 + 's',
+                    animationDuration: Math.random() * 3 + 2 + 's',
+                    opacity: Math.random() * 0.5 + 0.3
+                  }}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* Floating Nebula Effects */}
+          <div className={`absolute -top-40 -right-40 w-96 h-96 ${theme.nebula[0]} rounded-full blur-3xl animate-float`} />
+          <div className={`absolute -bottom-40 -left-40 w-80 h-80 ${theme.nebula[1]} rounded-full blur-3xl animate-float-delay`} />
+          <div className={`absolute top-1/2 left-1/2 w-64 h-64 ${theme.nebula[2]} rounded-full blur-3xl animate-float-delay2`} />
+          <div className={`absolute -bottom-60 right-1/3 w-96 h-96 ${theme.nebula[3]} rounded-full blur-3xl animate-float-delay3`} />
           
-          {/* Floating Shapes */}
-          <div className="absolute -top-20 -right-20 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl animate-float" />
-          <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-purple-500/10 rounded-full blur-3xl animate-float-delay" />
-          <div className="absolute top-1/2 left-1/2 w-40 h-40 bg-pink-500/10 rounded-full blur-3xl animate-float-delay2" />
-          <div className="absolute -bottom-40 right-1/3 w-72 h-72 bg-yellow-500/10 rounded-full blur-3xl animate-float-delay3" />
+          {/* Day/Evening specific elements */}
+          {theme.name === 'light' && (
+            <div className="absolute top-20 right-20 w-32 h-32 bg-yellow-400/5 rounded-full blur-3xl animate-float" />
+          )}
         </div>
 
         {/* Main Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Profile Header */}
           <section className="py-12">
-            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-8 sm:p-12">
+            <div className={`${theme.cardBg} backdrop-blur-md border ${theme.cardBorder} rounded-3xl p-8 sm:p-12 ${theme.cardHover} transition-all duration-300`}>
               <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8">
                 {/* Profile Image */}
                 <div className="relative">
-                  <div className="w-40 h-40 sm:w-52 sm:h-52 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 p-1 shadow-2xl shadow-cyan-500/20">
-                    <div className="w-full h-full rounded-full bg-[#0a0a1a] flex items-center justify-center">
-                      <span className="text-6xl sm:text-7xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
+                  <div className={`w-40 h-40 sm:w-52 sm:h-52 rounded-full bg-gradient-to-r ${theme.accent} p-1 shadow-2xl ${theme.glow}`}>
+                    <div className={`w-full h-full rounded-full ${theme.name === 'dark' ? 'bg-[#0a0a1a]' : 'bg-white'} flex items-center justify-center`}>
+                      <span className={`text-6xl sm:text-7xl font-bold bg-gradient-to-r ${theme.heading} bg-clip-text text-transparent`}>
                         DR
                       </span>
                     </div>
@@ -190,15 +399,15 @@ const Profile = () => {
                 {/* Profile Info */}
                 <div className="flex-1 text-center lg:text-left">
                   <div className="flex flex-wrap items-center gap-3 mb-2">
-                    <h1 className="text-4xl sm:text-5xl font-extrabold text-white">
+                    <h1 className={`text-4xl sm:text-5xl font-extrabold ${theme.text}`}>
                       Deepak R
                     </h1>
-                    <span className="inline-block px-4 py-1 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-500/30 rounded-full text-cyan-400 text-sm font-semibold">
+                    <span className={`inline-block px-4 py-1 bg-gradient-to-r ${theme.accentLight} border ${theme.border} rounded-full text-sm font-semibold ${theme.textSecondary}`}>
                       👨‍💻 FULL STACK DEVELOPER (MERN STACK)
                     </span>
                   </div>
                   
-                  <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 mb-3 text-sm">
+                  <div className={`flex flex-wrap items-center justify-center lg:justify-start gap-2 mb-3 text-sm ${theme.textSecondary}`}>
                     <span className="text-cyan-400">⚛️ React</span>
                     <span className="text-slate-500">•</span>
                     <span className="text-green-400">🟢 Node.js</span>
@@ -210,7 +419,7 @@ const Profile = () => {
                     <span className="text-yellow-400">JavaScript (ES6+)</span>
                   </div>
 
-                  <p className="text-slate-300 text-base mb-4 max-w-3xl">
+                  <p className={`${theme.textSecondary} text-base mb-4 max-w-3xl`}>
                     🚀 Building Scalable & Responsive Web Applications | 
                     <span className="text-cyan-400"> 📍 Open to Opportunities</span> | 
                     <span className="text-purple-400"> 💼 SDE</span> | 
@@ -218,25 +427,25 @@ const Profile = () => {
                     <span className="text-emerald-400"> 🌐 Full Stack</span>
                   </p>
 
-                  <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 text-slate-400">
+                  <div className={`flex flex-wrap items-center justify-center lg:justify-start gap-4 ${theme.textMuted}`}>
                     <div className="flex items-center gap-2">
-                      <span className="w-5 h-5 text-cyan-400">
+                      <span className={`w-5 h-5 ${theme.iconColor}`}>
                         <Icons.Email />
                       </span>
-                      <a href="mailto:itzdeepak2k6@gmail.com" className="hover:text-cyan-400 transition-colors">
+                      <a href="mailto:itzdeepak2k6@gmail.com" className={`hover:${theme.iconColor} transition-colors`}>
                         itzdeepak2k6@gmail.com
                       </a>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="w-5 h-5 text-cyan-400">
+                      <span className={`w-5 h-5 ${theme.iconColor}`}>
                         <Icons.Phone />
                       </span>
-                      <a href="tel:+919360023060" className="hover:text-cyan-400 transition-colors">
+                      <a href="tel:+919360023060" className={`hover:${theme.iconColor} transition-colors`}>
                         +91 9360023060
                       </a>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="w-5 h-5 text-cyan-400">
+                      <span className={`w-5 h-5 ${theme.iconColor}`}>
                         <Icons.Location />
                       </span>
                       <span>Chennai, Tamil Nadu, India</span>
@@ -248,7 +457,7 @@ const Profile = () => {
                     {techStack.map((tech, index) => (
                       <span 
                         key={index}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 bg-${tech.color}-500/10 border border-${tech.color}-500/20 rounded-full text-${tech.color}-400 text-xs font-medium`}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 ${theme.tagColors[tech.color]} rounded-full text-xs font-medium`}
                       >
                         <span className="w-4 h-4">
                           <tech.icon />
@@ -264,27 +473,27 @@ const Profile = () => {
                       href="https://github.com/dpkcodes-007" 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-xl hover:bg-white/10 transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-500/10 border border-white/5 group"
+                      className={`flex items-center gap-2 px-4 py-2 ${theme.cardBg} rounded-xl ${theme.cardHover} transition-all hover:-translate-y-1 hover:shadow-lg border ${theme.cardBorder} group`}
                     >
-                      <span className="w-5 h-5 text-cyan-400 group-hover:scale-110 transition-transform">
+                      <span className={`w-5 h-5 ${theme.iconColor} group-hover:scale-110 transition-transform`}>
                         <Icons.Github />
                       </span>
-                      <span className="text-white">GitHub</span>
+                      <span className={theme.text}>GitHub</span>
                     </a>
                     <a 
                       href="https://www.linkedin.com/in/deepak-r-3a2613371/" 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-xl hover:bg-white/10 transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-500/10 border border-white/5 group"
+                      className={`flex items-center gap-2 px-4 py-2 ${theme.cardBg} rounded-xl ${theme.cardHover} transition-all hover:-translate-y-1 hover:shadow-lg border ${theme.cardBorder} group`}
                     >
-                      <span className="w-5 h-5 text-cyan-400 group-hover:scale-110 transition-transform">
+                      <span className={`w-5 h-5 ${theme.iconColor} group-hover:scale-110 transition-transform`}>
                         <Icons.LinkedIn />
                       </span>
-                      <span className="text-white">LinkedIn</span>
+                      <span className={theme.text}>LinkedIn</span>
                     </a>
                     <button
                       onClick={() => nav("/tasks")}
-                      className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-xl text-white font-semibold hover:shadow-lg hover:shadow-cyan-500/30 transition-all hover:-translate-y-1"
+                      className={`flex items-center gap-2 px-4 py-2 bg-gradient-to-r ${theme.button} rounded-xl text-white font-semibold ${theme.buttonHover} transition-all hover:-translate-y-1`}
                     >
                       <span>View My Work</span>
                       <span className="w-4 h-4">
@@ -303,17 +512,17 @@ const Profile = () => {
               {achievements.map((item, index) => (
                 <div 
                   key={index}
-                  className="bg-white/5 backdrop-blur-md border border-white/5 rounded-2xl p-6 text-center hover:border-cyan-500/30 transition-all hover:-translate-y-2 hover:shadow-xl"
+                  className={`${theme.cardBg} backdrop-blur-md border ${theme.cardBorder} rounded-2xl p-6 text-center ${theme.cardHover} transition-all hover:-translate-y-2 hover:shadow-xl`}
                 >
                   <div className="flex justify-center mb-2">
-                    <div className="w-10 h-10 rounded-full bg-cyan-500/10 flex items-center justify-center text-cyan-400">
+                    <div className={`w-10 h-10 rounded-full ${theme.statBg} flex items-center justify-center ${theme.iconColor}`}>
                       <item.icon />
                     </div>
                   </div>
-                  <div className="text-3xl sm:text-4xl font-extrabold text-cyan-400">
+                  <div className={`text-3xl sm:text-4xl font-extrabold ${theme.statColors.cyan}`}>
                     {item.number}
                   </div>
-                  <div className="text-slate-400 text-sm mt-1">{item.label}</div>
+                  <div className={`${theme.textMuted} text-sm mt-1`}>{item.label}</div>
                 </div>
               ))}
             </div>
@@ -321,8 +530,8 @@ const Profile = () => {
 
           {/* Skills Section */}
           <section className="py-12">
-            <h2 className="text-3xl font-bold text-white mb-8 flex items-center gap-3">
-              <span className="w-7 h-7 text-cyan-400">
+            <h2 className={`text-3xl font-bold ${theme.text} mb-8 flex items-center gap-3`}>
+              <span className={`w-7 h-7 ${theme.iconColor}`}>
                 <Icons.Star />
               </span>
               Technical Skills
@@ -331,18 +540,18 @@ const Profile = () => {
               {skills.map((skill, index) => (
                 <div 
                   key={index}
-                  className="bg-white/5 backdrop-blur-md border border-white/5 rounded-2xl p-6 hover:border-cyan-500/20 transition-all hover:-translate-y-1 hover:shadow-xl"
+                  className={`${theme.cardBg} backdrop-blur-md border ${theme.cardBorder} rounded-2xl p-6 ${theme.cardHover} transition-all hover:-translate-y-1 hover:shadow-xl`}
                 >
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="w-8 h-8 text-cyan-400">
+                    <div className={`w-8 h-8 ${theme.iconColor}`}>
                       <skill.icon />
                     </div>
-                    <span className="text-white font-semibold text-lg">{skill.name}</span>
-                    <span className="ml-auto text-cyan-400 font-bold">{skill.level}%</span>
+                    <span className={`${theme.text} font-semibold text-lg`}>{skill.name}</span>
+                    <span className={`ml-auto ${theme.iconColor} font-bold`}>{skill.level}%</span>
                   </div>
                   <div className="h-2 bg-white/5 rounded-full overflow-hidden">
                     <div 
-                      className="h-full bg-gradient-to-r from-cyan-400 to-purple-500 rounded-full transition-all duration-1000"
+                      className={`h-full bg-gradient-to-r ${theme.accent} rounded-full transition-all duration-1000`}
                       style={{ width: `${skill.level}%` }}
                     ></div>
                   </div>
@@ -353,72 +562,72 @@ const Profile = () => {
 
           {/* About Me Section */}
           <section className="py-12">
-            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-8 sm:p-10">
-              <h2 className="text-3xl font-bold text-white mb-6 flex items-center gap-3">
-                <span className="w-7 h-7 text-cyan-400">
+            <div className={`${theme.cardBg} backdrop-blur-md border ${theme.cardBorder} rounded-3xl p-8 sm:p-10 ${theme.cardHover} transition-all duration-300`}>
+              <h2 className={`text-3xl font-bold ${theme.text} mb-6 flex items-center gap-3`}>
+                <span className={`w-7 h-7 ${theme.iconColor}`}>
                   <Icons.User />
                 </span>
                 About Me
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
-                  <p className="text-slate-300 leading-relaxed">
-                    👋 Hi, I'm <span className="text-cyan-400 font-semibold">Deepak R</span>, a passionate 
-                    <span className="text-cyan-400"> Full Stack Developer</span> specializing in the 
-                    <span className="text-cyan-400"> MERN Stack</span>. I'm dedicated to building 
+                  <p className={`${theme.textSecondary} leading-relaxed`}>
+                    👋 Hi, I'm <span className={`${theme.iconColor} font-semibold`}>Deepak R</span>, a passionate 
+                    <span className={`${theme.iconColor}`}> Full Stack Developer</span> specializing in the 
+                    <span className={`${theme.iconColor}`}> MERN Stack</span>. I'm dedicated to building 
                     scalable, responsive, and user-friendly web applications that solve real-world problems.
                   </p>
-                  <p className="text-slate-300 leading-relaxed mt-4">
+                  <p className={`${theme.textSecondary} leading-relaxed mt-4`}>
                     🚀 With expertise in <span className="text-cyan-400">React</span>, 
                     <span className="text-green-400"> Node.js</span>, 
                     <span className="text-yellow-400"> Express.js</span>, and 
                     <span className="text-emerald-400"> MongoDB</span>, I create full-stack 
                     solutions that are both efficient and maintainable.
                   </p>
-                  <p className="text-slate-300 leading-relaxed mt-4">
+                  <p className={`${theme.textSecondary} leading-relaxed mt-4`}>
                     💼 Currently <span className="text-cyan-400">open to opportunities</span> in 
                     Software Development Engineering (SDE), Frontend Development, and Full Stack 
                     Development roles.
                   </p>
-                  <div className="flex flex-wrap gap-4 mt-4">
-                    <div className="flex items-center gap-2 text-slate-400">
-                      <span className="w-5 h-5 text-cyan-400">
+                  <div className={`flex flex-wrap gap-4 mt-4 ${theme.textMuted}`}>
+                    <div className="flex items-center gap-2">
+                      <span className={`w-5 h-5 ${theme.iconColor}`}>
                         <Icons.Phone />
                       </span>
-                      <a href="tel:+919360023060" className="hover:text-cyan-400 transition-colors">
+                      <a href="tel:+919360023060" className={`hover:${theme.iconColor} transition-colors`}>
                         +91 9360023060
                       </a>
                     </div>
-                    <div className="flex items-center gap-2 text-slate-400">
-                      <span className="w-5 h-5 text-cyan-400">
+                    <div className="flex items-center gap-2">
+                      <span className={`w-5 h-5 ${theme.iconColor}`}>
                         <Icons.Email />
                       </span>
-                      <a href="mailto:itzdeepak2k6@gmail.com" className="hover:text-cyan-400 transition-colors">
+                      <a href="mailto:itzdeepak2k6@gmail.com" className={`hover:${theme.iconColor} transition-colors`}>
                         itzdeepak2k6@gmail.com
                       </a>
                     </div>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-white/5 rounded-xl p-4 border border-white/5 hover:border-cyan-500/20 transition-all hover:-translate-y-1">
-                    <p className="text-cyan-400 font-bold text-lg">MERN</p>
-                    <p className="text-slate-400 text-sm">Full Stack Developer</p>
+                  <div className={`${theme.cardBg} rounded-xl p-4 border ${theme.cardBorder} ${theme.cardHover} transition-all hover:-translate-y-1`}>
+                    <p className={`${theme.iconColor} font-bold text-lg`}>MERN</p>
+                    <p className={`${theme.textMuted} text-sm`}>Full Stack Developer</p>
                   </div>
-                  <div className="bg-white/5 rounded-xl p-4 border border-white/5 hover:border-cyan-500/20 transition-all hover:-translate-y-1">
-                    <p className="text-cyan-400 font-bold text-lg">20+</p>
-                    <p className="text-slate-400 text-sm">React Assignments</p>
+                  <div className={`${theme.cardBg} rounded-xl p-4 border ${theme.cardBorder} ${theme.cardHover} transition-all hover:-translate-y-1`}>
+                    <p className={`${theme.iconColor} font-bold text-lg`}>20+</p>
+                    <p className={`${theme.textMuted} text-sm`}>React Assignments</p>
                   </div>
-                  <div className="bg-white/5 rounded-xl p-4 border border-white/5 hover:border-cyan-500/20 transition-all hover:-translate-y-1">
-                    <p className="text-cyan-400 font-bold text-lg">50+</p>
-                    <p className="text-slate-400 text-sm">Components Built</p>
+                  <div className={`${theme.cardBg} rounded-xl p-4 border ${theme.cardBorder} ${theme.cardHover} transition-all hover:-translate-y-1`}>
+                    <p className={`${theme.iconColor} font-bold text-lg`}>50+</p>
+                    <p className={`${theme.textMuted} text-sm`}>Components Built</p>
                   </div>
-                  <div className="bg-white/5 rounded-xl p-4 border border-white/5 hover:border-cyan-500/20 transition-all hover:-translate-y-1">
-                    <p className="text-cyan-400 font-bold text-lg">15+</p>
-                    <p className="text-slate-400 text-sm">Projects Completed</p>
+                  <div className={`${theme.cardBg} rounded-xl p-4 border ${theme.cardBorder} ${theme.cardHover} transition-all hover:-translate-y-1`}>
+                    <p className={`${theme.iconColor} font-bold text-lg`}>15+</p>
+                    <p className={`${theme.textMuted} text-sm`}>Projects Completed</p>
                   </div>
-                  <div className="bg-white/5 rounded-xl p-4 border border-white/5 hover:border-cyan-500/20 transition-all hover:-translate-y-1 col-span-2">
-                    <p className="text-cyan-400 font-bold text-lg">📍 Chennai</p>
-                    <p className="text-slate-400 text-sm">Tamil Nadu, India</p>
+                  <div className={`${theme.cardBg} rounded-xl p-4 border ${theme.cardBorder} ${theme.cardHover} transition-all hover:-translate-y-1 col-span-2`}>
+                    <p className={`${theme.iconColor} font-bold text-lg`}>📍 Chennai</p>
+                    <p className={`${theme.textMuted} text-sm`}>Tamil Nadu, India</p>
                   </div>
                 </div>
               </div>
@@ -429,27 +638,27 @@ const Profile = () => {
           <footer className="py-10 mt-8 border-t border-white/5">
             <div className="flex flex-col items-center gap-6">
               <div className="flex items-center gap-3">
-                <div className="w-6 h-6 text-cyan-400">
+                <div className={`w-6 h-6 ${theme.footerIcon}`}>
                   <Icons.React />
                 </div>
-                <span className="text-white font-semibold">Deepak R - MERN Stack Developer</span>
+                <span className={`${theme.text} font-semibold`}>Deepak R - MERN Stack Developer</span>
               </div>
               <div className="flex gap-6">
-                <a href="https://github.com/dpkcodes-007" target="_blank" rel="noopener noreferrer" className="w-5 h-5 text-slate-400 hover:text-cyan-400 transition-colors hover:-translate-y-1">
+                <a href="https://github.com/dpkcodes-007" target="_blank" rel="noopener noreferrer" className={`w-5 h-5 ${theme.textMuted} ${theme.footerHover} transition-colors hover:-translate-y-1`}>
                   <Icons.Github />
                 </a>
-                <a href="https://www.linkedin.com/in/deepak-r-3a2613371/" target="_blank" rel="noopener noreferrer" className="w-5 h-5 text-slate-400 hover:text-cyan-400 transition-colors hover:-translate-y-1">
+                <a href="https://www.linkedin.com/in/deepak-r-3a2613371/" target="_blank" rel="noopener noreferrer" className={`w-5 h-5 ${theme.textMuted} ${theme.footerHover} transition-colors hover:-translate-y-1`}>
                   <Icons.LinkedIn />
                 </a>
-                <a href="mailto:itzdeepak2k6@gmail.com" className="w-5 h-5 text-slate-400 hover:text-cyan-400 transition-colors hover:-translate-y-1">
+                <a href="mailto:itzdeepak2k6@gmail.com" className={`w-5 h-5 ${theme.textMuted} ${theme.footerHover} transition-colors hover:-translate-y-1`}>
                   <Icons.Email />
                 </a>
-                <a href="tel:+919360023060" className="w-5 h-5 text-slate-400 hover:text-cyan-400 transition-colors hover:-translate-y-1">
+                <a href="tel:+919360023060" className={`w-5 h-5 ${theme.textMuted} ${theme.footerHover} transition-colors hover:-translate-y-1`}>
                   <Icons.Phone />
                 </a>
               </div>
               <div className="w-full text-center pt-4 border-t border-white/5">
-                <p className="text-slate-500 text-sm">© 2026 Deepak R. All rights reserved.</p>
+                <p className={`${theme.textMuted} text-sm`}>© 2026 Deepak R. All rights reserved.</p>
               </div>
             </div>
           </footer>
@@ -464,6 +673,10 @@ const Profile = () => {
           50% { transform: translate(-30px, 30px) scale(0.9); }
           75% { transform: translate(30px, 50px) scale(1.05); }
         }
+        @keyframes twinkle {
+          0%, 100% { opacity: 0.3; }
+          50% { opacity: 1; }
+        }
         .animate-float {
           animation: float 20s infinite ease-in-out;
         }
@@ -475,6 +688,9 @@ const Profile = () => {
         }
         .animate-float-delay3 {
           animation: float 20s infinite ease-in-out -15s;
+        }
+        .animate-twinkle {
+          animation: twinkle 3s infinite ease-in-out;
         }
         .bg-gradient-radial {
           background-image: radial-gradient(circle at var(--tw-gradient-from-position), var(--tw-gradient-stops));

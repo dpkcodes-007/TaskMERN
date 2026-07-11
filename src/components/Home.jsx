@@ -5,23 +5,210 @@ import Navbar from "../components/Navbar";
 
 const Home = () => {
   const nav = useNavigate();
+
+  // Enhanced greeting with more time-based variations
+  const getGreeting = (date = new Date()) => {
+    const hour = date.getHours();
+
+    if (hour >= 5 && hour < 8) {
+      return "🌅 Good Early Morning";
+    } else if (hour >= 8 && hour < 12) {
+      return "☀️ Good Morning";
+    } else if (hour >= 12 && hour < 14) {
+      return "🌤️ Good Midday";
+    } else if (hour >= 14 && hour < 16) {
+      return "🌥️ Good Afternoon";
+    } else if (hour >= 16 && hour < 19) {
+      return "🌆 Good Evening";
+    } else if (hour >= 19 && hour < 22) {
+      return "🌃 Good Night";
+    } else {
+      return "🌙 Good Night";
+    }
+  };
+
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [greeting, setGreeting] = useState("");
 
   useEffect(() => {
-    const timer = setInterval(() => {
+    const updateClock = () => {
       setCurrentTime(new Date());
-    }, 1000);
-    return () => clearInterval(timer);
+    };
+
+    updateClock();
+
+    const timer = window.setInterval(updateClock, 1000);
+    return () => window.clearInterval(timer);
   }, []);
 
-  useEffect(() => {
+  const greeting = getGreeting(currentTime);
+
+  // Dynamic Theme System
+  const getTheme = () => {
     const hour = currentTime.getHours();
-    if (hour < 12) setGreeting("🌅 Good Morning");
-    else if (hour < 17) setGreeting("☀️ Good Afternoon");
-    else if (hour < 21) setGreeting("🌆 Good Evening");
-    else setGreeting("🌙 Good Night");
-  }, [currentTime]);
+    
+    // Day Theme (5 AM - 5 PM)
+    if (hour >= 5 && hour < 17) {
+      return {
+        name: 'day',
+        background: 'from-blue-50 via-sky-100 to-blue-50',
+        cardBg: 'bg-white/70',
+        cardBorder: 'border-blue-200/50',
+        cardHover: 'hover:border-blue-400/50 hover:shadow-blue-500/20',
+        text: 'text-slate-800',
+        textSecondary: 'text-slate-600',
+        textMuted: 'text-slate-500',
+        heading: 'from-blue-600 to-cyan-600',
+        subheading: 'from-blue-500 to-cyan-500',
+        accent: 'from-blue-500 to-cyan-500',
+        accentLight: 'from-blue-500/10 to-cyan-500/5',
+        border: 'border-blue-500/30',
+        glow: 'shadow-blue-500/20',
+        button: 'from-blue-500 to-cyan-500',
+        buttonHover: 'hover:shadow-blue-500/30',
+        statColors: {
+          indigo: 'text-blue-600',
+          purple: 'text-cyan-600',
+          fuchsia: 'text-sky-600',
+          pink: 'text-indigo-600'
+        },
+        statBg: 'bg-blue-500/10',
+        nebula: ['bg-blue-400/10', 'bg-cyan-400/10', 'bg-sky-400/10', 'bg-indigo-400/10'],
+        stars: 'bg-slate-400',
+        iconColor: 'text-blue-500',
+        badge: 'border-blue-400/30 bg-blue-400/10 text-blue-600',
+        progress: {
+          indigo: 'bg-gradient-to-r from-blue-400 to-cyan-500',
+          purple: 'bg-gradient-to-r from-cyan-400 to-sky-500',
+          fuchsia: 'bg-gradient-to-r from-sky-400 to-indigo-500',
+          pink: 'bg-gradient-to-r from-indigo-400 to-blue-500'
+        },
+        footerIcon: 'text-blue-500',
+        footerHover: 'hover:text-blue-500'
+      };
+    }
+    // Evening Theme (5 PM - 7 PM)
+    else if (hour >= 17 && hour < 19) {
+      return {
+        name: 'evening',
+        background: 'from-orange-50 via-amber-100 to-orange-50',
+        cardBg: 'bg-white/70',
+        cardBorder: 'border-orange-200/50',
+        cardHover: 'hover:border-orange-400/50 hover:shadow-orange-500/20',
+        text: 'text-slate-800',
+        textSecondary: 'text-slate-600',
+        textMuted: 'text-slate-500',
+        heading: 'from-orange-600 to-amber-600',
+        subheading: 'from-orange-500 to-amber-500',
+        accent: 'from-orange-500 to-amber-500',
+        accentLight: 'from-orange-500/10 to-amber-500/5',
+        border: 'border-orange-500/30',
+        glow: 'shadow-orange-500/20',
+        button: 'from-orange-500 to-amber-500',
+        buttonHover: 'hover:shadow-orange-500/30',
+        statColors: {
+          indigo: 'text-orange-600',
+          purple: 'text-amber-600',
+          fuchsia: 'text-yellow-600',
+          pink: 'text-rose-600'
+        },
+        statBg: 'bg-orange-500/10',
+        nebula: ['bg-orange-400/10', 'bg-amber-400/10', 'bg-yellow-400/10', 'bg-rose-400/10'],
+        stars: 'bg-slate-400',
+        iconColor: 'text-orange-500',
+        badge: 'border-orange-400/30 bg-orange-400/10 text-orange-600',
+        progress: {
+          indigo: 'bg-gradient-to-r from-orange-400 to-amber-500',
+          purple: 'bg-gradient-to-r from-amber-400 to-yellow-500',
+          fuchsia: 'bg-gradient-to-r from-yellow-400 to-rose-500',
+          pink: 'bg-gradient-to-r from-rose-400 to-orange-500'
+        },
+        footerIcon: 'text-orange-500',
+        footerHover: 'hover:text-orange-500'
+      };
+    }
+    // Night Theme (7 PM - 5 AM)
+    else {
+      return {
+        name: 'night',
+        background: 'from-[#0a0014] via-[#1a0028] to-[#0d001a]',
+        cardBg: 'bg-white/5',
+        cardBorder: 'border-white/5',
+        cardHover: 'hover:border-purple-500/30 hover:shadow-purple-500/10',
+        text: 'text-white',
+        textSecondary: 'text-slate-300',
+        textMuted: 'text-slate-400',
+        heading: 'from-purple-400 via-pink-400 to-indigo-400',
+        subheading: 'from-indigo-300 to-purple-300',
+        accent: 'from-purple-500 to-pink-500',
+        accentLight: 'from-indigo-500/10 to-purple-500/5',
+        border: 'border-indigo-500/30',
+        glow: 'shadow-indigo-500/20',
+        button: 'from-purple-500 to-pink-500',
+        buttonHover: 'hover:shadow-purple-500/30',
+        statColors: {
+          indigo: 'text-indigo-400',
+          purple: 'text-purple-400',
+          fuchsia: 'text-fuchsia-400',
+          pink: 'text-pink-400'
+        },
+        statBg: 'bg-purple-500/10',
+        nebula: ['bg-purple-600/10', 'bg-indigo-600/10', 'bg-fuchsia-600/10', 'bg-pink-600/10'],
+        stars: 'bg-white',
+        iconColor: 'text-purple-400',
+        badge: 'border-purple-400/30 bg-purple-400/10 text-purple-300',
+        progress: {
+          indigo: 'bg-gradient-to-r from-indigo-400 to-purple-500',
+          purple: 'bg-gradient-to-r from-purple-400 to-pink-400',
+          fuchsia: 'bg-gradient-to-r from-fuchsia-400 to-pink-400',
+          pink: 'bg-gradient-to-r from-pink-400 to-rose-400'
+        },
+        footerIcon: 'text-purple-400',
+        footerHover: 'hover:text-purple-400'
+      };
+    }
+  };
+
+  const theme = getTheme();
+
+  // Helper function to get greeting emoji and color
+  const getGreetingStyles = () => {
+    const hour = currentTime.getHours();
+    if (hour >= 5 && hour < 12) {
+      return { 
+        color: 'from-amber-400 to-orange-500', 
+        bg: 'from-amber-500/10 to-orange-500/5',
+        border: 'border-amber-500/30',
+        text: 'text-amber-500',
+        glow: 'shadow-amber-500/20'
+      };
+    } else if (hour >= 12 && hour < 17) {
+      return { 
+        color: 'from-sky-400 to-blue-500', 
+        bg: 'from-sky-500/10 to-blue-500/5',
+        border: 'border-sky-500/30',
+        text: 'text-sky-500',
+        glow: 'shadow-sky-500/20'
+      };
+    } else if (hour >= 17 && hour < 21) {
+      return { 
+        color: 'from-orange-400 to-rose-500', 
+        bg: 'from-orange-500/10 to-rose-500/5',
+        border: 'border-orange-500/30',
+        text: 'text-orange-500',
+        glow: 'shadow-orange-500/20'
+      };
+    } else {
+      return { 
+        color: 'from-indigo-400 to-purple-500', 
+        bg: 'from-indigo-500/10 to-purple-500/5',
+        border: 'border-indigo-500/30',
+        text: 'text-indigo-400',
+        glow: 'shadow-indigo-500/20'
+      };
+    }
+  };
+
+  const greetingStyles = getGreetingStyles();
 
   // SVG Icons
   const Icons = {
@@ -111,6 +298,17 @@ const Home = () => {
         <line x1="8" y1="2" x2="8" y2="6" />
         <line x1="3" y1="10" x2="21" y2="10" />
       </svg>
+    ),
+    Sun: () => (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-full h-full">
+        <circle cx="12" cy="12" r="5" />
+        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+      </svg>
+    ),
+    Moon: () => (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-full h-full">
+        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+      </svg>
     )
   };
 
@@ -148,37 +346,10 @@ const Home = () => {
   ];
 
   const stats = [
-    { number: "20+", label: "Days Completed", color: "cyan", icon: Icons.Calendar },
-    { number: "50+", label: "Components Built", color: "emerald", icon: Icons.Code },
+    { number: "20+", label: "Days Completed", color: "indigo", icon: Icons.Calendar },
+    { number: "50+", label: "Components Built", color: "purple", icon: Icons.Code },
     { number: "15+", label: "Projects Done", color: "fuchsia", icon: Icons.Star },
-    { number: "100%", label: "Learning Progress", color: "yellow", icon: Icons.User }
-  ];
-
-  const quickLinks = [
-    { 
-      path: "/day1", 
-      label: "Day 1-3: Basics",
-      description: "Layouts, Routing & Components",
-      icon: Icons.React
-    },
-    { 
-      path: "/totaltask", 
-      label: "Day 4-7: Hooks",
-      description: "useState, Effects & Forms",
-      icon: Icons.Hook
-    },
-    { 
-      path: "/todo", 
-      label: "Day 8-12: API",
-      description: "Fetch API & CRUD Operations",
-      icon: Icons.Api
-    },
-    { 
-      path: "/profile", 
-      label: "Day 13-20: Advanced",
-      description: "Context API & Custom Hooks",
-      icon: Icons.Router
-    }
+    { number: "100%", label: "Learning Progress", color: "pink", icon: Icons.User }
   ];
 
   // Navigate to profile page
@@ -204,18 +375,51 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-[#0a0a1a] relative overflow-x-hidden">
-        {/* Animated Background */}
+      <div className={`min-h-screen bg-gradient-to-br ${theme.background} relative overflow-x-hidden transition-all duration-1000`}>
+        {/* Animated Background - Dynamic based on theme */}
         <div className="fixed inset-0 z-0 pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-radial from-cyan-500/15 via-transparent to-transparent" />
-          <div className="absolute inset-0 bg-gradient-radial from-purple-500/15 via-transparent to-transparent" style={{ backgroundPosition: '80% 50%' }} />
-          <div className="absolute inset-0 bg-gradient-radial from-pink-500/10 via-transparent to-transparent" style={{ backgroundPosition: '50% 100%' }} />
+          {/* Stars - Only show at night */}
+          {theme.name === 'night' && (
+            <div className="absolute inset-0">
+              {[...Array(50)].map((_, i) => (
+                <div
+                  key={i}
+                  className={`absolute rounded-full ${theme.stars} animate-twinkle`}
+                  style={{
+                    width: Math.random() * 3 + 1 + 'px',
+                    height: Math.random() * 3 + 1 + 'px',
+                    top: Math.random() * 100 + '%',
+                    left: Math.random() * 100 + '%',
+                    animationDelay: Math.random() * 5 + 's',
+                    animationDuration: Math.random() * 3 + 2 + 's',
+                    opacity: Math.random() * 0.5 + 0.3
+                  }}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* Floating Nebula/Cloud Effects */}
+          <div className={`absolute -top-40 -right-40 w-96 h-96 ${theme.nebula[0]} rounded-full blur-3xl animate-float`} />
+          <div className={`absolute -bottom-40 -left-40 w-80 h-80 ${theme.nebula[1]} rounded-full blur-3xl animate-float-delay`} />
+          <div className={`absolute top-1/2 left-1/2 w-64 h-64 ${theme.nebula[2]} rounded-full blur-3xl animate-float-delay2`} />
+          <div className={`absolute -bottom-60 right-1/3 w-96 h-96 ${theme.nebula[3]} rounded-full blur-3xl animate-float-delay3`} />
           
-          {/* Floating Shapes */}
-          <div className="absolute -top-20 -right-20 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl animate-float" />
-          <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-purple-500/10 rounded-full blur-3xl animate-float-delay" />
-          <div className="absolute top-1/2 left-1/2 w-40 h-40 bg-pink-500/10 rounded-full blur-3xl animate-float-delay2" />
-          <div className="absolute -bottom-40 right-1/3 w-72 h-72 bg-yellow-500/10 rounded-full blur-3xl animate-float-delay3" />
+          {/* Day-specific elements */}
+          {theme.name === 'day' && (
+            <>
+              <div className="absolute top-20 right-20 w-32 h-32 bg-yellow-400/5 rounded-full blur-3xl animate-float" />
+              <div className="absolute bottom-20 left-20 w-40 h-40 bg-blue-400/5 rounded-full blur-3xl animate-float-delay" />
+            </>
+          )}
+          
+          {/* Evening-specific elements */}
+          {theme.name === 'evening' && (
+            <>
+              <div className="absolute top-10 right-10 w-48 h-48 bg-orange-400/10 rounded-full blur-3xl animate-float" />
+              <div className="absolute bottom-10 left-10 w-56 h-56 bg-amber-400/10 rounded-full blur-3xl animate-float-delay" />
+            </>
+          )}
         </div>
 
         {/* Main Content */}
@@ -223,37 +427,44 @@ const Home = () => {
           {/* Hero Section */}
           <section className="py-16 lg:py-20">
             <div className="text-center mb-16">
-              {/* Live Date & Time */}
+              {/* Live Date & Time with Dynamic Theme */}
               <div className="flex flex-wrap items-center justify-center gap-4 mb-6">
-                <div className="inline-flex items-center gap-3 px-5 py-2 bg-cyan-500/10 border border-cyan-500/20 rounded-full text-cyan-400 text-sm">
+                <div className={`inline-flex items-center gap-3 px-5 py-2 ${theme.statBg} border ${theme.border} rounded-full ${theme.textSecondary} text-sm backdrop-blur-sm hover:border-${theme.accent.split(' ')[1]}/40 transition-all hover:-translate-y-1 hover:shadow-lg ${theme.glow}`}>
                   <span className="w-4 h-4">
                     <Icons.Calendar />
                   </span>
                   <span>{formatDate(currentTime)}</span>
                 </div>
-                <div className="inline-flex items-center gap-3 px-5 py-2 bg-purple-500/10 border border-purple-500/20 rounded-full text-purple-400 text-sm">
-                  <span className="w-4 h-4">
+                <div className={`inline-flex items-center gap-3 px-5 py-2 ${theme.statBg} border ${theme.border} rounded-full ${theme.textSecondary} text-sm backdrop-blur-sm hover:border-${theme.accent.split(' ')[1]}/40 transition-all hover:-translate-y-1 hover:shadow-lg ${theme.glow}`}>
+                  <span className="w-4 h-4 animate-spin-slow">
                     <Icons.Clock />
                   </span>
-                  <span className="font-mono">{formatTime(currentTime)}</span>
+                  <span className="font-mono font-bold tracking-wider">{formatTime(currentTime)}</span>
                 </div>
               </div>
 
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border border-cyan-500/20 rounded-full text-cyan-400 text-sm mb-6">
-                <span className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></span>
-                {greeting}
+              {/* Enhanced Greeting Banner with Dynamic Styling */}
+              <div className={`inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r ${greetingStyles.bg} border ${greetingStyles.border} rounded-full ${greetingStyles.text} text-sm backdrop-blur-sm mb-6 transition-all hover:scale-105 hover:shadow-xl ${greetingStyles.glow}`}>
+                <span className={`w-2 h-2 bg-gradient-to-r ${greetingStyles.color} rounded-full animate-pulse`}></span>
+                <span className="text-lg">{greetingStyles.emoji}</span>
+                <span className="font-semibold">{greeting}</span>
+                <span className="text-xs opacity-60 hidden sm:inline">
+                  • {currentTime.getHours()}:{String(currentTime.getMinutes()).padStart(2, '0')} hrs
+                </span>
               </div>
               
-              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-white leading-tight mb-4">
-                <span className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
+              <h1 className={`text-4xl sm:text-5xl lg:text-7xl font-extrabold ${theme.text} leading-tight mb-4`}>
+                <span className={`bg-gradient-to-r ${theme.heading} bg-clip-text text-transparent`}>
                   React
                 </span>
                 <br className="sm:hidden" />
                 <span className="hidden sm:inline"> </span>
-                Learning Dashboard
+                <span className={`bg-gradient-to-r ${theme.subheading} bg-clip-text text-transparent`}>
+                  Learning Dashboard
+                </span>
               </h1>
               
-              <p className="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
+              <p className={`text-lg sm:text-xl ${theme.textSecondary} max-w-2xl mx-auto leading-relaxed`}>
                 Explore my complete React journey through hands-on assignments,
                 real projects, and practical implementations of modern React concepts.
               </p>
@@ -261,7 +472,7 @@ const Home = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
                 <button 
                   onClick={handleProfile}
-                  className="group px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-cyan-500/30 transition-all hover:-translate-y-1 flex items-center justify-center gap-2"
+                  className={`group px-8 py-4 bg-gradient-to-r ${theme.button} text-white font-semibold rounded-xl hover:shadow-lg ${theme.buttonHover} transition-all hover:-translate-y-1 flex items-center justify-center gap-2`}
                 >
                   <span className="w-5 h-5">
                     <Icons.User />
@@ -273,7 +484,7 @@ const Home = () => {
                 </button>
                 <button 
                   onClick={handleViewAll}
-                  className="px-8 py-4 bg-white/5 border border-white/10 text-white font-semibold rounded-xl hover:bg-white/10 transition-all hover:-translate-y-1 flex items-center justify-center gap-2"
+                  className={`px-8 py-4 ${theme.cardBg} border ${theme.cardBorder} ${theme.text} font-semibold rounded-xl hover:${theme.cardBg.replace('70', '20')} transition-all hover:-translate-y-1 flex items-center justify-center gap-2`}
                 >
                   <span className="w-5 h-5">
                     <Icons.Code />
@@ -283,43 +494,38 @@ const Home = () => {
               </div>
             </div>
 
-            {/* Stats Grid */}
+            {/* Stats Grid with Dynamic Theme */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {stats.map((stat, index) => (
                 <div 
                   key={index}
-                  className="group bg-white/5 backdrop-blur-md border border-white/5 rounded-2xl p-6 text-center hover:border-cyan-500/30 transition-all hover:-translate-y-2 hover:shadow-xl"
+                  className={`group ${theme.cardBg} backdrop-blur-md border ${theme.cardBorder} rounded-2xl p-6 text-center ${theme.cardHover} transition-all hover:-translate-y-2 hover:shadow-xl`}
                 >
                   <div className="flex justify-center mb-2">
-                    <div className={`w-10 h-10 rounded-full bg-${stat.color}-500/10 flex items-center justify-center text-${stat.color}-400 group-hover:scale-110 transition-transform`}>
+                    <div className={`w-10 h-10 rounded-full ${theme.statBg} flex items-center justify-center ${theme.statColors[stat.color]} group-hover:scale-110 transition-transform`}>
                       <stat.icon />
                     </div>
                   </div>
-                  <div className={`text-4xl sm:text-5xl font-extrabold ${
-                    stat.color === 'cyan' ? 'text-cyan-400' :
-                    stat.color === 'emerald' ? 'text-emerald-400' :
-                    stat.color === 'fuchsia' ? 'text-fuchsia-400' :
-                    'text-yellow-400'
-                  }`}>
+                  <div className={`text-4xl sm:text-5xl font-extrabold ${theme.statColors[stat.color]}`}>
                     {stat.number}
                   </div>
-                  <div className="text-slate-400 text-sm mt-1">{stat.label}</div>
+                  <div className={theme.textMuted + " text-sm mt-1"}>{stat.label}</div>
                   <div className="mt-3 h-1 bg-white/5 rounded-full overflow-hidden">
                     <div className={`h-full rounded-full ${
-                      stat.color === 'cyan' ? 'w-[95%] bg-gradient-to-r from-cyan-400 to-purple-500' :
-                      stat.color === 'emerald' ? 'w-[80%] bg-gradient-to-r from-emerald-400 to-emerald-300' :
-                      stat.color === 'fuchsia' ? 'w-[75%] bg-gradient-to-r from-fuchsia-400 to-pink-400' :
-                      'w-[90%] bg-gradient-to-r from-yellow-400 to-yellow-300'
-                    }`} />
+                      stat.color === 'indigo' ? theme.progress.indigo :
+                      stat.color === 'purple' ? theme.progress.purple :
+                      stat.color === 'fuchsia' ? theme.progress.fuchsia :
+                      theme.progress.pink
+                    } ${stat.color === 'indigo' ? 'w-[95%]' : stat.color === 'purple' ? 'w-[80%]' : stat.color === 'fuchsia' ? 'w-[75%]' : 'w-[90%]'}`} />
                   </div>
                 </div>
               ))}
             </div>
           </section>
 
-          {/* Features Grid */}
+          {/* Features Grid with Dynamic Theme */}
           <section className="py-12">
-            <h2 className="text-3xl font-bold text-white mb-8 flex items-center gap-3">
+            <h2 className={`text-3xl font-bold ${theme.text} mb-8 flex items-center gap-3`}>
               <span className="w-7 h-7 text-yellow-400">
                 <Icons.Star />
               </span>
@@ -329,16 +535,16 @@ const Home = () => {
               {features.map((feature, index) => (
                 <div 
                   key={index}
-                  className="group bg-white/5 backdrop-blur-md border border-white/5 rounded-2xl p-6 hover:border-cyan-500/20 transition-all hover:-translate-y-2 hover:shadow-xl hover:bg-white/10"
+                  className={`group ${theme.cardBg} backdrop-blur-md border ${theme.cardBorder} rounded-2xl p-6 ${theme.cardHover} transition-all hover:-translate-y-2 hover:shadow-xl hover:${theme.cardBg.replace('70', '20')}`}
                 >
-                  <div className="w-12 h-12 text-cyan-400 mb-4 group-hover:scale-110 transition-transform">
+                  <div className={`w-12 h-12 ${theme.iconColor} mb-4 group-hover:scale-110 transition-transform`}>
                     <feature.icon />
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
+                  <h3 className={`text-xl font-bold ${theme.text} mb-3`}>{feature.title}</h3>
                   <ul className="space-y-2">
                     {feature.items.map((item, idx) => (
-                      <li key={idx} className="flex items-center gap-2 text-slate-400 text-sm group-hover:text-slate-300 transition-colors">
-                        <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full flex-shrink-0 group-hover:scale-125 transition-transform"></span>
+                      <li key={idx} className={`flex items-center gap-2 ${theme.textSecondary} text-sm group-hover:${theme.text} transition-colors`}>
+                        <span className={`w-1.5 h-1.5 ${theme.iconColor.replace('text', 'bg')} rounded-full flex-shrink-0 group-hover:scale-125 transition-transform`}></span>
                         {item}
                       </li>
                     ))}
@@ -348,17 +554,17 @@ const Home = () => {
             </div>
           </section>
 
-          {/* Progress Section */}
-          <section id="progress" className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur-md">
+          {/* Progress Section with Dynamic Theme */}
+          <section id="progress" className={`rounded-3xl border ${theme.cardBorder} ${theme.cardBg} p-6 shadow-2xl backdrop-blur-md`}>
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h3 className="text-2xl font-semibold text-white flex items-center gap-3">
-                  <span className="w-6 h-6 text-cyan-400">
+                <h3 className={`text-2xl font-semibold ${theme.text} flex items-center gap-3`}>
+                  <span className={`w-6 h-6 ${theme.iconColor}`}>
                     <Icons.Clock />
                   </span>
                   Progress Overview
                 </h3>
-                <p className="text-slate-300 mt-1 text-sm">
+                <p className={`${theme.textSecondary} mt-1 text-sm`}>
                   You have completed <span className="text-emerald-400 font-bold">20</span> practice tasks and are making excellent progress through the React learning path.
                 </p>
               </div>
@@ -372,9 +578,9 @@ const Home = () => {
 
             <div className="grid gap-4 sm:grid-cols-3">
               {/* Tasks Completed */}
-              <div className="group rounded-2xl border border-white/10 bg-gradient-to-br from-slate-950/70 to-slate-900/70 p-5 hover:border-emerald-500/30 transition-all hover:-translate-y-2 hover:shadow-lg hover:shadow-emerald-500/10">
+              <div className={`group rounded-2xl border ${theme.cardBorder} ${theme.cardBg} p-5 hover:border-emerald-500/30 transition-all hover:-translate-y-2 hover:shadow-lg hover:shadow-emerald-500/10`}>
                 <div className="flex items-center justify-between mb-2">
-                  <p className="text-slate-300 text-sm font-medium">Tasks Completed</p>
+                  <p className={`${theme.textSecondary} text-sm font-medium`}>Tasks Completed</p>
                   <span className="text-emerald-400 group-hover:scale-125 transition-transform">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
                       <path d="M20 6L9 17l-5-5" />
@@ -385,7 +591,7 @@ const Home = () => {
                   <p className="text-4xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent">
                     20
                   </p>
-                  <p className="text-slate-400 text-sm mb-1">/ 20 Tasks</p>
+                  <p className={`${theme.textMuted} text-sm mb-1`}>/ 20 Tasks</p>
                 </div>
                 <div className="mt-3 h-1.5 bg-white/5 rounded-full overflow-hidden">
                   <div className="h-full w-full bg-gradient-to-r from-emerald-400 to-emerald-300 rounded-full"></div>
@@ -393,42 +599,42 @@ const Home = () => {
               </div>
 
               {/* Current Focus */}
-              <div className="group rounded-2xl border border-white/10 bg-gradient-to-br from-slate-950/70 to-slate-900/70 p-5 hover:border-cyan-500/30 transition-all hover:-translate-y-2 hover:shadow-lg hover:shadow-cyan-500/10">
+              <div className={`group rounded-2xl border ${theme.cardBorder} ${theme.cardBg} p-5 hover:border-purple-500/30 transition-all hover:-translate-y-2 hover:shadow-lg hover:shadow-purple-500/10`}>
                 <div className="flex items-center justify-between mb-2">
-                  <p className="text-slate-300 text-sm font-medium">Current Focus</p>
-                  <span className="text-cyan-400 group-hover:scale-125 transition-transform">
+                  <p className={`${theme.textSecondary} text-sm font-medium`}>Current Focus</p>
+                  <span className={`${theme.iconColor} group-hover:scale-125 transition-transform`}>
                     <Icons.Hook />
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <p className="text-2xl font-bold text-cyan-300">React</p>
-                  <span className="px-2 py-0.5 bg-cyan-500/10 border border-cyan-500/20 rounded-full text-xs text-cyan-400 font-medium animate-pulse">
+                  <p className={`text-2xl font-bold ${theme.text}`}>React</p>
+                  <span className={`px-2 py-0.5 ${theme.statBg} border ${theme.border} rounded-full text-xs ${theme.textSecondary} font-medium animate-pulse`}>
                     Advanced
                   </span>
                 </div>
-                <div className="mt-2 flex items-center gap-2 text-slate-400 text-xs">
-                  <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full"></span>
+                <div className="mt-2 flex items-center gap-2 ${theme.textMuted} text-xs">
+                  <span className={`w-1.5 h-1.5 ${theme.iconColor.replace('text', 'bg')} rounded-full`}></span>
                   Context API & Hooks
                 </div>
               </div>
 
               {/* Status */}
-              <div className="group rounded-2xl border border-white/10 bg-gradient-to-br from-slate-950/70 to-slate-900/70 p-5 hover:border-fuchsia-500/30 transition-all hover:-translate-y-2 hover:shadow-lg hover:shadow-fuchsia-500/10">
+              <div className={`group rounded-2xl border ${theme.cardBorder} ${theme.cardBg} p-5 hover:border-pink-500/30 transition-all hover:-translate-y-2 hover:shadow-lg hover:shadow-pink-500/10`}>
                 <div className="flex items-center justify-between mb-2">
-                  <p className="text-slate-300 text-sm font-medium">Status</p>
-                  <span className="text-fuchsia-400 group-hover:scale-125 transition-transform">
+                  <p className={`${theme.textSecondary} text-sm font-medium`}>Status</p>
+                  <span className="text-pink-400 group-hover:scale-125 transition-transform">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
                       <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
                       <path d="M22 4L12 14.01l-3-3" />
                     </svg>
                   </span>
                 </div>
-                <p className="text-2xl font-bold text-fuchsia-300 flex items-center gap-2">
+                <p className={`text-2xl font-bold ${theme.text} flex items-center gap-2`}>
                   Completed
-                  <span className="text-xs font-normal text-slate-400">✓ All tasks done</span>
+                  <span className={`text-xs font-normal ${theme.textMuted}`}>✓ All tasks done</span>
                 </p>
-                <div className="mt-2 flex items-center gap-2 text-slate-400 text-xs">
-                  <span className="w-1.5 h-1.5 bg-fuchsia-400 rounded-full"></span>
+                <div className="mt-2 flex items-center gap-2 ${theme.textMuted} text-xs">
+                  <span className="w-1.5 h-1.5 bg-pink-400 rounded-full"></span>
                   Ready for advanced topics
                 </div>
               </div>
@@ -436,7 +642,7 @@ const Home = () => {
 
             {/* Additional Progress Details */}
             <div className="mt-6 grid gap-4 sm:grid-cols-4">
-              <div className="flex items-center gap-3 px-4 py-3 bg-white/5 rounded-xl border border-white/5 hover:border-emerald-500/20 transition-all hover:-translate-y-1">
+              <div className={`flex items-center gap-3 px-4 py-3 ${theme.cardBg} rounded-xl border ${theme.cardBorder} hover:border-emerald-500/20 transition-all hover:-translate-y-1`}>
                 <div className="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
                     <path d="M12 2v4M12 22v-4M4 12H2M22 12h-2" />
@@ -444,45 +650,44 @@ const Home = () => {
                   </svg>
                 </div>
                 <div>
-                  <p className="text-xs text-slate-400">Completion Rate</p>
-                  <p className="text-sm font-semibold text-white">100%</p>
+                  <p className={`text-xs ${theme.textMuted}`}>Completion Rate</p>
+                  <p className={`text-sm font-semibold ${theme.text}`}>100%</p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 px-4 py-3 bg-white/5 rounded-xl border border-white/5 hover:border-cyan-500/20 transition-all hover:-translate-y-1">
-                <div className="w-8 h-8 rounded-full bg-cyan-500/10 flex items-center justify-center text-cyan-400">
+              <div className={`flex items-center gap-3 px-4 py-3 ${theme.cardBg} rounded-xl border ${theme.cardBorder} hover:border-purple-500/20 transition-all hover:-translate-y-1`}>
+                <div className={`w-8 h-8 rounded-full ${theme.statBg} flex items-center justify-center ${theme.iconColor}`}>
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
                     <path d="M12 6v6l4 2" />
                   </svg>
                 </div>
                 <div>
-                  <p className="text-xs text-slate-400">Total Hours</p>
-                  <p className="text-sm font-semibold text-white">45+ hrs</p>
+                  <p className={`text-xs ${theme.textMuted}`}>Total Hours</p>
+                  <p className={`text-sm font-semibold ${theme.text}`}>42 hrs</p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 px-4 py-3 bg-white/5 rounded-xl border border-white/5 hover:border-purple-500/20 transition-all hover:-translate-y-1">
-                <div className="w-8 h-8 rounded-full bg-purple-500/10 flex items-center justify-center text-purple-400">
+              <div className={`flex items-center gap-3 px-4 py-3 ${theme.cardBg} rounded-xl border ${theme.cardBorder} hover:border-cyan-500/20 transition-all hover:-translate-y-1`}>
+                <div className="w-8 h-8 rounded-full bg-cyan-500/10 flex items-center justify-center text-cyan-400">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
-                    <path d="M4 4v16h16" />
-                    <path d="M8 16l4-4 4 4" />
+                    <path d="M5 12h14M12 5l7 7-7 7" />
                   </svg>
                 </div>
                 <div>
-                  <p className="text-xs text-slate-400">Practice Sessions</p>
-                  <p className="text-sm font-semibold text-white">25+</p>
+                  <p className={`text-xs ${theme.textMuted}`}>Focus Areas</p>
+                  <p className={`text-sm font-semibold ${theme.text}`}>8 Modules</p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 px-4 py-3 bg-white/5 rounded-xl border border-white/5 hover:border-yellow-500/20 transition-all hover:-translate-y-1">
-                <div className="w-8 h-8 rounded-full bg-yellow-500/10 flex items-center justify-center text-yellow-400">
+              <div className={`flex items-center gap-3 px-4 py-3 ${theme.cardBg} rounded-xl border ${theme.cardBorder} hover:border-pink-500/20 transition-all hover:-translate-y-1`}>
+                <div className="w-8 h-8 rounded-full bg-pink-500/10 flex items-center justify-center text-pink-400">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                   </svg>
                 </div>
                 <div>
-                  <p className="text-xs text-slate-400">Concepts Learned</p>
-                  <p className="text-sm font-semibold text-white">50+</p>
+                  <p className={`text-xs ${theme.textMuted}`}>Last Update</p>
+                  <p className={`text-sm font-semibold ${theme.text}`}>Today</p>
                 </div>
               </div>
             </div>
@@ -492,24 +697,24 @@ const Home = () => {
           <footer className="py-10 mt-8 border-t border-white/5">
             <div className="flex flex-col items-center gap-6">
               <div className="flex items-center gap-3">
-                <div className="w-6 h-6 text-cyan-400">
+                <div className={`w-6 h-6 ${theme.footerIcon}`}>
                   <Icons.React />
                 </div>
-                <span className="text-white font-semibold">React Learning Journey</span>
+                <span className={`${theme.text} font-semibold`}>React Learning Journey</span>
               </div>
               <div className="flex gap-6">
-                <a href="#" className="w-5 h-5 text-slate-400 hover:text-cyan-400 transition-colors hover:-translate-y-1">
+                <a href="#" className={`w-5 h-5 ${theme.textMuted} ${theme.footerHover} transition-colors hover:-translate-y-1`}>
                   <Icons.Github />
                 </a>
-                <a href="#" className="w-5 h-5 text-slate-400 hover:text-cyan-400 transition-colors hover:-translate-y-1">
+                <a href="#" className={`w-5 h-5 ${theme.textMuted} ${theme.footerHover} transition-colors hover:-translate-y-1`}>
                   <Icons.Docs />
                 </a>
-                <a href="#" className="w-5 h-5 text-slate-400 hover:text-cyan-400 transition-colors hover:-translate-y-1">
+                <a href="#" className={`w-5 h-5 ${theme.textMuted} ${theme.footerHover} transition-colors hover:-translate-y-1`}>
                   <Icons.Portfolio />
                 </a>
               </div>
               <div className="w-full text-center pt-4 border-t border-white/5">
-                <p className="text-slate-500 text-sm">© 2024 React Learning Portfolio. All rights reserved.</p>
+                <p className={`${theme.textMuted} text-sm`}>© 2026 Deepak R, React Learning Portal, All rights reserved...</p>
               </div>
             </div>
           </footer>
@@ -524,6 +729,14 @@ const Home = () => {
           50% { transform: translate(-30px, 30px) scale(0.9); }
           75% { transform: translate(30px, 50px) scale(1.05); }
         }
+        @keyframes twinkle {
+          0%, 100% { opacity: 0.3; }
+          50% { opacity: 1; }
+        }
+        @keyframes spin-slow {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
         .animate-float {
           animation: float 20s infinite ease-in-out;
         }
@@ -535,6 +748,12 @@ const Home = () => {
         }
         .animate-float-delay3 {
           animation: float 20s infinite ease-in-out -15s;
+        }
+        .animate-twinkle {
+          animation: twinkle 3s infinite ease-in-out;
+        }
+        .animate-spin-slow {
+          animation: spin-slow 3s linear infinite;
         }
         .bg-gradient-radial {
           background-image: radial-gradient(circle at var(--tw-gradient-from-position), var(--tw-gradient-stops));
