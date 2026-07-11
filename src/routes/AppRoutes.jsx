@@ -1,11 +1,12 @@
 import { Route, Routes } from 'react-router-dom';
 import Home from '../components/Home';
+import TaskAssignments from '../components/TaskAssignments';
 import LayoutOne from '../assignments/day1/layoutday1/LayoutOne';
 import Banner from '../assignments/day1/pages/Banner';
 import Day1Navbar from '../assignments/day1/components/Navbar';
 import LayoutTwo from '../assignments/day2/layoutday2/LayoutTwo';
 import About from '../assignments/day2/pages/About';
-import Contact from '../assignments/day2/pages/Contact';
+import Day2Contact from '../assignments/day2/pages/Contact';
 import Day2Home from '../assignments/day2/pages/Home';
 import Login from '../assignments/day2/pages/Login';
 import Register from '../assignments/day2/pages/Register';
@@ -63,7 +64,7 @@ import Layout17 from '../assignments/day17/layout17/Layout17';
 import Scroll from '../assignments/day17/sildes17/Scroll';
 import UseRef from '../assignments/day17/sildes17/UseRef';
 import UserProvider from '../assignments/day18/provider/UserProvider';
-import Profile from '../assignments/day18/sildes18/Profile';
+import Profile from '../components/Profile';
 import ProductProvider from '../assignments/day18/provider/ProductProvider';
 import Products from '../assignments/day18/sildes18/Products'
 import ThemeProvider from '../assignments/day18/provider/ThemeProvider';
@@ -73,7 +74,17 @@ import Counter from '../assignments/day20/sildes20/Counter';
 import Layout20 from '../assignments/day20/layout20/Layout20';
 import Fetchcontext from '../assignments/day20/sildes20/Fetchcontext';
 import Toggle from '../assignments/day20/sildes20/Toggle';
-
+import Layout19 from '../assignments/day19/layout19/Layout19';
+import Register19 from '../assignments/day19/sildes19/Register19';
+import Login19 from '../assignments/day19/sildes19/Login19';
+import Home19 from '../assignments/day19/sildes19/Home19';
+import { ProviderContext } from '../assignments/day19/authcontext19/AuthContext';
+import LayoutSpl from '../assignments/spltest/layoutspltask/LayoutSpl';
+import EmployeeManagement from '../assignments/spltest/sildesspltask/EmployeeManagement';
+import ProductManagement from '../assignments/spltest/sildesspltask/ProductManagement';
+import Registerlocal from '../assignments/spltest/sildesspltask/Registerlocal';
+import SplContact from '../assignments/spltest/sildesspltask/Contact';
+import StuRegis from '../assignments/spltest/sildesspltask/StuRegis';
 
 
 
@@ -83,10 +94,14 @@ const AppRoutes = () => {
   return (
     <>
       <Routes>
+        <Route path='/profile' element={<Profile />} />
+        {/* task routes from nav */}
         <Route path='/' element={<Home />} />
-
+        <Route path='/tasks' element={<TaskAssignments />} />
+        <Route path='/taskassignments' element={<TaskAssignments />} />
 
         {/* assignmentroutes */}
+
         {/* day1 */}
 
         <Route element={<LayoutOne />}>
@@ -94,18 +109,15 @@ const AppRoutes = () => {
           <Route path='/stud' element={<Banner />} />
         </Route>
 
-
-        {/* assignmentroutes */}
         {/* day2 */}
         <Route element={<LayoutTwo />}>
           <Route path='/day2' element={<Day2Home />} />
           <Route path='/about' element={<About />} />
-          <Route path='/contact' element={<Contact />} />
+          <Route path='/contact' element={<Day2Contact />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
         </Route>
 
-         {/* assignmentroutes */}
         {/* day3 */}
         <Route element={<LayoutThree />}>
           <Route path='/emp' element={<Employee/>} />
@@ -113,14 +125,12 @@ const AppRoutes = () => {
           <Route path='/student' element={<Studentscard />} />
         </Route>
 
-          {/* assignmentroutes */}
         {/* day03 */}
         <Route element={<Layout03 />}>
           <Route path='/task1' element={<Task1 />} />
           <Route path='/task2' element={<Task2 />} />
         </Route>
 
-           {/* assignmentroutes */}
         {/* day 4 */}
         <Route element={<LayoutFour />}>
           <Route path='/print' element={<Print />} />
@@ -129,13 +139,11 @@ const AppRoutes = () => {
           <Route path='/arrofobj' element={<ArrofObj />} />
         </Route>
 
-        {/* assignmentroutes */}
         {/* day 5 */}
         <Route element={<LayoutFive />}>
           <Route path='/totaltask' element={<Day5UseState />} />
         </Route>
 
-        {/* assignmentroutes */}
         {/* day 6 */}
         <Route element={<LayoutSix />}>
           <Route path='/array' element={<Array />} />
@@ -143,7 +151,6 @@ const AppRoutes = () => {
           
           </Route>
 
-        {/* assignmentroutes */}
         {/* day 7 */}
         <Route element={<LayoutSeven />}>
           <Route path='/Taskone' element={<Taskone  />} />
@@ -158,7 +165,6 @@ const AppRoutes = () => {
           <Route path='/Taskten' element={<Taskten />} />
         </Route>
 
-        {/* assignmentroutes */}
         {/* day 9 */}
         <Route element={<Layout8 />}>
           <Route path='/regis' element={<Day8Register />} />
@@ -182,11 +188,13 @@ const AppRoutes = () => {
         </Route>
 
         {/* day 12*/}
-        {/* <Route element={<Layout11 />}>
-          <Route path='/reg11' element={<Register11/>} />
-          <Route path='/log11' element={<Login11/>} />
-          <Route path='/land11' element={<Landling11/>} />
-        </Route> */}
+        <Route element={<LayoutSpl />}>
+          <Route path='/contactmanagement' element={<SplContact />} />
+          <Route path='/empmanagement' element={<EmployeeManagement />} />
+          <Route path='/productmanagement' element={<ProductManagement />} />
+          <Route path='/registermanagement' element={<Registerlocal />} />
+          <Route path='/studentmanagement' element={<StuRegis />} />
+        </Route> 
 
         {/* day 13*/}
         <Route element={<Layout13 />}>
@@ -223,13 +231,6 @@ const AppRoutes = () => {
         {/* day 18*/}
         <Route element={<Layout18/>}>
 
-         <Route path="/profile"
-           element={
-            <UserProvider>
-            <Profile />
-            </UserProvider>}
-            />
-
         <Route path="/productscontext"
           element={
       <ProductProvider>
@@ -243,13 +244,33 @@ const AppRoutes = () => {
       </ThemeProvider>}/>
 
          </Route>
-          {/* day 19 is pending */}
+          {/* day 19 */}
+        <Route element={<Layout19/>}/>
+        <Route path='/authcontext' element={ 
+          <ProviderContext>
+          <Register19/>
+          </ProviderContext>}/>
+        <Route path='/Login19' element={
+          <ProviderContext>
+            <Login19/>
+          </ProviderContext>}/>
+        
+        <Route path='/home19' element={
+          <ProviderContext>
+            <Home19/>
+          </ProviderContext>}/>
+
         {/* day 20*/}
          <Route element={<Layout20 />}>
           <Route path='/countercontext' element={<Counter/>} />
           <Route path='/fetchcontext' element={<Fetchcontext/>} />
            <Route path='/togglecontext' element={<Toggle/>} />
         </Route> 
+            
+            
+
+
+    
 
 
 
