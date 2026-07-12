@@ -6,10 +6,6 @@ import Navbar from "../components/Navbar";
 const Profile = () => {
   const nav = useNavigate();
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [currentTheme, setCurrentTheme] = useState(() => {
-    const savedTheme = localStorage.getItem('theme');
-    return savedTheme || 'dark';
-  });
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -18,149 +14,29 @@ const Profile = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // Listen for theme changes
-  useEffect(() => {
-    const handleThemeChange = (event) => {
-      setCurrentTheme(event.detail.isDark ? 'dark' : 'light');
-    };
-
-    window.addEventListener('themeChange', handleThemeChange);
-    
-    const checkTheme = () => {
-      const theme = localStorage.getItem('theme');
-      if (theme) setCurrentTheme(theme);
-    };
-    
-    const interval = setInterval(checkTheme, 100);
-    
-    return () => {
-      window.removeEventListener('themeChange', handleThemeChange);
-      clearInterval(interval);
-    };
-  }, []);
-
-  // Dynamic Theme System
+  // Dynamic Theme System - Same as Home.js
   const getTheme = () => {
     const hour = currentTime.getHours();
-    const isDark = currentTheme === 'dark';
     
-    let timeBase;
+    // Day Theme (5 AM - 5 PM)
     if (hour >= 5 && hour < 17) {
-      timeBase = 'day';
-    } else if (hour >= 17 && hour < 19) {
-      timeBase = 'evening';
-    } else {
-      timeBase = 'night';
-    }
-
-    if (isDark) {
       return {
-        name: 'dark',
-        background: 'from-[#0a0014] via-[#1a0028] to-[#0d001a]',
-        cardBg: 'bg-white/5',
-        cardBorder: 'border-white/5',
-        cardHover: 'hover:border-purple-500/30 hover:shadow-purple-500/10',
-        text: 'text-white',
-        textSecondary: 'text-slate-300',
-        textMuted: 'text-slate-400',
-        heading: timeBase === 'day' ? 'from-cyan-400 to-blue-500' : 
-                 timeBase === 'evening' ? 'from-orange-400 to-rose-500' : 
-                 'from-purple-400 via-pink-400 to-indigo-400',
-        subheading: timeBase === 'day' ? 'from-blue-300 to-cyan-300' : 
-                    timeBase === 'evening' ? 'from-amber-300 to-orange-300' : 
-                    'from-indigo-300 to-purple-300',
-        accent: timeBase === 'day' ? 'from-cyan-500 to-blue-500' : 
-                timeBase === 'evening' ? 'from-orange-500 to-amber-500' : 
-                'from-purple-500 to-pink-500',
-        accentLight: timeBase === 'day' ? 'from-cyan-500/10 to-blue-500/5' : 
-                     timeBase === 'evening' ? 'from-orange-500/10 to-amber-500/5' : 
-                     'from-indigo-500/10 to-purple-500/5',
-        border: timeBase === 'day' ? 'border-cyan-500/30' : 
-                timeBase === 'evening' ? 'border-orange-500/30' : 
-                'border-indigo-500/30',
-        glow: timeBase === 'day' ? 'shadow-cyan-500/20' : 
-              timeBase === 'evening' ? 'shadow-orange-500/20' : 
-              'shadow-indigo-500/20',
-        button: timeBase === 'day' ? 'from-cyan-500 to-blue-500' : 
-                timeBase === 'evening' ? 'from-orange-500 to-amber-500' : 
-                'from-purple-500 to-pink-500',
-        buttonHover: timeBase === 'day' ? 'hover:shadow-cyan-500/30' : 
-                     timeBase === 'evening' ? 'hover:shadow-orange-500/30' : 
-                     'hover:shadow-purple-500/30',
-        statColors: {
-          cyan: 'text-cyan-400',
-          purple: 'text-purple-400',
-          fuchsia: 'text-fuchsia-400',
-          pink: 'text-pink-400',
-          emerald: 'text-emerald-400',
-          yellow: 'text-yellow-400'
-        },
-        statBg: 'bg-purple-500/10',
-        nebula: ['bg-purple-600/10', 'bg-indigo-600/10', 'bg-fuchsia-600/10', 'bg-pink-600/10'],
-        stars: 'bg-white',
-        iconColor: 'text-purple-400',
-        badge: 'border-purple-400/30 bg-purple-400/10 text-purple-300',
-        progress: {
-          indigo: 'bg-gradient-to-r from-indigo-400 to-purple-500',
-          purple: 'bg-gradient-to-r from-purple-400 to-pink-400',
-          fuchsia: 'bg-gradient-to-r from-fuchsia-400 to-pink-400',
-          pink: 'bg-gradient-to-r from-pink-400 to-rose-400'
-        },
-        footerIcon: 'text-purple-400',
-        footerHover: 'hover:text-purple-400',
-        showStars: true,
-        showNebula: true,
-        tagColors: {
-          cyan: 'bg-cyan-500/10 border-cyan-500/20 text-cyan-400',
-          green: 'bg-green-500/10 border-green-500/20 text-green-400',
-          yellow: 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400',
-          emerald: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400',
-          purple: 'bg-purple-500/10 border-purple-500/20 text-purple-400',
-          pink: 'bg-pink-500/10 border-pink-500/20 text-pink-400',
-          orange: 'bg-orange-500/10 border-orange-500/20 text-orange-400',
-          blue: 'bg-blue-500/10 border-blue-500/20 text-blue-400'
-        }
-      };
-    } else {
-      return {
-        name: 'light',
-        background: timeBase === 'day' ? 'from-blue-50 via-sky-100 to-blue-50' :
-                    timeBase === 'evening' ? 'from-orange-50 via-amber-100 to-orange-50' :
-                    'from-indigo-50 via-purple-50 to-indigo-50',
-        cardBg: 'bg-white/80',
-        cardBorder: timeBase === 'day' ? 'border-blue-200/50' :
-                    timeBase === 'evening' ? 'border-orange-200/50' :
-                    'border-purple-200/50',
-        cardHover: timeBase === 'day' ? 'hover:border-blue-400/50 hover:shadow-blue-500/20' :
-                   timeBase === 'evening' ? 'hover:border-orange-400/50 hover:shadow-orange-500/20' :
-                   'hover:border-purple-400/50 hover:shadow-purple-500/20',
+        name: 'day',
+        background: 'from-blue-50 via-sky-100 to-blue-50',
+        cardBg: 'bg-white/70',
+        cardBorder: 'border-blue-200/50',
+        cardHover: 'hover:border-blue-400/50 hover:shadow-blue-500/20',
         text: 'text-slate-800',
         textSecondary: 'text-slate-600',
         textMuted: 'text-slate-500',
-        heading: timeBase === 'day' ? 'from-blue-600 to-cyan-600' :
-                 timeBase === 'evening' ? 'from-orange-600 to-amber-600' :
-                 'from-purple-600 to-indigo-600',
-        subheading: timeBase === 'day' ? 'from-blue-500 to-cyan-500' :
-                    timeBase === 'evening' ? 'from-orange-500 to-amber-500' :
-                    'from-indigo-500 to-purple-500',
-        accent: timeBase === 'day' ? 'from-blue-500 to-cyan-500' :
-                timeBase === 'evening' ? 'from-orange-500 to-amber-500' :
-                'from-purple-500 to-indigo-500',
-        accentLight: timeBase === 'day' ? 'from-blue-500/10 to-cyan-500/5' :
-                     timeBase === 'evening' ? 'from-orange-500/10 to-amber-500/5' :
-                     'from-purple-500/10 to-indigo-500/5',
-        border: timeBase === 'day' ? 'border-blue-500/30' :
-                timeBase === 'evening' ? 'border-orange-500/30' :
-                'border-purple-500/30',
-        glow: timeBase === 'day' ? 'shadow-blue-500/20' :
-              timeBase === 'evening' ? 'shadow-orange-500/20' :
-              'shadow-purple-500/20',
-        button: timeBase === 'day' ? 'from-blue-500 to-cyan-500' :
-                timeBase === 'evening' ? 'from-orange-500 to-amber-500' :
-                'from-purple-500 to-indigo-500',
-        buttonHover: timeBase === 'day' ? 'hover:shadow-blue-500/30' :
-                     timeBase === 'evening' ? 'hover:shadow-orange-500/30' :
-                     'hover:shadow-purple-500/30',
+        heading: 'from-blue-600 to-cyan-600',
+        subheading: 'from-blue-500 to-cyan-500',
+        accent: 'from-blue-500 to-cyan-500',
+        accentLight: 'from-blue-500/10 to-cyan-500/5',
+        border: 'border-blue-500/30',
+        glow: 'shadow-blue-500/20',
+        button: 'from-blue-500 to-cyan-500',
+        buttonHover: 'hover:shadow-blue-500/30',
         statColors: {
           cyan: 'text-blue-600',
           purple: 'text-cyan-600',
@@ -196,11 +72,119 @@ const Profile = () => {
         }
       };
     }
+    // Evening Theme (5 PM - 7 PM)
+    else if (hour >= 17 && hour < 19) {
+      return {
+        name: 'evening',
+        background: 'from-orange-50 via-amber-100 to-orange-50',
+        cardBg: 'bg-white/70',
+        cardBorder: 'border-orange-200/50',
+        cardHover: 'hover:border-orange-400/50 hover:shadow-orange-500/20',
+        text: 'text-slate-800',
+        textSecondary: 'text-slate-600',
+        textMuted: 'text-slate-500',
+        heading: 'from-orange-600 to-amber-600',
+        subheading: 'from-orange-500 to-amber-500',
+        accent: 'from-orange-500 to-amber-500',
+        accentLight: 'from-orange-500/10 to-amber-500/5',
+        border: 'border-orange-500/30',
+        glow: 'shadow-orange-500/20',
+        button: 'from-orange-500 to-amber-500',
+        buttonHover: 'hover:shadow-orange-500/30',
+        statColors: {
+          cyan: 'text-orange-600',
+          purple: 'text-amber-600',
+          fuchsia: 'text-yellow-600',
+          pink: 'text-rose-600',
+          emerald: 'text-emerald-600',
+          yellow: 'text-yellow-600'
+        },
+        statBg: 'bg-orange-500/10',
+        nebula: ['bg-orange-400/10', 'bg-amber-400/10', 'bg-yellow-400/10', 'bg-rose-400/10'],
+        stars: 'bg-slate-400',
+        iconColor: 'text-orange-500',
+        badge: 'border-orange-400/30 bg-orange-400/10 text-orange-600',
+        progress: {
+          indigo: 'bg-gradient-to-r from-orange-400 to-amber-500',
+          purple: 'bg-gradient-to-r from-amber-400 to-yellow-500',
+          fuchsia: 'bg-gradient-to-r from-yellow-400 to-rose-500',
+          pink: 'bg-gradient-to-r from-rose-400 to-orange-500'
+        },
+        footerIcon: 'text-orange-500',
+        footerHover: 'hover:text-orange-500',
+        showStars: false,
+        showNebula: true,
+        tagColors: {
+          cyan: 'bg-cyan-500/10 border-cyan-500/20 text-cyan-600',
+          green: 'bg-green-500/10 border-green-500/20 text-green-600',
+          yellow: 'bg-yellow-500/10 border-yellow-500/20 text-yellow-600',
+          emerald: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-600',
+          purple: 'bg-purple-500/10 border-purple-500/20 text-purple-600',
+          pink: 'bg-pink-500/10 border-pink-500/20 text-pink-600',
+          orange: 'bg-orange-500/10 border-orange-500/20 text-orange-600',
+          blue: 'bg-blue-500/10 border-blue-500/20 text-blue-600'
+        }
+      };
+    }
+    // Night Theme (7 PM - 5 AM)
+    else {
+      return {
+        name: 'night',
+        background: 'from-[#0a0014] via-[#1a0028] to-[#0d001a]',
+        cardBg: 'bg-white/5',
+        cardBorder: 'border-white/5',
+        cardHover: 'hover:border-purple-500/30 hover:shadow-purple-500/10',
+        text: 'text-white',
+        textSecondary: 'text-slate-300',
+        textMuted: 'text-slate-400',
+        heading: 'from-purple-400 via-pink-400 to-indigo-400',
+        subheading: 'from-indigo-300 to-purple-300',
+        accent: 'from-purple-500 to-pink-500',
+        accentLight: 'from-indigo-500/10 to-purple-500/5',
+        border: 'border-indigo-500/30',
+        glow: 'shadow-indigo-500/20',
+        button: 'from-purple-500 to-pink-500',
+        buttonHover: 'hover:shadow-purple-500/30',
+        statColors: {
+          cyan: 'text-indigo-400',
+          purple: 'text-purple-400',
+          fuchsia: 'text-fuchsia-400',
+          pink: 'text-pink-400',
+          emerald: 'text-emerald-400',
+          yellow: 'text-yellow-400'
+        },
+        statBg: 'bg-purple-500/10',
+        nebula: ['bg-purple-600/10', 'bg-indigo-600/10', 'bg-fuchsia-600/10', 'bg-pink-600/10'],
+        stars: 'bg-white',
+        iconColor: 'text-purple-400',
+        badge: 'border-purple-400/30 bg-purple-400/10 text-purple-300',
+        progress: {
+          indigo: 'bg-gradient-to-r from-indigo-400 to-purple-500',
+          purple: 'bg-gradient-to-r from-purple-400 to-pink-400',
+          fuchsia: 'bg-gradient-to-r from-fuchsia-400 to-pink-400',
+          pink: 'bg-gradient-to-r from-pink-400 to-rose-400'
+        },
+        footerIcon: 'text-purple-400',
+        footerHover: 'hover:text-purple-400',
+        showStars: true,
+        showNebula: true,
+        tagColors: {
+          cyan: 'bg-cyan-500/10 border-cyan-500/20 text-cyan-400',
+          green: 'bg-green-500/10 border-green-500/20 text-green-400',
+          yellow: 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400',
+          emerald: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400',
+          purple: 'bg-purple-500/10 border-purple-500/20 text-purple-400',
+          pink: 'bg-pink-500/10 border-pink-500/20 text-pink-400',
+          orange: 'bg-orange-500/10 border-orange-500/20 text-orange-400',
+          blue: 'bg-blue-500/10 border-blue-500/20 text-blue-400'
+        }
+      };
+    }
   };
 
   const theme = getTheme();
 
-  // SVG Icons
+  // SVG Icons (same as before)
   const Icons = {
     React: () => (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-full h-full">
@@ -371,21 +355,31 @@ const Profile = () => {
           <div className={`absolute -bottom-60 right-1/3 w-96 h-96 ${theme.nebula[3]} rounded-full blur-3xl animate-float-delay3`} />
           
           {/* Day/Evening specific elements */}
-          {theme.name === 'light' && (
-            <div className="absolute top-20 right-20 w-32 h-32 bg-yellow-400/5 rounded-full blur-3xl animate-float" />
+          {theme.name === 'day' && (
+            <>
+              <div className="absolute top-20 right-20 w-32 h-32 bg-yellow-400/5 rounded-full blur-3xl animate-float" />
+              <div className="absolute bottom-20 left-20 w-40 h-40 bg-blue-400/5 rounded-full blur-3xl animate-float-delay" />
+            </>
+          )}
+          
+          {theme.name === 'evening' && (
+            <>
+              <div className="absolute top-10 right-10 w-48 h-48 bg-orange-400/10 rounded-full blur-3xl animate-float" />
+              <div className="absolute bottom-10 left-10 w-56 h-56 bg-amber-400/10 rounded-full blur-3xl animate-float-delay" />
+            </>
           )}
         </div>
 
         {/* Main Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Profile Header */}
-          <section className="py-12">
+          <section className="py-8">
             <div className={`${theme.cardBg} backdrop-blur-md border ${theme.cardBorder} rounded-3xl p-8 sm:p-12 ${theme.cardHover} transition-all duration-300`}>
               <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8">
                 {/* Profile Image */}
                 <div className="relative">
                   <div className={`w-40 h-40 sm:w-52 sm:h-52 rounded-full bg-gradient-to-r ${theme.accent} p-1 shadow-2xl ${theme.glow}`}>
-                    <div className={`w-full h-full rounded-full ${theme.name === 'dark' ? 'bg-[#0a0a1a]' : 'bg-white'} flex items-center justify-center`}>
+                    <div className={`w-full h-full rounded-full ${theme.name === 'night' ? 'bg-[#0a0a1a]' : 'bg-white'} flex items-center justify-center`}>
                       <span className={`text-6xl sm:text-7xl font-bold bg-gradient-to-r ${theme.heading} bg-clip-text text-transparent`}>
                         DR
                       </span>
@@ -677,6 +671,10 @@ const Profile = () => {
           0%, 100% { opacity: 0.3; }
           50% { opacity: 1; }
         }
+        @keyframes spin-slow {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
         .animate-float {
           animation: float 20s infinite ease-in-out;
         }
@@ -691,6 +689,9 @@ const Profile = () => {
         }
         .animate-twinkle {
           animation: twinkle 3s infinite ease-in-out;
+        }
+        .animate-spin-slow {
+          animation: spin-slow 3s linear infinite;
         }
         .bg-gradient-radial {
           background-image: radial-gradient(circle at var(--tw-gradient-from-position), var(--tw-gradient-stops));
