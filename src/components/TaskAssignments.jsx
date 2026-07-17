@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
@@ -129,18 +129,52 @@ const tasks = [
     description: "Built React components demonstrating Fetch API, custom hooks (toggle and counter).",
     path: "/countercontext",
   },
+  {
+    day: "Day 21",
+    title: "UseMemo Filter",
+    description: "Built a search filter process with useMemo.",
+    path: "/usememo",
+  },
+  {
+    day: "Day 22",
+    title: "UseCallback Process",
+    description: "Built a count filter process with useCount.",
+    path: "/usecallback",
+  },
 ];
 
 const TaskAssignments = () => {
   const nav = useNavigate();
   const [currentTime] = useState(new Date());
+  const [themeMode, setThemeMode] = useState(() => {
+    const saved = localStorage.getItem('theme');
+    return saved || 'auto';
+  });
+
+  useEffect(() => {
+    const handleThemeChange = (e) => {
+      setThemeMode(e.detail.theme);
+    };
+    window.addEventListener('themeChange', handleThemeChange);
+    return () => window.removeEventListener('themeChange', handleThemeChange);
+  }, []);
 
   // Dynamic Theme System (same as Home page)
   const getTheme = () => {
-    const hour = currentTime.getHours();
+    let activeThemeMode = themeMode;
+    if (activeThemeMode === 'auto') {
+      const hour = currentTime.getHours();
+      if (hour >= 5 && hour < 17) {
+        activeThemeMode = 'light';
+      } else if (hour >= 17 && hour < 19) {
+        activeThemeMode = 'evening';
+      } else {
+        activeThemeMode = 'dark';
+      }
+    }
     
     // Day Theme (5 AM - 5 PM)
-    if (hour >= 5 && hour < 17) {
+    if (activeThemeMode === 'light') {
       return {
         name: 'day',
         background: 'from-blue-50 via-sky-100 to-blue-50',
@@ -167,7 +201,7 @@ const TaskAssignments = () => {
       };
     }
     // Evening Theme (5 PM - 7 PM)
-    else if (hour >= 17 && hour < 19) {
+    else if (activeThemeMode === 'evening') {
       return {
         name: 'evening',
         background: 'from-orange-50 via-amber-100 to-orange-50',

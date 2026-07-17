@@ -6,6 +6,10 @@ import Navbar from "../components/Navbar";
 const Profile = () => {
   const nav = useNavigate();
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [themeMode, setThemeMode] = useState(() => {
+    const saved = localStorage.getItem('theme');
+    return saved || 'auto';
+  });
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -14,12 +18,30 @@ const Profile = () => {
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    const handleThemeChange = (e) => {
+      setThemeMode(e.detail.theme);
+    };
+    window.addEventListener('themeChange', handleThemeChange);
+    return () => window.removeEventListener('themeChange', handleThemeChange);
+  }, []);
+
   // Dynamic Theme System - Same as Home.js
   const getTheme = () => {
-    const hour = currentTime.getHours();
+    let activeThemeMode = themeMode;
+    if (activeThemeMode === 'auto') {
+      const hour = currentTime.getHours();
+      if (hour >= 5 && hour < 17) {
+        activeThemeMode = 'light';
+      } else if (hour >= 17 && hour < 19) {
+        activeThemeMode = 'evening';
+      } else {
+        activeThemeMode = 'dark';
+      }
+    }
     
     // Day Theme (5 AM - 5 PM)
-    if (hour >= 5 && hour < 17) {
+    if (activeThemeMode === 'light') {
       return {
         name: 'day',
         background: 'from-blue-50 via-sky-100 to-blue-50',
@@ -73,7 +95,7 @@ const Profile = () => {
       };
     }
     // Evening Theme (5 PM - 7 PM)
-    else if (hour >= 17 && hour < 19) {
+    else if (activeThemeMode === 'evening') {
       return {
         name: 'evening',
         background: 'from-orange-50 via-amber-100 to-orange-50',

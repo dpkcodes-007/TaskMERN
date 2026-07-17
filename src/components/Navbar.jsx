@@ -1,15 +1,15 @@
-// Navbar.js - With Enhanced Features & New Games
+// Navbar.js - With Enhanced Features & New Games (No Icons)
 import { NavLink } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 
 const navItems = [
-  { name: "Home", path: "/", icon: "🏠" },
-  { name: "Tasks", path: "/tasks", icon: "📋" },
-  { name: "Profile", path: "/profile", icon: "👤" },
+  { name: "Home", path: "/" },
+  { name: "Tasks", path: "/tasks" },
+  { name: "Profile", path: "/profile" },
 ];
 
 // Scroll to Top Button Component
-const ScrollToTop = () => {
+const ScrollToTop = ({ activeThemeName }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -32,12 +32,22 @@ const ScrollToTop = () => {
     });
   };
 
+  const getBtnStyles = () => {
+    if (activeThemeName === 'day') {
+      return "from-blue-500 to-indigo-500 shadow-blue-500/20 hover:shadow-blue-500/40 border border-blue-400/20";
+    } else if (activeThemeName === 'evening') {
+      return "from-orange-500 to-rose-500 shadow-orange-500/20 hover:shadow-orange-500/40 border border-orange-400/20";
+    } else {
+      return "from-purple-500 to-pink-500 shadow-purple-500/20 hover:shadow-purple-500/40 border border-purple-400/20";
+    }
+  };
+
   return (
     <>
       {isVisible && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-50 p-3 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 text-white shadow-2xl shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-all hover:scale-110 animate-bounce-slow"
+          className={`fixed bottom-8 right-8 z-50 p-3 rounded-full bg-gradient-to-r text-white shadow-2xl transition-all hover:scale-110 animate-bounce-slow ${getBtnStyles()}`}
           aria-label="Scroll to top"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -960,12 +970,12 @@ const Games = {
         ctx.textAlign = 'left';
         ctx.shadowColor = 'rgba(0,0,0,0.5)';
         ctx.shadowBlur = 10;
-        ctx.fillText(`🎯 Score: ${score}`, 20, 40);
-        ctx.fillText(`⏱️ ${timeLeft}s`, 20, 75);
+        ctx.fillText(`Score: ${score}`, 20, 40);
+        ctx.fillText(`${timeLeft}s`, 20, 75);
         ctx.textAlign = 'right';
         ctx.fillStyle = 'rgba(255,255,255,0.3)';
         ctx.font = '16px Arial';
-        ctx.fillText(`🏆 High: ${highScore}`, canvas.width - 20, 40);
+        ctx.fillText(`High: ${highScore}`, canvas.width - 20, 40);
         ctx.shadowBlur = 0;
 
         // Game Over
@@ -981,14 +991,14 @@ const Games = {
           ctx.fillStyle = '#ffffff';
           ctx.font = 'bold 48px Arial';
           ctx.textAlign = 'center';
-          ctx.fillText('⏰ Time Up!', canvas.width / 2, canvas.height / 2 - 10);
+          ctx.fillText('Time Up!', canvas.width / 2, canvas.height / 2 - 10);
           ctx.font = '20px Arial';
           ctx.fillStyle = '#94a3b8';
           ctx.fillText(`Score: ${score}`, canvas.width / 2, canvas.height / 2 + 35);
           if (score >= highScore && score > 0) {
             ctx.fillStyle = '#f472b6';
             ctx.font = 'bold 18px Arial';
-            ctx.fillText('🎉 New High Score!', canvas.width / 2, canvas.height / 2 + 70);
+            ctx.fillText('New High Score!', canvas.width / 2, canvas.height / 2 + 70);
           }
           ctx.font = '16px Arial';
           ctx.fillStyle = '#64748b';
@@ -1023,11 +1033,10 @@ const Games = {
         <div className="relative bg-gradient-to-br from-slate-900 to-slate-800 p-6 rounded-2xl border border-white/10 shadow-2xl">
           <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
             <div className="flex items-center gap-3">
-              <span className="text-2xl">🎯</span>
               <h3 className="text-white font-bold text-xl">Target Clicker</h3>
               {highScore > 0 && (
                 <span className="text-xs bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded-full">
-                  🏆 {highScore}
+                  High: {highScore}
                 </span>
               )}
             </div>
@@ -1051,9 +1060,9 @@ const Games = {
             className={`rounded-xl border border-white/10 ${gameActive ? 'cursor-crosshair' : 'cursor-pointer'}`}
           />
           <div className="flex justify-between mt-3 text-xs text-slate-500">
-            <span>🎯 Click targets to earn points</span>
-            <span>💫 Different colors = different values</span>
-            <span>⏱️ 30 seconds to score!</span>
+            <span>Click targets to earn points</span>
+            <span>Different colors = different values</span>
+            <span>30 seconds to score!</span>
           </div>
         </div>
       </div>
@@ -1145,10 +1154,10 @@ const Games = {
         <div className="relative bg-gradient-to-br from-slate-900 to-slate-800 p-6 rounded-2xl border border-white/10 shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
           <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
             <div className="flex items-center gap-3">
-              <h3 className="text-white font-bold text-xl">🎴 Memory Match</h3>
+              <h3 className="text-white font-bold text-xl">Memory Match</h3>
               {bestScore !== Infinity && (
                 <span className="text-xs bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded-full">
-                  🏆 Best: {bestScore} moves
+                  Best: {bestScore} moves
                 </span>
               )}
             </div>
@@ -1170,10 +1179,10 @@ const Games = {
 
           {gameComplete && (
             <div className="mb-4 p-4 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 border border-emerald-500/30 rounded-xl text-center animate-bounce-slow">
-              <p className="text-emerald-400 font-bold text-xl">🎉 Congratulations!</p>
+              <p className="text-emerald-400 font-bold text-xl">Congratulations!</p>
               <p className="text-slate-300">You won in {moves} moves!</p>
               {moves <= bestScore && (
-                <p className="text-yellow-400 font-semibold">🏆 New Best Score!</p>
+                <p className="text-yellow-400 font-semibold">New Best Score!</p>
               )}
               <button
                 onClick={initializeGame}
@@ -1218,13 +1227,31 @@ const Games = {
 
 // Navbar Component
 const Navbar = () => {
-  const [isDark, setIsDark] = useState(() => {
-    const savedTheme = localStorage.getItem('theme');
-    return savedTheme !== null ? savedTheme === 'dark' : true;
+  const [themeMode, setThemeMode] = useState(() => {
+    const saved = localStorage.getItem('theme');
+    return saved || 'auto';
   });
 
   const [activeGame, setActiveGame] = useState(null);
   const [showGameMenu, setShowGameMenu] = useState(false);
+
+  const getIsDark = () => {
+    if (themeMode === 'dark') return true;
+    if (themeMode === 'light') return false;
+    const hour = new Date().getHours();
+    return !(hour >= 5 && hour < 17);
+  };
+  const isDark = getIsDark();
+
+  const activeThemeName = (() => {
+    if (themeMode === 'light') return 'day';
+    if (themeMode === 'dark') return 'night';
+    
+    const hour = new Date().getHours();
+    if (hour >= 5 && hour < 17) return 'day';
+    if (hour >= 17 && hour < 19) return 'evening';
+    return 'night';
+  })();
 
   // Apply theme to document
   useEffect(() => {
@@ -1232,17 +1259,17 @@ const Navbar = () => {
     if (isDark) {
       root.classList.add('dark');
       root.classList.remove('light');
-      localStorage.setItem('theme', 'dark');
     } else {
       root.classList.add('light');
       root.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
     }
-    window.dispatchEvent(new CustomEvent('themeChange', { detail: { isDark } }));
   }, [isDark]);
 
   const toggleTheme = () => {
-    setIsDark(!isDark);
+    const nextTheme = isDark ? 'light' : 'dark';
+    setThemeMode(nextTheme);
+    localStorage.setItem('theme', nextTheme);
+    window.dispatchEvent(new CustomEvent('themeChange', { detail: { theme: nextTheme } }));
   };
 
   const openGame = (game) => {
@@ -1256,49 +1283,86 @@ const Navbar = () => {
 
   // Get theme-based styles
   const getThemeStyles = () => {
-    if (isDark) {
+    if (activeThemeName === 'day') {
       return {
-        navbar: 'bg-[#070b1a]/80 border-white/10 shadow-cyan-500/5',
-        logoBg: 'bg-[#070b1a]',
-        logoText: 'from-cyan-400 via-sky-400 to-violet-500',
-        subText: 'text-slate-400',
-        linkBg: 'border-white/10 bg-white/5',
-        linkActive: 'bg-gradient-to-r from-cyan-500 via-sky-500 to-violet-500 shadow-[0_0_30px_rgba(34,211,238,0.4)]',
-        linkInactive: 'text-slate-400 hover:text-white',
-        linkHover: 'hover:bg-white/5 hover:shadow-[inset_0_0_20px_rgba(34,211,238,0.1)]',
-        themeBtnBg: 'bg-white/5 border-white/10',
-        themeBtnHover: 'hover:border-cyan-400/50 hover:shadow-cyan-500/20',
-        themeIcon: 'text-yellow-400',
-        themeText: 'text-slate-400',
-        gameBtn: 'border-white/10 hover:border-cyan-400/50',
-        gameBtnText: 'text-slate-400 hover:text-white',
-        gameMenuBg: 'bg-[#070b1a]/95 border-white/10',
-        themeToggleBg: 'bg-white/5 border-white/10',
-        themeToggleHover: 'hover:border-cyan-400/50 hover:shadow-cyan-500/20',
-        themeToggleIcon: 'text-yellow-400',
-        themeToggleText: 'text-slate-400',
+        navbar: 'bg-white/70 border-blue-200/50 shadow-[0_4px_30px_rgba(59,130,246,0.03)] backdrop-blur-md',
+        logoBg: 'bg-white',
+        logoText: 'from-blue-600 via-sky-600 to-indigo-600',
+        logoPulse: 'border-blue-400/30',
+        logoCoreGradient: 'from-blue-500 to-indigo-500 shadow-blue-500/20',
+        logoCoreText: 'text-blue-600',
+        subText: 'text-slate-500',
+        linkBg: 'border-blue-100/50 bg-blue-50/50',
+        linkActive: 'bg-gradient-to-r from-blue-500 via-sky-500 to-indigo-500 shadow-[0_0_20px_rgba(59,130,246,0.3)]',
+        linkInactive: 'text-slate-600 hover:text-slate-900',
+        linkHover: 'hover:bg-blue-100/30 hover:shadow-[inset_0_0_10px_rgba(59,130,246,0.1)]',
+        themeBtnBg: 'bg-blue-50/50 border-blue-100/50',
+        themeBtnHover: 'hover:border-blue-400/50 hover:shadow-blue-500/10',
+        themeIcon: 'text-blue-500',
+        themeText: 'text-slate-500',
+        gameBtn: 'border-blue-100/50 hover:border-blue-400/50',
+        gameBtnText: 'text-slate-600 hover:text-slate-900',
+        gameMenuBg: 'bg-white/95 border-blue-100/80 shadow-2xl shadow-blue-500/10',
+        gameItemHover: 'hover:bg-blue-50/80',
+        gameHeader: 'text-blue-500/70',
+        themeToggleBg: 'bg-blue-50/50 border-blue-100/50',
+        themeToggleHover: 'hover:border-blue-400/50 hover:shadow-blue-500/10',
+        themeToggleIcon: 'text-blue-500',
+        themeToggleText: 'text-slate-500',
+      };
+    } else if (activeThemeName === 'evening') {
+      return {
+        navbar: 'bg-orange-50/70 border-orange-200/50 shadow-[0_4px_30px_rgba(249,115,22,0.03)] backdrop-blur-md',
+        logoBg: 'bg-orange-50',
+        logoText: 'from-orange-600 via-amber-600 to-rose-600',
+        logoPulse: 'border-orange-400/30',
+        logoCoreGradient: 'from-orange-500 to-rose-500 shadow-orange-500/20',
+        logoCoreText: 'text-orange-600',
+        subText: 'text-slate-600',
+        linkBg: 'border-orange-100/50 bg-orange-50/50',
+        linkActive: 'bg-gradient-to-r from-orange-500 via-amber-500 to-rose-500 shadow-[0_0_20px_rgba(249,115,22,0.3)]',
+        linkInactive: 'text-slate-700 hover:text-slate-900',
+        linkHover: 'hover:bg-orange-100/30 hover:shadow-[inset_0_0_10px_rgba(249,115,22,0.1)]',
+        themeBtnBg: 'bg-orange-50/50 border-orange-100/50',
+        themeBtnHover: 'hover:border-orange-400/50 hover:shadow-orange-500/10',
+        themeIcon: 'text-orange-500',
+        themeText: 'text-slate-600',
+        gameBtn: 'border-orange-100/50 hover:border-orange-400/50',
+        gameBtnText: 'text-slate-700 hover:text-slate-900',
+        gameMenuBg: 'bg-orange-50/95 border-orange-100/80 shadow-2xl shadow-orange-500/10',
+        gameItemHover: 'hover:bg-orange-50/80',
+        gameHeader: 'text-orange-500/70',
+        themeToggleBg: 'bg-orange-50/50 border-orange-100/50',
+        themeToggleHover: 'hover:border-orange-400/50 hover:shadow-orange-500/10',
+        themeToggleIcon: 'text-orange-500',
+        themeToggleText: 'text-slate-600',
       };
     } else {
       return {
-        navbar: 'bg-white/80 border-gray-200/50 shadow-blue-500/5',
-        logoBg: 'bg-white',
-        logoText: 'from-blue-600 via-cyan-600 to-purple-600',
-        subText: 'text-gray-500',
-        linkBg: 'border-gray-200/50 bg-gray-100/50',
-        linkActive: 'bg-gradient-to-r from-blue-500 via-cyan-500 to-purple-500 shadow-[0_0_30px_rgba(59,130,246,0.3)]',
-        linkInactive: 'text-gray-500 hover:text-gray-700',
-        linkHover: 'hover:bg-gray-200/50 hover:shadow-[inset_0_0_20px_rgba(59,130,246,0.1)]',
-        themeBtnBg: 'bg-gray-100/50 border-gray-200/50',
-        themeBtnHover: 'hover:border-blue-400/50 hover:shadow-blue-500/20',
-        themeIcon: 'text-gray-700',
-        themeText: 'text-gray-500',
-        gameBtn: 'border-gray-200/50 hover:border-blue-400/50',
-        gameBtnText: 'text-gray-500 hover:text-gray-700',
-        gameMenuBg: 'bg-white/95 border-gray-200/50',
-        themeToggleBg: 'bg-gray-100/50 border-gray-200/50',
-        themeToggleHover: 'hover:border-blue-400/50 hover:shadow-blue-500/20',
-        themeToggleIcon: 'text-gray-700',
-        themeToggleText: 'text-gray-500',
+        navbar: 'bg-[#0a0014]/80 border-purple-500/10 shadow-[0_4px_30px_rgba(168,85,247,0.03)] backdrop-blur-xl',
+        logoBg: 'bg-[#0a0014]',
+        logoText: 'from-purple-400 via-pink-400 to-indigo-400',
+        logoPulse: 'border-purple-400/30',
+        logoCoreGradient: 'from-purple-500 to-pink-500 shadow-purple-500/20',
+        logoCoreText: 'text-purple-400',
+        subText: 'text-slate-400',
+        linkBg: 'border-purple-900/30 bg-purple-950/20',
+        linkActive: 'bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 shadow-[0_0_30px_rgba(168,85,247,0.4)]',
+        linkInactive: 'text-slate-400 hover:text-white',
+        linkHover: 'hover:bg-purple-900/20 hover:shadow-[inset_0_0_20px_rgba(168,85,247,0.1)]',
+        themeBtnBg: 'bg-purple-950/20 border-purple-900/30',
+        themeBtnHover: 'hover:border-purple-500/50 hover:shadow-purple-500/20',
+        themeIcon: 'text-purple-400',
+        themeText: 'text-slate-400',
+        gameBtn: 'border-purple-900/30 hover:border-purple-500/50',
+        gameBtnText: 'text-slate-400 hover:text-white',
+        gameMenuBg: 'bg-[#0a0014]/95 border-purple-900/30 shadow-2xl shadow-purple-500/10',
+        gameItemHover: 'hover:bg-purple-500/10',
+        gameHeader: 'text-purple-400/70',
+        themeToggleBg: 'bg-purple-950/20 border-purple-900/30',
+        themeToggleHover: 'hover:border-purple-500/50 hover:shadow-purple-500/20',
+        themeToggleIcon: 'text-purple-400',
+        themeToggleText: 'text-slate-400',
       };
     }
   };
@@ -1312,28 +1376,28 @@ const Navbar = () => {
           {/* Logo Section */}
           <NavLink to="/" className="group flex items-center gap-3">
             <div className="relative">
-              <div className={`absolute inset-0 animate-spin-slow rounded-full border-2 border-dashed ${isDark ? 'border-cyan-400/30' : 'border-blue-400/30'}`}></div>
-              <div className={`relative h-10 w-10 rounded-full bg-gradient-to-br ${isDark ? 'from-cyan-400 to-violet-500' : 'from-blue-500 to-purple-500'} p-[2px] shadow-lg ${isDark ? 'shadow-cyan-500/30' : 'shadow-blue-500/30'}`}>
+              <div className={`absolute inset-0 animate-spin-slow rounded-full border-2 border-dashed ${styles.logoPulse}`}></div>
+              <div className={`relative h-10 w-10 rounded-full bg-gradient-to-br ${styles.logoCoreGradient} p-[2px] shadow-lg transition-transform duration-300 group-hover:scale-105`}>
                 <div className={`flex h-full w-full items-center justify-center rounded-full ${styles.logoBg}`}>
-                  <span className={`text-base font-bold ${isDark ? 'text-cyan-400' : 'text-blue-600'}`}>DR</span>
+                  <span className={`text-base font-bold ${styles.logoCoreText}`}>DR</span>
                 </div>
               </div>
             </div>
             <div>
-              <h1 className={`text-xl font-bold transition-all duration-300 group-hover:scale-105`}>
+              <h1 className={`text-xl font-bold transition-all duration-300 group-hover:translate-x-1`}>
                 <span className={`bg-gradient-to-r ${styles.logoText} bg-clip-text text-transparent`}>
                   Deepak R
                 </span>
               </h1>
               <p className={`text-[10px] font-medium tracking-wider ${styles.subText}`}>
-                <span className={isDark ? 'text-cyan-400' : 'text-blue-600'}>⚛</span> React Tasks Submission Portal
+                <span className={styles.logoCoreText}>⚛</span> React Tasks Submission Portal
               </p>
             </div>
           </NavLink>
 
           {/* Navigation Links & Controls */}
           <div className="flex items-center gap-3">
-            <div className={`flex gap-1 rounded-full border ${styles.linkBg} backdrop-blur-sm shadow-inner shadow-white/5 p-1.5`}>
+            <div className={`flex gap-1 rounded-full border ${styles.linkBg} backdrop-blur-sm p-1.5`}>
               {navItems.map((item) => (
                 <NavLink
                   key={item.path}
@@ -1351,19 +1415,18 @@ const Navbar = () => {
                         ${isActive ? styles.linkActive : 'scale-0 opacity-0'}`}
                       ></span>
                       {isActive && (
-                        <span className={`absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent ${isDark ? 'via-white/30' : 'via-white/50'} to-transparent animate-shine`} />
+                        <span className={`absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent ${activeThemeName === 'day' ? 'via-white/50' : 'via-white/30'} to-transparent animate-shine`} />
                       )}
                       <span
                         className={`absolute inset-0 rounded-full transition-all duration-300
                         ${!isActive ? styles.linkHover : ''}`}
                       ></span>
                       <span className="relative z-10 flex items-center gap-2">
-                        <span className="text-base">{item.icon}</span>
                         <span className="text-sm">{item.name}</span>
                         {isActive && (
                           <span className="absolute -top-1 -right-1 flex h-2 w-2">
-                            <span className={`absolute inline-flex h-full w-full animate-ping rounded-full ${isDark ? 'bg-cyan-400' : 'bg-blue-500'} opacity-75`}></span>
-                            <span className={`relative inline-flex h-2 w-2 rounded-full ${isDark ? 'bg-cyan-400' : 'bg-blue-500'}`}></span>
+                            <span className={`absolute inline-flex h-full w-full animate-ping rounded-full ${activeThemeName === 'day' ? 'bg-blue-400' : activeThemeName === 'evening' ? 'bg-orange-400' : 'bg-purple-400'} opacity-75`}></span>
+                            <span className={`relative inline-flex h-2 w-2 rounded-full ${activeThemeName === 'day' ? 'bg-blue-400' : activeThemeName === 'evening' ? 'bg-orange-400' : 'bg-purple-400'}`}></span>
                           </span>
                         )}
                       </span>
@@ -1380,20 +1443,24 @@ const Navbar = () => {
                 className={`group relative overflow-hidden rounded-full p-2.5 border transition-all duration-300 ${styles.themeBtnBg} ${styles.gameBtn}`}
                 aria-label="Games"
               >
-                <span className="absolute inset-0 rounded-full transition-all duration-500 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 scale-0 group-hover:scale-100"></span>
-                <span className="relative z-10 text-lg">🎮</span>
+                <span className={`absolute inset-0 rounded-full transition-all duration-500 bg-gradient-to-r ${
+                  activeThemeName === 'day' ? 'from-blue-500/10 to-sky-500/10' : 
+                  activeThemeName === 'evening' ? 'from-orange-500/10 to-amber-500/10' : 
+                  'from-purple-500/10 to-pink-500/10'
+                } scale-0 group-hover:scale-100`}></span>
+                <span className="relative z-10 text-lg block transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">🎮</span>
               </button>
 
               {/* Game Menu Dropdown */}
               {showGameMenu && (
-                <div className={`absolute right-0 mt-2 w-64 rounded-xl border ${styles.gameMenuBg} backdrop-blur-xl shadow-2xl overflow-hidden animate-slideDown`}>
+                <div className={`absolute right-0 mt-2 w-64 rounded-xl border ${styles.gameMenuBg} backdrop-blur-xl shadow-2xl overflow-hidden animate-slideDown z-50`}>
                   <div className="p-2">
-                    <div className="px-3 py-2 text-xs font-semibold uppercase tracking-wider text-slate-400">
-                      🎯 Mini Games
+                    <div className={`px-3 py-2 text-xs font-semibold uppercase tracking-wider ${styles.gameHeader}`}>
+                      Mini Games
                     </div>
                     <button
                       onClick={() => openGame('reactquiz')}
-                      className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 transition-all hover:bg-white/10"
+                      className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 transition-all hover:translate-x-1 duration-300 ${styles.gameItemHover}`}
                     >
                       <span className="text-2xl">⚛️</span>
                       <div className="text-left">
@@ -1403,7 +1470,7 @@ const Navbar = () => {
                     </button>
                     <button
                       onClick={() => openGame('targetclicker')}
-                      className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 transition-all hover:bg-white/10"
+                      className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 transition-all hover:translate-x-1 duration-300 ${styles.gameItemHover}`}
                     >
                       <span className="text-2xl">🎯</span>
                       <div className="text-left">
@@ -1413,7 +1480,7 @@ const Navbar = () => {
                     </button>
                     <button
                       onClick={() => openGame('memory')}
-                      className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 transition-all hover:bg-white/10"
+                      className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 transition-all hover:translate-x-1 duration-300 ${styles.gameItemHover}`}
                     >
                       <span className="text-2xl">🎴</span>
                       <div className="text-left">
@@ -1426,25 +1493,39 @@ const Navbar = () => {
               )}
             </div>
 
-            {/* Theme Toggle Button - Fixed with proper styles */}
+            {/* Theme Toggle Button - Fixed with proper absolute-morphing styles */}
             <button
               onClick={toggleTheme}
-              className={`group relative overflow-hidden rounded-full p-2.5 border transition-all duration-300 ${styles.themeToggleBg} ${styles.themeToggleHover}`}
+              className={`group relative overflow-hidden rounded-full p-2.5 h-10 w-10 border transition-all duration-300 flex items-center justify-center ${styles.themeToggleBg} ${styles.themeToggleHover}`}
               aria-label="Toggle theme"
             >
-              <span className={`absolute inset-0 rounded-full transition-all duration-500 ${isDark ? 'bg-gradient-to-r from-cyan-500/10 to-violet-500/10' : 'bg-gradient-to-r from-blue-500/10 to-purple-500/10'} scale-0 group-hover:scale-100`}></span>
+              <span className={`absolute inset-0 rounded-full transition-all duration-500 bg-gradient-to-r ${
+                activeThemeName === 'day' ? 'from-blue-500/10 to-sky-500/10' : 
+                activeThemeName === 'evening' ? 'from-orange-500/10 to-amber-500/10' : 
+                'from-purple-500/10 to-pink-500/10'
+              } scale-0 group-hover:scale-100`}></span>
               
-              <div className="relative z-10 flex items-center gap-1.5">
+              <div className="relative z-10 w-5 h-5 flex items-center justify-center">
+                {/* Sun Icon */}
                 <svg 
-                  className={`w-4 h-4 transition-all duration-500 ${isDark ? 'opacity-30 scale-75 rotate-90' : 'opacity-100 scale-100 rotate-0'} ${styles.themeToggleIcon}`}
+                  className={`absolute w-5 h-5 transition-all duration-500 ${
+                    isDark 
+                      ? 'opacity-0 scale-50 rotate-90 pointer-events-none' 
+                      : 'opacity-100 scale-100 rotate-0'
+                  } ${styles.themeToggleIcon}`}
                   fill="none" 
                   stroke="currentColor" 
                   viewBox="0 0 24 24"
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
+                {/* Moon Icon */}
                 <svg 
-                  className={`w-4 h-4 transition-all duration-500 ${isDark ? 'opacity-100 scale-100 rotate-0' : 'opacity-30 scale-75 -rotate-90'} ${styles.themeToggleIcon}`}
+                  className={`absolute w-5 h-5 transition-all duration-500 ${
+                    isDark 
+                      ? 'opacity-100 scale-100 rotate-0' 
+                      : 'opacity-0 scale-50 -rotate-90 pointer-events-none'
+                  } ${styles.themeToggleIcon}`}
                   fill="none" 
                   stroke="currentColor" 
                   viewBox="0 0 24 24"
@@ -1452,9 +1533,6 @@ const Navbar = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                 </svg>
               </div>
-              <span className={`absolute -bottom-6 text-[8px] font-medium transition-all duration-300 ${styles.themeToggleText} opacity-0 group-hover:opacity-100`}>
-                {isDark ? 'Dark' : 'Light'}
-              </span>
             </button>
           </div>
         </div>
@@ -1466,7 +1544,7 @@ const Navbar = () => {
       {activeGame === 'memory' && <Games.Memory onClose={closeGame} />}
 
       {/* Scroll to Top Button */}
-      <ScrollToTop />
+      <ScrollToTop activeThemeName={activeThemeName} />
 
       {/* Custom Animations */}
       <style>{`

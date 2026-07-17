@@ -79,12 +79,16 @@ import Register19 from '../assignments/day19/sildes19/Register19';
 import Login19 from '../assignments/day19/sildes19/Login19';
 import Home19 from '../assignments/day19/sildes19/Home19';
 import { ProviderContext } from '../assignments/day19/authcontext19/AuthContext';
-import LayoutSpl from '../assignments/spltest/layoutspltask/LayoutSpl';
-import EmployeeManagement from '../assignments/spltest/sildesspltask/EmployeeManagement';
-import ProductManagement from '../assignments/spltest/sildesspltask/ProductManagement';
-import Registerlocal from '../assignments/spltest/sildesspltask/Registerlocal';
-import SplContact from '../assignments/spltest/sildesspltask/Contact';
-import StuRegis from '../assignments/spltest/sildesspltask/StuRegis';
+// import LayoutSpl from '../assignments/spltest/layoutspltask/LayoutSpl';
+// import EmployeeManagement from '../assignments/spltest/sildesspltask/EmployeeManagement';
+// import ProductManagement from '../assignments/spltest/sildesspltask/ProductManagement';
+// import Registerlocal from '../assignments/spltest/sildesspltask/Registerlocal';
+// import SplContact from '../assignments/spltest/sildesspltask/Contact';
+// import StuRegis from '../assignments/spltest/sildesspltask/StuRegis';
+import Layout21 from '../assignments/day21/layout21/Layout21';
+import UseMemo from '../assignments/day21/slides21/UseMemo';
+import Layout22 from '../assignments/day22/layout22/Layout22';
+import UseCallBackCount from '../assignments/day22/slides22/UseCallBackCount';
 
 
 
@@ -118,12 +122,12 @@ const AppRoutes = () => {
           <Route path='/register' element={<Register />} />
         </Route>
 
-        {/* day3 */}
+        {/* day3
         <Route element={<LayoutThree />}>
           <Route path='/emp' element={<Employee/>} />
           <Route path='/products' element={<Product />} />
           <Route path='/student' element={<Studentscard />} />
-        </Route>
+        </Route> */}
 
         {/* day03 */}
         <Route element={<Layout03 />}>
@@ -186,15 +190,15 @@ const AppRoutes = () => {
           <Route path='/log11' element={<Login11/>} />
           <Route path='/land11' element={<Landling11/>} />
         </Route>
-
-        {/* day 12*/}
+{/* 
+         day 12
         <Route element={<LayoutSpl />}>
           <Route path='/contactmanagement' element={<SplContact />} />
           <Route path='/empmanagement' element={<EmployeeManagement />} />
           <Route path='/productmanagement' element={<ProductManagement />} />
           <Route path='/registermanagement' element={<Registerlocal />} />
           <Route path='/studentmanagement' element={<StuRegis />} />
-        </Route> 
+        </Route>  */}
 
         {/* day 13*/}
         <Route element={<Layout13 />}>
@@ -265,6 +269,18 @@ const AppRoutes = () => {
           <Route path='/countercontext' element={<Counter/>} />
           <Route path='/fetchcontext' element={<Fetchcontext/>} />
            <Route path='/togglecontext' element={<Toggle/>} />
+        </Route> 
+
+        
+        {/* day 21*/}
+         <Route element={<Layout21 />}>
+          <Route path='/usememo' element={<UseMemo/>} />
+        </Route> 
+
+        {/* day 22*/}
+         <Route element={<Layout22 />}>
+          <Route path='/usecallback' element={<UseCallBackCount/>} />
+          <Route path='/usecallbackcount21' element={<UseCallBackCount/>} />
         </Route> 
             
             

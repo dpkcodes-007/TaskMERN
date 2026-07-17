@@ -28,6 +28,10 @@ const Home = () => {
   };
 
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [themeMode, setThemeMode] = useState(() => {
+    const saved = localStorage.getItem('theme');
+    return saved || 'auto';
+  });
 
   useEffect(() => {
     const updateClock = () => {
@@ -40,14 +44,32 @@ const Home = () => {
     return () => window.clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    const handleThemeChange = (e) => {
+      setThemeMode(e.detail.theme);
+    };
+    window.addEventListener('themeChange', handleThemeChange);
+    return () => window.removeEventListener('themeChange', handleThemeChange);
+  }, []);
+
   const greeting = getGreeting(currentTime);
 
   // Dynamic Theme System
   const getTheme = () => {
-    const hour = currentTime.getHours();
+    let activeThemeMode = themeMode;
+    if (activeThemeMode === 'auto') {
+      const hour = currentTime.getHours();
+      if (hour >= 5 && hour < 17) {
+        activeThemeMode = 'light';
+      } else if (hour >= 17 && hour < 19) {
+        activeThemeMode = 'evening';
+      } else {
+        activeThemeMode = 'dark';
+      }
+    }
     
     // Day Theme (5 AM - 5 PM)
-    if (hour >= 5 && hour < 17) {
+    if (activeThemeMode === 'light') {
       return {
         name: 'day',
         background: 'from-blue-50 via-sky-100 to-blue-50',
@@ -87,7 +109,7 @@ const Home = () => {
       };
     }
     // Evening Theme (5 PM - 7 PM)
-    else if (hour >= 17 && hour < 19) {
+    else if (activeThemeMode === 'evening') {
       return {
         name: 'evening',
         background: 'from-orange-50 via-amber-100 to-orange-50',
@@ -361,6 +383,10 @@ const Home = () => {
     nav("/tasks");
   };
 
+  const handleViewCurrentTask = () => {
+    nav("/usememo");
+  };
+
   // Format date
   const formatDate = (date) => {
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -472,7 +498,7 @@ const Home = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
                 <button 
                   onClick={handleProfile}
-                  className={`group px-8 py-4 bg-gradient-to-r ${theme.button} text-white font-semibold rounded-xl hover:shadow-lg ${theme.buttonHover} transition-all hover:-translate-y-1 flex items-center justify-center gap-2`}
+                  className="group px-8 py-4 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-sky-500/30 transition-all hover:-translate-y-1 flex items-center justify-center gap-2"
                 >
                   <span className="w-5 h-5">
                     <Icons.User />
@@ -483,8 +509,17 @@ const Home = () => {
                   </span>
                 </button>
                 <button 
+                  onClick={handleViewCurrentTask}
+                  className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-emerald-500/30 transition-all hover:-translate-y-1 flex items-center justify-center gap-2"
+                >
+                  <span className="w-5 h-5">
+                    <Icons.Code />
+                  </span>
+                  View Current Task
+                </button>
+                <button 
                   onClick={handleViewAll}
-                  className={`px-8 py-4 ${theme.cardBg} border ${theme.cardBorder} ${theme.text} font-semibold rounded-xl hover:${theme.cardBg.replace('70', '20')} transition-all hover:-translate-y-1 flex items-center justify-center gap-2`}
+                  className="px-8 py-4 bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-violet-500/30 transition-all hover:-translate-y-1 flex items-center justify-center gap-2"
                 >
                   <span className="w-5 h-5">
                     <Icons.Code />
