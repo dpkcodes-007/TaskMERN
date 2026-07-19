@@ -10,7 +10,7 @@ const NavBar22 = () => {
                 <div className='text-2xl font-bold sm:text-3xl'> Usecallback Count</div>
               </div>
               <div className='flex flex-wrap items-center gap-4 text-sm font-medium text-slate-200'>
-                  <Link className='transition hover:text-cyan-300' to={'/usecallback'} >useMemo Count + 1 </Link>
+                  <Link className='transition hover:text-cyan-300' to={'/usecallback'} >usecallback Count + 1 </Link>
                   <Link className='rounded-full bg-cyan-500 px-4 py-2 font-semibold text-slate-950 transition hover:bg-cyan-400' to={'/'}>Go To Home</Link>
 
               </div>

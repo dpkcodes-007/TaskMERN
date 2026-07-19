@@ -139,7 +139,7 @@ const tasks = [
     day: "Day 22",
     title: "UseCallback Process",
     description: "Built a count filter process with useCount.",
-    path: "/usecallback",
+    path: "/usecallbackcount21",
   },
     {
     day: "Day 23",
@@ -151,7 +151,7 @@ const tasks = [
     day: "Day 24",
     title: "Use Process",
     description: "Built a count filter process with useCount.",
-    path: "/usecallback",
+    path: "/",
   },
 ];
 
