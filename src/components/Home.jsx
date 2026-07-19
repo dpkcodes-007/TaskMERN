@@ -389,7 +389,7 @@ const Home = () => {
   };
 
   const handleViewCurrentTask = () => {
-    nav("/usecallbackcount21");
+    nav("/usereducer");
   };
 
   // Format date
@@ -605,13 +605,13 @@ const Home = () => {
                   Progress Overview
                 </h3>
                 <p className={`${theme.textSecondary} mt-1 text-sm`}>
-                  You have completed <span className="text-emerald-400 font-bold">20</span> practice tasks and are making excellent progress through the React learning path.
+                  You have completed <span className="text-emerald-400 font-bold">25</span> practice tasks and are making excellent progress through the React learning path.
                 </p>
               </div>
               <div className="hidden md:block">
                 <div className="flex items-center gap-2 px-4 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full animate-pulse">
                   <span className="w-2 h-2 bg-emerald-400 rounded-full"></span>
-                  <span className="text-emerald-400 text-sm font-medium">20/20 Tasks</span>
+                  <span className="text-emerald-400 text-sm font-medium">25/25 Tasks</span>
                 </div>
               </div>
             </div>
@@ -703,7 +703,7 @@ const Home = () => {
                 </div>
                 <div>
                   <p className={`text-xs ${theme.textMuted}`}>Total Hours</p>
-                  <p className={`text-sm font-semibold ${theme.text}`}>42 hrs</p>
+                  <p className={`text-sm font-semibold ${theme.text}`}>65 hrs</p>
                 </div>
               </div>
 
