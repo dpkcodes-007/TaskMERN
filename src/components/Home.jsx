@@ -30,6 +30,11 @@ const Home = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [themeMode, setThemeMode] = useState(() => {
     const saved = localStorage.getItem('theme');
+    const hour = new Date().getHours();
+    if (saved === 'auto') return 'auto';
+    if ((saved === 'light' || saved === 'dark') && hour >= 5 && hour < 17) {
+      return 'auto';
+    }
     return saved || 'auto';
   });
 
@@ -59,17 +64,17 @@ const Home = () => {
     let activeThemeMode = themeMode;
     if (activeThemeMode === 'auto') {
       const hour = currentTime.getHours();
-      if (hour >= 5 && hour < 17) {
-        activeThemeMode = 'light';
-      } else if (hour >= 17 && hour < 19) {
-        activeThemeMode = 'evening';
+      if (hour >= 5 && hour < 12) {
+        activeThemeMode = 'morning';
+      } else if (hour >= 12 && hour < 17) {
+        activeThemeMode = 'afternoon';
       } else {
-        activeThemeMode = 'dark';
+        activeThemeMode = 'night';
       }
     }
     
-    // Day Theme (5 AM - 5 PM)
-    if (activeThemeMode === 'light') {
+    // Day Theme (morning and afternoon)
+    if (activeThemeMode === 'light' || activeThemeMode === 'morning' || activeThemeMode === 'afternoon') {
       return {
         name: 'day',
         background: 'from-blue-50 via-sky-100 to-blue-50',
@@ -384,7 +389,7 @@ const Home = () => {
   };
 
   const handleViewCurrentTask = () => {
-    nav("/usememo");
+    nav("/usecallback");
   };
 
   // Format date
@@ -451,8 +456,8 @@ const Home = () => {
         {/* Main Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Hero Section */}
-          <section className="py-16 lg:py-20">
-            <div className="text-center mb-16">
+          <section className="py-10 sm:py-14 lg:py-20">
+            <div className="mb-10 text-center sm:mb-14 lg:mb-16">
               {/* Live Date & Time with Dynamic Theme */}
               <div className="flex flex-wrap items-center justify-center gap-4 mb-6">
                 <div className={`inline-flex items-center gap-3 px-5 py-2 ${theme.statBg} border ${theme.border} rounded-full ${theme.textSecondary} text-sm backdrop-blur-sm hover:border-${theme.accent.split(' ')[1]}/40 transition-all hover:-translate-y-1 hover:shadow-lg ${theme.glow}`}>
@@ -470,7 +475,7 @@ const Home = () => {
               </div>
 
               {/* Enhanced Greeting Banner with Dynamic Styling */}
-              <div className={`inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r ${greetingStyles.bg} border ${greetingStyles.border} rounded-full ${greetingStyles.text} text-sm backdrop-blur-sm mb-6 transition-all hover:scale-105 hover:shadow-xl ${greetingStyles.glow}`}>
+              <div className={`inline-flex items-center gap-2 px-4 py-3 sm:px-6 sm:py-3 bg-gradient-to-r ${greetingStyles.bg} border ${greetingStyles.border} rounded-full ${greetingStyles.text} text-sm sm:text-base backdrop-blur-sm mb-6 transition-all hover:scale-105 hover:shadow-xl ${greetingStyles.glow}`}>
                 <span className={`w-2 h-2 bg-gradient-to-r ${greetingStyles.color} rounded-full animate-pulse`}></span>
                 <span className="text-lg">{greetingStyles.emoji}</span>
                 <span className="font-semibold">{greeting}</span>
@@ -479,7 +484,7 @@ const Home = () => {
                 </span>
               </div>
               
-              <h1 className={`text-4xl sm:text-5xl lg:text-7xl font-extrabold ${theme.text} leading-tight mb-4`}>
+              <h1 className={`text-3xl sm:text-4xl lg:text-6xl xl:text-7xl font-extrabold ${theme.text} leading-tight mb-4`}>
                 <span className={`bg-gradient-to-r ${theme.heading} bg-clip-text text-transparent`}>
                   React
                 </span>
@@ -490,15 +495,15 @@ const Home = () => {
                 </span>
               </h1>
               
-              <p className={`text-lg sm:text-xl ${theme.textSecondary} max-w-2xl mx-auto leading-relaxed`}>
+              <p className={`text-base sm:text-lg lg:text-xl ${theme.textSecondary} max-w-2xl mx-auto leading-relaxed`}>
                 Explore my complete React journey through hands-on assignments,
                 real projects, and practical implementations of modern React concepts.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center sm:gap-4">
                 <button 
                   onClick={handleProfile}
-                  className="group px-8 py-4 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-sky-500/30 transition-all hover:-translate-y-1 flex items-center justify-center gap-2"
+                  className="group w-full sm:w-auto px-5 py-3 sm:px-8 sm:py-4 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-sky-500/30 transition-all hover:-translate-y-1 flex items-center justify-center gap-2 text-sm sm:text-base"
                 >
                   <span className="w-5 h-5">
                     <Icons.User />
@@ -510,16 +515,16 @@ const Home = () => {
                 </button>
                 <button 
                   onClick={handleViewCurrentTask}
-                  className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-emerald-500/30 transition-all hover:-translate-y-1 flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto px-5 py-3 sm:px-8 sm:py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-emerald-500/30 transition-all hover:-translate-y-1 flex items-center justify-center gap-2 text-sm sm:text-base"
                 >
                   <span className="w-5 h-5">
                     <Icons.Code />
                   </span>
-                  View Current Task
+                  View Current Assignment
                 </button>
                 <button 
                   onClick={handleViewAll}
-                  className="px-8 py-4 bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-violet-500/30 transition-all hover:-translate-y-1 flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto px-5 py-3 sm:px-8 sm:py-4 bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-violet-500/30 transition-all hover:-translate-y-1 flex items-center justify-center gap-2 text-sm sm:text-base"
                 >
                   <span className="w-5 h-5">
                     <Icons.Code />
@@ -530,7 +535,7 @@ const Home = () => {
             </div>
 
             {/* Stats Grid with Dynamic Theme */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {stats.map((stat, index) => (
                 <div 
                   key={index}
@@ -559,8 +564,8 @@ const Home = () => {
           </section>
 
           {/* Features Grid with Dynamic Theme */}
-          <section className="py-12">
-            <h2 className={`text-3xl font-bold ${theme.text} mb-8 flex items-center gap-3`}>
+          <section className="py-8 sm:py-10 lg:py-12">
+            <h2 className={`text-2xl sm:text-3xl font-bold ${theme.text} mb-6 sm:mb-8 flex items-center gap-3`}>
               <span className="w-7 h-7 text-yellow-400">
                 <Icons.Star />
               </span>
@@ -590,8 +595,8 @@ const Home = () => {
           </section>
 
           {/* Progress Section with Dynamic Theme */}
-          <section id="progress" className={`rounded-3xl border ${theme.cardBorder} ${theme.cardBg} p-6 shadow-2xl backdrop-blur-md`}>
-            <div className="flex items-center justify-between mb-6">
+          <section id="progress" className={`rounded-3xl border ${theme.cardBorder} ${theme.cardBg} p-4 shadow-2xl backdrop-blur-md sm:p-6`}>
+            <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h3 className={`text-2xl font-semibold ${theme.text} flex items-center gap-3`}>
                   <span className={`w-6 h-6 ${theme.iconColor}`}>
@@ -611,7 +616,7 @@ const Home = () => {
               </div>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-3">
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
               {/* Tasks Completed */}
               <div className={`group rounded-2xl border ${theme.cardBorder} ${theme.cardBg} p-5 hover:border-emerald-500/30 transition-all hover:-translate-y-2 hover:shadow-lg hover:shadow-emerald-500/10`}>
                 <div className="flex items-center justify-between mb-2">
@@ -676,7 +681,7 @@ const Home = () => {
             </div>
 
             {/* Additional Progress Details */}
-            <div className="mt-6 grid gap-4 sm:grid-cols-4">
+            <div className="mt-6 grid gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-4">
               <div className={`flex items-center gap-3 px-4 py-3 ${theme.cardBg} rounded-xl border ${theme.cardBorder} hover:border-emerald-500/20 transition-all hover:-translate-y-1`}>
                 <div className="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
@@ -729,7 +734,7 @@ const Home = () => {
           </section>
 
           {/* Footer */}
-          <footer className="py-10 mt-8 border-t border-white/5">
+          <footer className="mt-8 border-t border-white/5 py-8 sm:py-10">
             <div className="flex flex-col items-center gap-6">
               <div className="flex items-center gap-3">
                 <div className={`w-6 h-6 ${theme.footerIcon}`}>
@@ -737,7 +742,7 @@ const Home = () => {
                 </div>
                 <span className={`${theme.text} font-semibold`}>React Learning Journey</span>
               </div>
-              <div className="flex gap-6">
+              <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
                 <a href="#" className={`w-5 h-5 ${theme.textMuted} ${theme.footerHover} transition-colors hover:-translate-y-1`}>
                   <Icons.Github />
                 </a>

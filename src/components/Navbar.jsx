@@ -1,6 +1,6 @@
 // Navbar.js - With Enhanced Features & New Games (No Icons)
 import { NavLink } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 
 const navItems = [
   { name: "Home", path: "/" },
@@ -47,7 +47,7 @@ const ScrollToTop = ({ activeThemeName }) => {
       {isVisible && (
         <button
           onClick={scrollToTop}
-          className={`fixed bottom-8 right-8 z-50 p-3 rounded-full bg-gradient-to-r text-white shadow-2xl transition-all hover:scale-110 animate-bounce-slow ${getBtnStyles()}`}
+          className={`fixed bottom-4 right-4 z-50 p-3 rounded-full bg-gradient-to-r text-white shadow-2xl transition-all hover:scale-110 animate-bounce-slow sm:bottom-8 sm:right-8 ${getBtnStyles()}`}
           aria-label="Scroll to top"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1228,48 +1228,22 @@ const Games = {
 // Navbar Component
 const Navbar = () => {
   const [themeMode, setThemeMode] = useState(() => {
-    const saved = localStorage.getItem('theme');
-    return saved || 'auto';
+    const saved = localStorage.getItem('navbarTheme');
+    return saved === 'light' || saved === 'dark' ? saved : 'dark';
   });
 
   const [activeGame, setActiveGame] = useState(null);
   const [showGameMenu, setShowGameMenu] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const getIsDark = () => {
-    if (themeMode === 'dark') return true;
-    if (themeMode === 'light') return false;
-    const hour = new Date().getHours();
-    return !(hour >= 5 && hour < 17);
-  };
-  const isDark = getIsDark();
-
-  const activeThemeName = (() => {
-    if (themeMode === 'light') return 'day';
-    if (themeMode === 'dark') return 'night';
-    
-    const hour = new Date().getHours();
-    if (hour >= 5 && hour < 17) return 'day';
-    if (hour >= 17 && hour < 19) return 'evening';
-    return 'night';
-  })();
-
-  // Apply theme to document
-  useEffect(() => {
-    const root = document.documentElement;
-    if (isDark) {
-      root.classList.add('dark');
-      root.classList.remove('light');
-    } else {
-      root.classList.add('light');
-      root.classList.remove('dark');
-    }
-  }, [isDark]);
+  const isDark = themeMode === 'dark';
+  const activeThemeName = themeMode === 'light' ? 'day' : 'night';
+  const isLightTheme = themeMode === 'light';
 
   const toggleTheme = () => {
     const nextTheme = isDark ? 'light' : 'dark';
     setThemeMode(nextTheme);
-    localStorage.setItem('theme', nextTheme);
-    window.dispatchEvent(new CustomEvent('themeChange', { detail: { theme: nextTheme } }));
+    localStorage.setItem('navbarTheme', nextTheme);
   };
 
   const openGame = (game) => {
@@ -1283,7 +1257,7 @@ const Navbar = () => {
 
   // Get theme-based styles
   const getThemeStyles = () => {
-    if (activeThemeName === 'day') {
+    if (isLightTheme) {
       return {
         navbar: 'bg-white/70 border-blue-200/50 shadow-[0_4px_30px_rgba(59,130,246,0.03)] backdrop-blur-md',
         logoBg: 'bg-white',
@@ -1372,39 +1346,39 @@ const Navbar = () => {
   return (
     <>
       <nav className={`sticky top-0 z-50 border-b backdrop-blur-xl shadow-2xl transition-all duration-500 ${styles.navbar}`}>
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
           {/* Logo Section */}
-          <NavLink to="/" className="group flex items-center gap-3">
+          <NavLink to="/" className="group flex items-center gap-2 sm:gap-3" onClick={() => setIsMenuOpen(false)}>
             <div className="relative">
               <div className={`absolute inset-0 animate-spin-slow rounded-full border-2 border-dashed ${styles.logoPulse}`}></div>
-              <div className={`relative h-10 w-10 rounded-full bg-gradient-to-br ${styles.logoCoreGradient} p-[2px] shadow-lg transition-transform duration-300 group-hover:scale-105`}>
+              <div className={`relative h-9 w-9 rounded-full bg-gradient-to-br ${styles.logoCoreGradient} p-[2px] shadow-lg transition-transform duration-300 group-hover:scale-105 sm:h-10 sm:w-10`}>
                 <div className={`flex h-full w-full items-center justify-center rounded-full ${styles.logoBg}`}>
-                  <span className={`text-base font-bold ${styles.logoCoreText}`}>DR</span>
+                  <span className={`text-sm font-bold sm:text-base ${styles.logoCoreText}`}>DR</span>
                 </div>
               </div>
             </div>
-            <div>
-              <h1 className={`text-xl font-bold transition-all duration-300 group-hover:translate-x-1`}>
+            <div className="min-w-0">
+              <h1 className={`text-base font-bold transition-all duration-300 group-hover:translate-x-1 sm:text-lg lg:text-xl`}>
                 <span className={`bg-gradient-to-r ${styles.logoText} bg-clip-text text-transparent`}>
                   Deepak R
                 </span>
               </h1>
-              <p className={`text-[10px] font-medium tracking-wider ${styles.subText}`}>
+              <p className={`text-[9px] font-medium tracking-wider ${styles.subText} sm:text-[10px]`}>
                 <span className={styles.logoCoreText}>⚛</span> React Tasks Submission Portal
               </p>
             </div>
           </NavLink>
 
           {/* Navigation Links & Controls */}
-          <div className="flex items-center gap-3">
-            <div className={`flex gap-1 rounded-full border ${styles.linkBg} backdrop-blur-sm p-1.5`}>
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className={`hidden gap-1 rounded-full border ${styles.linkBg} backdrop-blur-sm p-1.5 md:flex`}>
               {navItems.map((item) => (
                 <NavLink
                   key={item.path}
                   to={item.path}
                   end={item.path === "/"}
                   className={({ isActive }) =>
-                    `group relative overflow-hidden rounded-full px-5 py-2 font-medium transition-all duration-500
+                    `group relative overflow-hidden rounded-full px-4 py-2 text-sm font-medium transition-all duration-500 lg:px-5
                     ${isActive ? 'text-white scale-105' : styles.linkInactive}`
                   }
                 >
@@ -1422,7 +1396,7 @@ const Navbar = () => {
                         ${!isActive ? styles.linkHover : ''}`}
                       ></span>
                       <span className="relative z-10 flex items-center gap-2">
-                        <span className="text-sm">{item.name}</span>
+                        <span>{item.name}</span>
                         {isActive && (
                           <span className="absolute -top-1 -right-1 flex h-2 w-2">
                             <span className={`absolute inline-flex h-full w-full animate-ping rounded-full ${activeThemeName === 'day' ? 'bg-blue-400' : activeThemeName === 'evening' ? 'bg-orange-400' : 'bg-purple-400'} opacity-75`}></span>
@@ -1437,7 +1411,7 @@ const Navbar = () => {
             </div>
 
             {/* Games Button */}
-            <div className="relative">
+            <div className="relative hidden sm:block">
               <button
                 onClick={() => setShowGameMenu(!showGameMenu)}
                 className={`group relative overflow-hidden rounded-full p-2.5 border transition-all duration-300 ${styles.themeBtnBg} ${styles.gameBtn}`}
@@ -1448,7 +1422,7 @@ const Navbar = () => {
                   activeThemeName === 'evening' ? 'from-orange-500/10 to-amber-500/10' : 
                   'from-purple-500/10 to-pink-500/10'
                 } scale-0 group-hover:scale-100`}></span>
-                <span className="relative z-10 text-lg block transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">🎮</span>
+                <span className="relative z-10 block text-lg transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">🎮</span>
               </button>
 
               {/* Game Menu Dropdown */}
@@ -1469,16 +1443,6 @@ const Navbar = () => {
                       </div>
                     </button>
                     <button
-                      onClick={() => openGame('targetclicker')}
-                      className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 transition-all hover:translate-x-1 duration-300 ${styles.gameItemHover}`}
-                    >
-                      <span className="text-2xl">🎯</span>
-                      <div className="text-left">
-                        <p className={`text-sm font-medium ${styles.linkInactive}`}>Target Clicker</p>
-                        <p className="text-xs text-slate-400">Click targets • 30 seconds</p>
-                      </div>
-                    </button>
-                    <button
                       onClick={() => openGame('memory')}
                       className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 transition-all hover:translate-x-1 duration-300 ${styles.gameItemHover}`}
                     >
@@ -1493,10 +1457,10 @@ const Navbar = () => {
               )}
             </div>
 
-            {/* Theme Toggle Button - Fixed with proper absolute-morphing styles */}
+            {/* Theme Toggle Button */}
             <button
               onClick={toggleTheme}
-              className={`group relative overflow-hidden rounded-full p-2.5 h-10 w-10 border transition-all duration-300 flex items-center justify-center ${styles.themeToggleBg} ${styles.themeToggleHover}`}
+              className={`group relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border p-2.5 transition-all duration-300 ${styles.themeToggleBg} ${styles.themeToggleHover}`}
               aria-label="Toggle theme"
             >
               <span className={`absolute inset-0 rounded-full transition-all duration-500 bg-gradient-to-r ${
@@ -1505,13 +1469,12 @@ const Navbar = () => {
                 'from-purple-500/10 to-pink-500/10'
               } scale-0 group-hover:scale-100`}></span>
               
-              <div className="relative z-10 w-5 h-5 flex items-center justify-center">
-                {/* Sun Icon */}
+              <div className="relative z-10 flex h-5 w-5 items-center justify-center">
                 <svg 
-                  className={`absolute w-5 h-5 transition-all duration-500 ${
+                  className={`absolute h-5 w-5 transition-all duration-500 ${
                     isDark 
-                      ? 'opacity-0 scale-50 rotate-90 pointer-events-none' 
-                      : 'opacity-100 scale-100 rotate-0'
+                      ? 'scale-50 rotate-90 opacity-0 pointer-events-none' 
+                      : 'scale-100 rotate-0 opacity-100'
                   } ${styles.themeToggleIcon}`}
                   fill="none" 
                   stroke="currentColor" 
@@ -1519,12 +1482,11 @@ const Navbar = () => {
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
-                {/* Moon Icon */}
                 <svg 
-                  className={`absolute w-5 h-5 transition-all duration-500 ${
+                  className={`absolute h-5 w-5 transition-all duration-500 ${
                     isDark 
-                      ? 'opacity-100 scale-100 rotate-0' 
-                      : 'opacity-0 scale-50 -rotate-90 pointer-events-none'
+                      ? 'scale-100 rotate-0 opacity-100' 
+                      : 'scale-50 -rotate-90 opacity-0 pointer-events-none'
                   } ${styles.themeToggleIcon}`}
                   fill="none" 
                   stroke="currentColor" 
@@ -1534,13 +1496,60 @@ const Navbar = () => {
                 </svg>
               </div>
             </button>
+
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className={`flex h-10 w-10 items-center justify-center rounded-full border p-2.5 transition-all duration-300 md:hidden ${styles.themeToggleBg} ${styles.themeToggleHover}`}
+              aria-label="Open menu"
+            >
+              <svg className={`h-5 w-5 ${styles.themeToggleIcon}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
           </div>
         </div>
       </nav>
 
+      {isMenuOpen && (
+        <div className="fixed inset-0 z-[60] md:hidden">
+          <div className="absolute inset-0 bg-slate-950/70 backdrop-blur-sm" onClick={() => setIsMenuOpen(false)}></div>
+          <div className={`absolute inset-y-0 right-0 flex w-4/5 max-w-xs flex-col gap-5 border-l p-5 shadow-2xl ${styles.navbar}`}>
+            <div className="flex items-center justify-between">
+              <div className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-400">Menu</div>
+              <button onClick={() => setIsMenuOpen(false)} className={`flex h-10 w-10 items-center justify-center rounded-full border ${styles.themeToggleBg}`} aria-label="Close menu">
+                <svg className={`h-5 w-5 ${styles.themeToggleIcon}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <div className="flex flex-col gap-2">
+              {navItems.map((item) => (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  end={item.path === "/"}
+                  onClick={() => setIsMenuOpen(false)}
+                  className={({ isActive }) => `rounded-2xl px-4 py-3 text-base font-medium transition-all ${isActive ? styles.linkActive + ' text-white' : styles.linkInactive}`}
+                >
+                  {item.name}
+                </NavLink>
+              ))}
+            </div>
+            <div className="mt-auto flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+              <div>
+                <p className="text-sm font-semibold text-white">Quick access</p>
+                <p className="text-xs text-slate-400">Theme and games ready</p>
+              </div>
+              <button onClick={toggleTheme} className={`rounded-full border px-3 py-2 text-sm ${styles.themeToggleBg}`}>
+                {isDark ? 'Light' : 'Dark'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Render Active Game */}
       {activeGame === 'reactquiz' && <Games.ReactQuiz onClose={closeGame} />}
-      {activeGame === 'targetclicker' && <Games.TargetClicker onClose={closeGame} />}
       {activeGame === 'memory' && <Games.Memory onClose={closeGame} />}
 
       {/* Scroll to Top Button */}

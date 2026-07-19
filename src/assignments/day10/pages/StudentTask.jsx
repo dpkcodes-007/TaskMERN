@@ -29,14 +29,14 @@ const StudentTask = () => {
   return (
     <>
       <div className="px-4 py-10 sm:px-6 lg:px-10">
-        <div className="mx-auto max-w-5xl rounded-3xl border border-slate-200 bg-white/95 p-6 shadow-2xl shadow-slate-900/20 sm:p-8">
-          <h1 className="mb-6 text-center text-3xl font-bold text-slate-800">
+        <div className="mx-auto max-w-5xl rounded-3xl border border-slate-200 bg-white/95 p-4 shadow-2xl shadow-slate-900/20 sm:p-6 lg:p-8">
+          <h1 className="mb-6 text-center text-2xl font-bold text-slate-800 sm:text-3xl">
             Student Enrollment Form
           </h1>
 
           <form
             onSubmit={handleStudentSubmit}
-            className="mx-auto flex w-full max-w-md flex-col gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-6 shadow-inner"
+            className="mx-auto flex w-full max-w-md flex-col gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-4 shadow-inner sm:p-6"
           >
             <input
               type="text"
@@ -88,8 +88,8 @@ const StudentTask = () => {
       </div>
 
       <div className="px-4 pb-10 sm:px-6 lg:px-10">
-        <div className="mx-auto max-w-5xl rounded-3xl border border-slate-200 bg-white/95 p-6 shadow-xl shadow-slate-900/10 sm:p-8">
-          <h2 className="mb-5 text-center text-2xl font-semibold text-slate-800">
+        <div className="mx-auto max-w-5xl rounded-3xl border border-slate-200 bg-white/95 p-4 shadow-xl shadow-slate-900/10 sm:p-6 lg:p-8">
+          <h2 className="mb-5 text-center text-xl font-semibold text-slate-800 sm:text-2xl">
             Enrolled Students
           </h2>
 

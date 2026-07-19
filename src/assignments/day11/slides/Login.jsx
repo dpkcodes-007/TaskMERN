@@ -44,11 +44,11 @@ const Login = () => {
 
   return (
 <>
-<div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500">
-  <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-    <div className="text-center mb-6">
-      <h1 className="text-3xl font-bold text-gray-900">Login</h1>
-      <p className="text-gray-700 text-sm mt-1">Welcome back! Please login to your account.</p>
+<div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-8 sm:px-6">
+  <div className="w-full max-w-md rounded-lg bg-white p-5 shadow-lg sm:p-8">
+    <div className="mb-6 text-center">
+      <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">Login</h1>
+      <p className="mt-1 text-sm text-gray-700">Welcome back! Please login to your account.</p>
     </div>
     
     <div>

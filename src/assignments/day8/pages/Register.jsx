@@ -30,36 +30,20 @@ const Register = () => {
 
   return (
     <>
-    <div className="bg-gray-600 flex justify-center items-center h-screen">
-        <form className="flex justify-center items-center bg-white h-100 w-100 rounded-2xl" onSubmit={handlesubmit}>
-         <div>
-            <table>
-                <div className="flex flex-col gap-3">
-            
-                    <h1 className="flex justify-center text-3xl mb-5">Register Form</h1>
-                
-                <tr>
-                    <td><label htmlFor="" >Enter the Name :</label></td>
-                    <td><input type="text" className="border-2" value={userdetails.userName} name = 'userName' onChange={handlechange}/></td>
-                </tr>
-                <br />
-                <tr>
-                    <td><label htmlFor="" >Enter the Email :</label></td>
-                    <td><input type="email" className="border-2" value={userdetails.userEmail}  name = 'userEmail' onChange={handlechange}/></td>
-                </tr>
-                <br />
-                <tr>
-                    <td><label htmlFor="" >Enter the Number :</label></td>
-                    <td><input type="tel" className="border-2" value={userdetails.userNumber}  name="userNumber" onChange={handlechange}/></td>
-                </tr>
-                <tr>
-                    <td><input type="submit" value='Register' className="bg-gray-600 p-2 text-black-400 rounded-2xl "/></td>
-                </tr>
-                </div>
- 
-            </table>
+    <div className="flex min-h-screen items-center justify-center bg-gray-600 px-4 py-8 sm:px-6">
+        <form className="w-full max-w-xl rounded-2xl bg-white p-4 shadow-2xl sm:p-6 lg:p-8" onSubmit={handlesubmit}>
+         <div className="w-full">
+            <div className="flex flex-col gap-4">
+              <h1 className="mb-2 text-center text-2xl font-semibold text-slate-800 sm:text-3xl">Register Form</h1>
+              <label className="text-sm font-medium text-slate-700">Enter the Name :</label>
+              <input type="text" className="w-full rounded-lg border border-slate-300 px-3 py-2.5" value={userdetails.userName} name = 'userName' onChange={handlechange}/>
+              <label className="text-sm font-medium text-slate-700">Enter the Email :</label>
+              <input type="email" className="w-full rounded-lg border border-slate-300 px-3 py-2.5" value={userdetails.userEmail}  name = 'userEmail' onChange={handlechange}/>
+              <label className="text-sm font-medium text-slate-700">Enter the Number :</label>
+              <input type="tel" className="w-full rounded-lg border border-slate-300 px-3 py-2.5" value={userdetails.userNumber}  name="userNumber" onChange={handlechange}/>
+              <input type="submit" value='Register' className="w-full rounded-2xl bg-gray-600 px-4 py-3 font-semibold text-white transition hover:bg-gray-500"/>
+            </div>
          </div>
-
         </form>
     </div>
 

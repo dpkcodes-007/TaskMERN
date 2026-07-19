@@ -1,4 +1,4 @@
-// Profile.js
+// Profile.js - Compact version without scrolling
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
@@ -8,6 +8,11 @@ const Profile = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [themeMode, setThemeMode] = useState(() => {
     const saved = localStorage.getItem('theme');
+    const hour = new Date().getHours();
+    if (saved === 'auto') return 'auto';
+    if ((saved === 'light' || saved === 'dark') && hour >= 5 && hour < 17) {
+      return 'auto';
+    }
     return saved || 'auto';
   });
 
@@ -31,17 +36,17 @@ const Profile = () => {
     let activeThemeMode = themeMode;
     if (activeThemeMode === 'auto') {
       const hour = currentTime.getHours();
-      if (hour >= 5 && hour < 17) {
-        activeThemeMode = 'light';
-      } else if (hour >= 17 && hour < 19) {
-        activeThemeMode = 'evening';
+      if (hour >= 5 && hour < 12) {
+        activeThemeMode = 'morning';
+      } else if (hour >= 12 && hour < 17) {
+        activeThemeMode = 'afternoon';
       } else {
-        activeThemeMode = 'dark';
+        activeThemeMode = 'night';
       }
     }
     
-    // Day Theme (5 AM - 5 PM)
-    if (activeThemeMode === 'light') {
+    // Day Theme (morning and afternoon)
+    if (activeThemeMode === 'light' || activeThemeMode === 'morning' || activeThemeMode === 'afternoon') {
       return {
         name: 'day',
         background: 'from-blue-50 via-sky-100 to-blue-50',
@@ -206,7 +211,7 @@ const Profile = () => {
 
   const theme = getTheme();
 
-  // SVG Icons (same as before)
+  // SVG Icons
   const Icons = {
     React: () => (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-full h-full">
@@ -234,6 +239,78 @@ const Profile = () => {
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-full h-full">
         <path d="M12 2v4M12 22v-4M4 12H2M22 12h-2M19.07 4.93l-2.83 2.83M4.93 19.07l2.83-2.83" />
         <circle cx="12" cy="12" r="3" />
+      </svg>
+    ),
+    JS: () => (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-full h-full">
+        <path d="M4 4h16v16H4z" />
+        <path d="M8 8h8v2l-4 4 4 4v2H8v-2l4-4-4-4V8z" />
+      </svg>
+    ),
+    HTML: () => (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-full h-full">
+        <path d="M4 4l1.5 14.5L12 22l6.5-3.5L20 4H4z" />
+        <path d="M12 8v8M12 12l-2-2M12 12l2-2" />
+      </svg>
+    ),
+    CSS: () => (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-full h-full">
+        <path d="M4 4l1.5 14.5L12 22l6.5-3.5L20 4H4z" />
+        <path d="M12 8v8M12 12l-2-2M12 12l2-2" />
+      </svg>
+    ),
+    Tailwind: () => (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-full h-full">
+        <path d="M12 4C9 4 7 6 6 9c1.5-2 3.5-3 6-3 1.5 0 2.5.5 3.5 1.5l1.5 1.5C18 8 18.5 7.5 19 7c-1-2-3-3-7-3z" />
+        <path d="M12 9c-3 0-5 2-6 5 1.5-2 3.5-3 6-3 1.5 0 2.5.5 3.5 1.5l1.5 1.5c.5.5 1 0 1.5-.5-1-2-3-3-7-3z" />
+        <path d="M12 14c-3 0-5 2-6 5 1.5-2 3.5-3 6-3 1.5 0 2.5.5 3.5 1.5l1.5 1.5c.5.5 1 0 1.5-.5-1-2-3-3-7-3z" />
+      </svg>
+    ),
+    Vite: () => (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-full h-full">
+        <path d="M12 2L2 7l10 5 10-5-10-5z" />
+        <path d="M2 17l10 5 10-5" />
+        <path d="M2 12l10 5 10-5" />
+      </svg>
+    ),
+    Redux: () => (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-full h-full">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 8v8M8 12h8" />
+      </svg>
+    ),
+    JWT: () => (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-full h-full">
+        <rect x="3" y="3" width="18" height="18" rx="2" />
+        <path d="M12 8v8M8 12h8" />
+        <circle cx="12" cy="12" r="2" />
+      </svg>
+    ),
+    MySQL: () => (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-full h-full">
+        <path d="M4 4h16v16H4z" />
+        <path d="M8 8l4 8 4-8" />
+        <path d="M8 12h8" />
+      </svg>
+    ),
+    Git: () => (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-full h-full">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 6v6l4 2" />
+        <path d="M12 6v6l-4 2" />
+      </svg>
+    ),
+    RestAPI: () => (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-full h-full">
+        <path d="M4 4l16 16M20 4L4 20" />
+        <circle cx="12" cy="12" r="2" />
+      </svg>
+    ),
+    Responsive: () => (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-full h-full">
+        <rect x="4" y="4" width="16" height="16" rx="2" />
+        <path d="M8 2v4M16 2v4M8 18v4M16 18v4" />
+        <path d="M2 8h4M2 16h4M18 8h4M18 16h4" />
       </svg>
     ),
     User: () => (
@@ -316,37 +393,28 @@ const Profile = () => {
     )
   };
 
-  const skills = [
-    { name: "React.js", level: 90, icon: Icons.React },
-    { name: "Node.js", level: 85, icon: Icons.Node },
-    { name: "Express.js", level: 80, icon: Icons.Express },
-    { name: "MongoDB", level: 85, icon: Icons.MongoDB },
-    { name: "JavaScript (ES6+)", level: 90, icon: Icons.Code },
-    { name: "HTML & CSS", level: 90, icon: Icons.Code },
-    { name: "Tailwind CSS", level: 85, icon: Icons.Code },
-    { name: "Git & GitHub", level: 80, icon: Icons.Github }
-  ];
-
   const techStack = [
-    { name: "React", icon: Icons.React, color: "cyan" },
+    { name: "React.js", icon: Icons.React, color: "cyan" },
     { name: "Node.js", icon: Icons.Node, color: "green" },
     { name: "Express.js", icon: Icons.Express, color: "yellow" },
     { name: "MongoDB", icon: Icons.MongoDB, color: "emerald" },
-    { name: "JavaScript", icon: Icons.Code, color: "yellow" },
-    { name: "Tailwind CSS", icon: Icons.Code, color: "purple" }
-  ];
-
-  const achievements = [
-    { number: "20+", label: "React Assignments", icon: Icons.Calendar },
-    { number: "50+", label: "Components Built", icon: Icons.Code },
-    { number: "15+", label: "Projects Done", icon: Icons.Star },
-    { number: "100%", label: "Learning Progress", icon: Icons.Check }
+    { name: "JavaScript", icon: Icons.JS, color: "yellow" },
+    { name: "HTML5", icon: Icons.HTML, color: "orange" },
+    { name: "CSS3", icon: Icons.CSS, color: "blue" },
+    { name: "Tailwind CSS", icon: Icons.Tailwind, color: "purple" },
+    { name: "Vite", icon: Icons.Vite, color: "purple" },
+    { name: "Redux", icon: Icons.Redux, color: "pink" },
+    { name: "JWT", icon: Icons.JWT, color: "red" },
+    { name: "MySQL", icon: Icons.MySQL, color: "blue" },
+    { name: "Git", icon: Icons.Git, color: "indigo" },
+    { name: "REST APIs", icon: Icons.RestAPI, color: "purple" },
+    { name: "Responsive", icon: Icons.Responsive, color: "emerald" }
   ];
 
   return (
     <>
       <Navbar />
-      <div className={`min-h-screen bg-gradient-to-br ${theme.background} relative overflow-x-hidden transition-all duration-1000`}>
+      <div className={`min-h-screen bg-gradient-to-br ${theme.background} relative overflow-hidden transition-all duration-1000`}>
         {/* Animated Background */}
         <div className="fixed inset-0 z-0 pointer-events-none">
           {/* Stars - Only show at night */}
@@ -392,293 +460,171 @@ const Profile = () => {
           )}
         </div>
 
-        {/* Main Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {/* Profile Header */}
-          <section className="py-8">
-            <div className={`${theme.cardBg} backdrop-blur-md border ${theme.cardBorder} rounded-3xl p-8 sm:p-12 ${theme.cardHover} transition-all duration-300`}>
-              <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8">
-                {/* Profile Image */}
-                <div className="relative">
-                  <div className={`w-40 h-40 sm:w-52 sm:h-52 rounded-full bg-gradient-to-r ${theme.accent} p-1 shadow-2xl ${theme.glow}`}>
+        {/* Main Content - Compact without scrolling */}
+        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-[calc(100vh-80px)] flex items-center">
+          <div className="w-full">
+            <div className={`${theme.cardBg} backdrop-blur-md border ${theme.cardBorder} rounded-3xl p-6 sm:p-8 ${theme.cardHover} transition-all duration-500 shadow-2xl`}>
+              <div className="flex flex-col items-center text-center">
+                {/* Profile Image - Compact */}
+                <div className="relative mb-3">
+                  <div className={`w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-r ${theme.accent} p-1 shadow-2xl ${theme.glow} hover:scale-105 transition-transform duration-300`}>
                     <div className={`w-full h-full rounded-full ${theme.name === 'night' ? 'bg-[#0a0a1a]' : 'bg-white'} flex items-center justify-center`}>
-                      <span className={`text-6xl sm:text-7xl font-bold bg-gradient-to-r ${theme.heading} bg-clip-text text-transparent`}>
+                      <span className={`text-2xl sm:text-3xl font-extrabold bg-gradient-to-r ${theme.heading} bg-clip-text text-transparent`}>
                         DR
                       </span>
                     </div>
                   </div>
-                  <div className="absolute -bottom-2 -right-2 bg-emerald-500 rounded-full p-2 border-2 border-[#0a0a1a]">
-                    <div className="w-4 h-4 bg-emerald-400 rounded-full animate-pulse"></div>
+                  <div className="absolute -bottom-1 -right-1 bg-emerald-500 rounded-full p-1.5 border-2 border-[#0a0a1a] shadow-lg">
+                    <div className="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse"></div>
                   </div>
                 </div>
 
-                {/* Profile Info */}
-                <div className="flex-1 text-center lg:text-left">
-                  <div className="flex flex-wrap items-center gap-3 mb-2">
-                    <h1 className={`text-4xl sm:text-5xl font-extrabold ${theme.text}`}>
-                      Deepak R
-                    </h1>
-                    <span className={`inline-block px-4 py-1 bg-gradient-to-r ${theme.accentLight} border ${theme.border} rounded-full text-sm font-semibold ${theme.textSecondary}`}>
-                      👨‍💻 FULL STACK DEVELOPER (MERN STACK)
+                {/* Name and Title - Compact */}
+                <div className="mb-2">
+                  <h1 className={`text-2xl sm:text-3xl font-black bg-gradient-to-r ${theme.heading} bg-clip-text text-transparent tracking-tight`}>
+                    Deepak R
+                  </h1>
+                  <div className="flex items-center justify-center gap-2 mt-0.5">
+                    <span className={`text-sm sm:text-base font-semibold ${theme.iconColor} tracking-wide`}>
+                      MERN Stack Developer
+                    </span>
+                    <span className={`w-4 h-4 ${theme.iconColor} animate-pulse`}>
+                      <Icons.Code />
                     </span>
                   </div>
-                  
-                  <div className={`flex flex-wrap items-center justify-center lg:justify-start gap-2 mb-3 text-sm ${theme.textSecondary}`}>
-                    <span className="text-cyan-400">⚛️ React</span>
-                    <span className="text-slate-500">•</span>
-                    <span className="text-green-400">🟢 Node.js</span>
-                    <span className="text-slate-500">•</span>
-                    <span className="text-yellow-400">🚀 Express.js</span>
-                    <span className="text-slate-500">•</span>
-                    <span className="text-emerald-400">MongoDB</span>
-                    <span className="text-slate-500">•</span>
-                    <span className="text-yellow-400">JavaScript (ES6+)</span>
-                  </div>
+                </div>
 
-                  <p className={`${theme.textSecondary} text-base mb-4 max-w-3xl`}>
-                    🚀 Building Scalable & Responsive Web Applications | 
-                    <span className="text-cyan-400"> 📍 Open to Opportunities</span> | 
-                    <span className="text-purple-400"> 💼 SDE</span> | 
-                    <span className="text-pink-400"> 🎨 Frontend</span> | 
-                    <span className="text-emerald-400"> 🌐 Full Stack</span>
+                {/* Decorative Divider */}
+                <div className={`w-16 h-0.5 bg-gradient-to-r ${theme.accent} rounded-full mb-3`}></div>
+
+                {/* Tech Stack Tags - Compact 2-3 lines */}
+                <div className="flex flex-wrap items-center justify-center gap-1.5 mb-3 max-w-2xl mx-auto">
+                  {techStack.map((tech, index) => (
+                    <span 
+                      key={index}
+                      className={`flex items-center gap-1 px-2.5 py-1 ${theme.tagColors[tech.color]} rounded-full text-[10px] sm:text-xs font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg cursor-default`}
+                    >
+                      <span className="w-3 h-3 flex-shrink-0">
+                        <tech.icon />
+                      </span>
+                      {tech.name}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Description - Compact */}
+                <div className={`${theme.textSecondary} text-xs sm:text-sm leading-5 mb-3 max-w-2xl mx-auto`}>
+                  <p>
+                    🚀 Passionate <span className="text-cyan-400 font-semibold">MERN Stack Developer</span> crafting
+                    fast, scalable, secure, and responsive web applications.
                   </p>
+                  <p>
+                    💡 Specialized in full-stack solutions, RESTful APIs, authentication systems, and high-performance web experiences.
+                  </p>
+                  <p className="text-[10px] sm:text-xs">
+                    📍 <span className="text-cyan-400 font-medium">Open to Full-Time & Internship Opportunities</span>
+                    <span className="mx-1 text-slate-400">|</span>
+                    💼 <span className="text-purple-400 font-medium">Aspiring SDE</span>
+                    <span className="mx-1 text-slate-400">|</span>
+                    🌐 <span className="text-emerald-400 font-medium">Full Stack Developer</span>
+                  </p>
+                </div>
 
-                  <div className={`flex flex-wrap items-center justify-center lg:justify-start gap-4 ${theme.textMuted}`}>
-                    <div className="flex items-center gap-2">
-                      <span className={`w-5 h-5 ${theme.iconColor}`}>
-                        <Icons.Email />
-                      </span>
-                      <a href="mailto:itzdeepak2k6@gmail.com" className={`hover:${theme.iconColor} transition-colors`}>
-                        itzdeepak2k6@gmail.com
-                      </a>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className={`w-5 h-5 ${theme.iconColor}`}>
-                        <Icons.Phone />
-                      </span>
-                      <a href="tel:+919360023060" className={`hover:${theme.iconColor} transition-colors`}>
-                        +91 9360023060
-                      </a>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className={`w-5 h-5 ${theme.iconColor}`}>
-                        <Icons.Location />
-                      </span>
-                      <span>Chennai, Tamil Nadu, India</span>
-                    </div>
-                  </div>
-
-                  {/* Tech Stack Tags */}
-                  <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 mt-4">
-                    {techStack.map((tech, index) => (
-                      <span 
-                        key={index}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 ${theme.tagColors[tech.color]} rounded-full text-xs font-medium`}
-                      >
-                        <span className="w-4 h-4">
-                          <tech.icon />
-                        </span>
-                        {tech.name}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Social Links */}
-                  <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 mt-6">
-                    <a 
-                      href="https://github.com/dpkcodes-007" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className={`flex items-center gap-2 px-4 py-2 ${theme.cardBg} rounded-xl ${theme.cardHover} transition-all hover:-translate-y-1 hover:shadow-lg border ${theme.cardBorder} group`}
-                    >
-                      <span className={`w-5 h-5 ${theme.iconColor} group-hover:scale-110 transition-transform`}>
-                        <Icons.Github />
-                      </span>
-                      <span className={theme.text}>GitHub</span>
+                {/* Contact Info - Compact */}
+                <div className={`flex flex-wrap items-center justify-center gap-2 sm:gap-4 ${theme.textMuted} mb-3 text-xs sm:text-sm`}>
+                  <div className="flex items-center gap-1.5 group">
+                    <span className={`w-3.5 h-3.5 ${theme.iconColor} group-hover:scale-110 transition-transform`}>
+                      <Icons.Email />
+                    </span>
+                    <a href="mailto:itzdeepak2k6@gmail.com" className={`hover:${theme.iconColor} transition-colors font-medium`}>
+                      itzdeepak2k6@gmail.com
                     </a>
-                    <a 
-                      href="https://www.linkedin.com/in/deepak-r-3a2613371/" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className={`flex items-center gap-2 px-4 py-2 ${theme.cardBg} rounded-xl ${theme.cardHover} transition-all hover:-translate-y-1 hover:shadow-lg border ${theme.cardBorder} group`}
-                    >
-                      <span className={`w-5 h-5 ${theme.iconColor} group-hover:scale-110 transition-transform`}>
-                        <Icons.LinkedIn />
-                      </span>
-                      <span className={theme.text}>LinkedIn</span>
-                    </a>
-                    <button
-                      onClick={() => nav("/tasks")}
-                      className={`flex items-center gap-2 px-4 py-2 bg-gradient-to-r ${theme.button} rounded-xl text-white font-semibold ${theme.buttonHover} transition-all hover:-translate-y-1`}
-                    >
-                      <span>View My Work</span>
-                      <span className="w-4 h-4">
-                        <Icons.Arrow />
-                      </span>
-                    </button>
                   </div>
+                  <span className="hidden sm:block text-slate-400 text-xs">|</span>
+                  <div className="flex items-center gap-1.5 group">
+                    <span className={`w-3.5 h-3.5 ${theme.iconColor} group-hover:scale-110 transition-transform`}>
+                      <Icons.Phone />
+                    </span>
+                    <a href="tel:+919360023060" className={`hover:${theme.iconColor} transition-colors font-medium`}>
+                      +91 9360023060
+                    </a>
+                  </div>
+                  <span className="hidden sm:block text-slate-400 text-xs">|</span>
+                  <div className="flex items-center gap-1.5 group">
+                    <span className={`w-3.5 h-3.5 ${theme.iconColor} group-hover:scale-110 transition-transform`}>
+                      <Icons.Location />
+                    </span>
+                    <span className="font-medium">Chennai, TN</span>
+                  </div>
+                </div>
+
+                {/* Social Links - Compact */}
+                <div className="flex flex-wrap items-center justify-center gap-2">
+                  <a 
+                    href="https://github.com/dpkcodes-007" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className={`flex items-center gap-1.5 px-3 py-1.5 ${theme.cardBg} rounded-lg ${theme.cardHover} transition-all duration-300 hover:-translate-y-1 hover:shadow-md border ${theme.cardBorder} group text-xs sm:text-sm`}
+                  >
+                    <span className={`w-3.5 h-3.5 ${theme.iconColor} group-hover:scale-110 group-hover:rotate-6 transition-all duration-300`}>
+                      <Icons.Github />
+                    </span>
+                    <span className={`${theme.text} font-medium group-hover:${theme.iconColor} transition-colors`}>GitHub</span>
+                  </a>
+                  <a 
+                    href="https://www.linkedin.com/in/deepak-r-3a2613371/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className={`flex items-center gap-1.5 px-3 py-1.5 ${theme.cardBg} rounded-lg ${theme.cardHover} transition-all duration-300 hover:-translate-y-1 hover:shadow-md border ${theme.cardBorder} group text-xs sm:text-sm`}
+                  >
+                    <span className={`w-3.5 h-3.5 ${theme.iconColor} group-hover:scale-110 group-hover:rotate-6 transition-all duration-300`}>
+                      <Icons.LinkedIn />
+                    </span>
+                    <span className={`${theme.text} font-medium group-hover:${theme.iconColor} transition-colors`}>LinkedIn</span>
+                  </a>
+                  <button
+                    onClick={() => nav("/tasks")}
+                    className={`flex items-center gap-1.5 px-4 py-1.5 bg-gradient-to-r ${theme.button} rounded-lg text-white font-semibold ${theme.buttonHover} transition-all duration-300 hover:-translate-y-1 hover:shadow-lg text-xs sm:text-sm`}
+                  >
+                    <span>View My Work</span>
+                    <span className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform">
+                      <Icons.Arrow />
+                    </span>
+                  </button>
                 </div>
               </div>
             </div>
-          </section>
+          </div>
+        </div>
 
-          {/* Achievements */}
-          <section className="py-8">
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              {achievements.map((item, index) => (
-                <div 
-                  key={index}
-                  className={`${theme.cardBg} backdrop-blur-md border ${theme.cardBorder} rounded-2xl p-6 text-center ${theme.cardHover} transition-all hover:-translate-y-2 hover:shadow-xl`}
-                >
-                  <div className="flex justify-center mb-2">
-                    <div className={`w-10 h-10 rounded-full ${theme.statBg} flex items-center justify-center ${theme.iconColor}`}>
-                      <item.icon />
-                    </div>
-                  </div>
-                  <div className={`text-3xl sm:text-4xl font-extrabold ${theme.statColors.cyan}`}>
-                    {item.number}
-                  </div>
-                  <div className={`${theme.textMuted} text-sm mt-1`}>{item.label}</div>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* Skills Section */}
-          <section className="py-12">
-            <h2 className={`text-3xl font-bold ${theme.text} mb-8 flex items-center gap-3`}>
-              <span className={`w-7 h-7 ${theme.iconColor}`}>
-                <Icons.Star />
-              </span>
-              Technical Skills
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {skills.map((skill, index) => (
-                <div 
-                  key={index}
-                  className={`${theme.cardBg} backdrop-blur-md border ${theme.cardBorder} rounded-2xl p-6 ${theme.cardHover} transition-all hover:-translate-y-1 hover:shadow-xl`}
-                >
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className={`w-8 h-8 ${theme.iconColor}`}>
-                      <skill.icon />
-                    </div>
-                    <span className={`${theme.text} font-semibold text-lg`}>{skill.name}</span>
-                    <span className={`ml-auto ${theme.iconColor} font-bold`}>{skill.level}%</span>
-                  </div>
-                  <div className="h-2 bg-white/5 rounded-full overflow-hidden">
-                    <div 
-                      className={`h-full bg-gradient-to-r ${theme.accent} rounded-full transition-all duration-1000`}
-                      style={{ width: `${skill.level}%` }}
-                    ></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* About Me Section */}
-          <section className="py-12">
-            <div className={`${theme.cardBg} backdrop-blur-md border ${theme.cardBorder} rounded-3xl p-8 sm:p-10 ${theme.cardHover} transition-all duration-300`}>
-              <h2 className={`text-3xl font-bold ${theme.text} mb-6 flex items-center gap-3`}>
-                <span className={`w-7 h-7 ${theme.iconColor}`}>
-                  <Icons.User />
-                </span>
-                About Me
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                  <p className={`${theme.textSecondary} leading-relaxed`}>
-                    👋 Hi, I'm <span className={`${theme.iconColor} font-semibold`}>Deepak R</span>, a passionate 
-                    <span className={`${theme.iconColor}`}> Full Stack Developer</span> specializing in the 
-                    <span className={`${theme.iconColor}`}> MERN Stack</span>. I'm dedicated to building 
-                    scalable, responsive, and user-friendly web applications that solve real-world problems.
-                  </p>
-                  <p className={`${theme.textSecondary} leading-relaxed mt-4`}>
-                    🚀 With expertise in <span className="text-cyan-400">React</span>, 
-                    <span className="text-green-400"> Node.js</span>, 
-                    <span className="text-yellow-400"> Express.js</span>, and 
-                    <span className="text-emerald-400"> MongoDB</span>, I create full-stack 
-                    solutions that are both efficient and maintainable.
-                  </p>
-                  <p className={`${theme.textSecondary} leading-relaxed mt-4`}>
-                    💼 Currently <span className="text-cyan-400">open to opportunities</span> in 
-                    Software Development Engineering (SDE), Frontend Development, and Full Stack 
-                    Development roles.
-                  </p>
-                  <div className={`flex flex-wrap gap-4 mt-4 ${theme.textMuted}`}>
-                    <div className="flex items-center gap-2">
-                      <span className={`w-5 h-5 ${theme.iconColor}`}>
-                        <Icons.Phone />
-                      </span>
-                      <a href="tel:+919360023060" className={`hover:${theme.iconColor} transition-colors`}>
-                        +91 9360023060
-                      </a>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className={`w-5 h-5 ${theme.iconColor}`}>
-                        <Icons.Email />
-                      </span>
-                      <a href="mailto:itzdeepak2k6@gmail.com" className={`hover:${theme.iconColor} transition-colors`}>
-                        itzdeepak2k6@gmail.com
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className={`${theme.cardBg} rounded-xl p-4 border ${theme.cardBorder} ${theme.cardHover} transition-all hover:-translate-y-1`}>
-                    <p className={`${theme.iconColor} font-bold text-lg`}>MERN</p>
-                    <p className={`${theme.textMuted} text-sm`}>Full Stack Developer</p>
-                  </div>
-                  <div className={`${theme.cardBg} rounded-xl p-4 border ${theme.cardBorder} ${theme.cardHover} transition-all hover:-translate-y-1`}>
-                    <p className={`${theme.iconColor} font-bold text-lg`}>20+</p>
-                    <p className={`${theme.textMuted} text-sm`}>React Assignments</p>
-                  </div>
-                  <div className={`${theme.cardBg} rounded-xl p-4 border ${theme.cardBorder} ${theme.cardHover} transition-all hover:-translate-y-1`}>
-                    <p className={`${theme.iconColor} font-bold text-lg`}>50+</p>
-                    <p className={`${theme.textMuted} text-sm`}>Components Built</p>
-                  </div>
-                  <div className={`${theme.cardBg} rounded-xl p-4 border ${theme.cardBorder} ${theme.cardHover} transition-all hover:-translate-y-1`}>
-                    <p className={`${theme.iconColor} font-bold text-lg`}>15+</p>
-                    <p className={`${theme.textMuted} text-sm`}>Projects Completed</p>
-                  </div>
-                  <div className={`${theme.cardBg} rounded-xl p-4 border ${theme.cardBorder} ${theme.cardHover} transition-all hover:-translate-y-1 col-span-2`}>
-                    <p className={`${theme.iconColor} font-bold text-lg`}>📍 Chennai</p>
-                    <p className={`${theme.textMuted} text-sm`}>Tamil Nadu, India</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* Footer */}
-          <footer className="py-10 mt-8 border-t border-white/5">
-            <div className="flex flex-col items-center gap-6">
-              <div className="flex items-center gap-3">
-                <div className={`w-6 h-6 ${theme.footerIcon}`}>
+        {/* Footer - Compact */}
+        <footer className="relative z-10 py-2 border-t border-white/5">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col items-center gap-1.5">
+              <div className="flex items-center gap-2">
+                <div className={`w-3.5 h-3.5 ${theme.footerIcon}`}>
                   <Icons.React />
                 </div>
-                <span className={`${theme.text} font-semibold`}>Deepak R - MERN Stack Developer</span>
+                <span className={`${theme.text} font-semibold text-[10px] sm:text-xs`}>Deepak R - MERN Stack Developer</span>
               </div>
-              <div className="flex gap-6">
-                <a href="https://github.com/dpkcodes-007" target="_blank" rel="noopener noreferrer" className={`w-5 h-5 ${theme.textMuted} ${theme.footerHover} transition-colors hover:-translate-y-1`}>
+              <div className="flex gap-3">
+                <a href="https://github.com/dpkcodes-007" target="_blank" rel="noopener noreferrer" className={`w-3.5 h-3.5 ${theme.textMuted} ${theme.footerHover} transition-colors hover:-translate-y-0.5`}>
                   <Icons.Github />
                 </a>
-                <a href="https://www.linkedin.com/in/deepak-r-3a2613371/" target="_blank" rel="noopener noreferrer" className={`w-5 h-5 ${theme.textMuted} ${theme.footerHover} transition-colors hover:-translate-y-1`}>
+                <a href="https://www.linkedin.com/in/deepak-r-3a2613371/" target="_blank" rel="noopener noreferrer" className={`w-3.5 h-3.5 ${theme.textMuted} ${theme.footerHover} transition-colors hover:-translate-y-0.5`}>
                   <Icons.LinkedIn />
                 </a>
-                <a href="mailto:itzdeepak2k6@gmail.com" className={`w-5 h-5 ${theme.textMuted} ${theme.footerHover} transition-colors hover:-translate-y-1`}>
+                <a href="mailto:itzdeepak2k6@gmail.com" className={`w-3.5 h-3.5 ${theme.textMuted} ${theme.footerHover} transition-colors hover:-translate-y-0.5`}>
                   <Icons.Email />
                 </a>
-                <a href="tel:+919360023060" className={`w-5 h-5 ${theme.textMuted} ${theme.footerHover} transition-colors hover:-translate-y-1`}>
+                <a href="tel:+919360023060" className={`w-3.5 h-3.5 ${theme.textMuted} ${theme.footerHover} transition-colors hover:-translate-y-0.5`}>
                   <Icons.Phone />
                 </a>
               </div>
-              <div className="w-full text-center pt-4 border-t border-white/5">
-                <p className={`${theme.textMuted} text-sm`}>© 2026 Deepak R. All rights reserved.</p>
-              </div>
+              <p className={`${theme.textMuted} text-[8px] sm:text-[10px]`}>© 2026 Deepak R. All rights reserved.</p>
             </div>
-          </footer>
-        </div>
+          </div>
+        </footer>
       </div>
 
       {/* Tailwind CSS Custom Animations */}
@@ -692,10 +638,6 @@ const Profile = () => {
         @keyframes twinkle {
           0%, 100% { opacity: 0.3; }
           50% { opacity: 1; }
-        }
-        @keyframes spin-slow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
         }
         .animate-float {
           animation: float 20s infinite ease-in-out;
@@ -711,12 +653,6 @@ const Profile = () => {
         }
         .animate-twinkle {
           animation: twinkle 3s infinite ease-in-out;
-        }
-        .animate-spin-slow {
-          animation: spin-slow 3s linear infinite;
-        }
-        .bg-gradient-radial {
-          background-image: radial-gradient(circle at var(--tw-gradient-from-position), var(--tw-gradient-stops));
         }
       `}</style>
     </>

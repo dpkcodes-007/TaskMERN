@@ -89,6 +89,8 @@ import Layout21 from '../assignments/day21/layout21/Layout21';
 import UseMemo from '../assignments/day21/slides21/UseMemo';
 import Layout22 from '../assignments/day22/layout22/Layout22';
 import UseCallBackCount from '../assignments/day22/slides22/UseCallBackCount';
+import ReducerCount from '../assignments/day23/slides23/ReducerCount';
+import Layout23 from '../assignments/day23/layout23/Layout23';
 
 
 
@@ -279,9 +281,15 @@ const AppRoutes = () => {
 
         {/* day 22*/}
          <Route element={<Layout22 />}>
-          <Route path='/usecallback' element={<UseCallBackCount/>} />
           <Route path='/usecallbackcount21' element={<UseCallBackCount/>} />
         </Route> 
+
+        {/* day 23*/}
+         <Route element={<Layout23 />}>
+          <Route path='/usereducer' element={<ReducerCount/>} />
+        </Route> 
+
+
             
             
 

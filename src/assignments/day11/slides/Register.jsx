@@ -55,11 +55,11 @@ const Register11 = () => {
 
   return (
     <>
-  <div className="min-h-screen flex items-center justify-center bg-gray-100">
-  <div className="bg-white p-8 rounded-lg shadow-md w-96">
-    <div className="text-center mb-6">
+  <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4 py-8 sm:px-6">
+  <div className="w-full max-w-md rounded-lg bg-white p-5 shadow-md sm:p-8">
+    <div className="mb-6 text-center">
       <h1 className="text-2xl font-bold text-gray-800">Register Form</h1>
-      <p className="text-gray-600 text-sm mt-1">Create your account to get started</p>
+      <p className="mt-1 text-sm text-gray-600">Create your account to get started</p>
     </div>
     
     <div>

@@ -1,17 +1,17 @@
 const Home = () => {
   return (
     <>
-      <section className='min-h-[60vh] px-6 py-10 sm:px-10'>
-        <div className='mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center'>
-          <div className='space-y-5 rounded-3xl border border-white/10 bg-white/5 p-8 shadow-2xl backdrop-blur-md'>
+      <section className='min-h-screen px-4 py-8 sm:px-6 sm:py-10 lg:px-10'>
+        <div className='mx-auto grid max-w-6xl gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-center'>
+          <div className='space-y-5 rounded-3xl border border-white/10 bg-white/5 p-5 shadow-2xl backdrop-blur-md sm:p-8'>
             <p className='text-xs font-semibold uppercase tracking-[0.35em] text-cyan-300'>Day 2</p>
-            <h1 className='text-4xl font-black tracking-tight text-white sm:text-5xl'>Welcome to React Router DOM</h1>
-            <p className='max-w-xl text-slate-300'>
+            <h1 className='text-3xl font-black tracking-tight text-white sm:text-4xl lg:text-5xl'>Welcome to React Router DOM</h1>
+            <p className='max-w-xl text-sm text-slate-300 sm:text-base'>
               This section shows route-based pages styled with Tailwind CSS, including buttons, cards, and navigation links.
             </p>
-            <div className='flex flex-wrap gap-3'>
-              <a href='/about' className='rounded-full bg-cyan-500 px-5 py-3 font-semibold text-slate-950 transition hover:bg-cyan-400'>About</a>
-              <a href='/contact' className='rounded-full border border-white/10 bg-white/5 px-5 py-3 font-semibold text-white transition hover:border-cyan-400/40 hover:bg-cyan-400/10'>Contact</a>
+            <div className='flex flex-col gap-3 sm:flex-row sm:flex-wrap'>
+              <a href='/about' className='w-full rounded-full bg-cyan-500 px-5 py-3 text-center font-semibold text-slate-950 transition hover:bg-cyan-400 sm:w-auto'>About</a>
+              <a href='/contact' className='w-full rounded-full border border-white/10 bg-white/5 px-5 py-3 text-center font-semibold text-white transition hover:border-cyan-400/40 hover:bg-cyan-400/10 sm:w-auto'>Contact</a>
             </div>
           </div>
 

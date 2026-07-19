@@ -141,6 +141,18 @@ const tasks = [
     description: "Built a count filter process with useCount.",
     path: "/usecallback",
   },
+    {
+    day: "Day 23",
+    title: "Usereducer Process",
+    description: "Built a count filter process with useReducer.",
+    path: "/usereducer",
+  },
+    {
+    day: "Day 24",
+    title: "Use Process",
+    description: "Built a count filter process with useCount.",
+    path: "/usecallback",
+  },
 ];
 
 const TaskAssignments = () => {
@@ -148,6 +160,11 @@ const TaskAssignments = () => {
   const [currentTime] = useState(new Date());
   const [themeMode, setThemeMode] = useState(() => {
     const saved = localStorage.getItem('theme');
+    const hour = new Date().getHours();
+    if (saved === 'auto') return 'auto';
+    if ((saved === 'light' || saved === 'dark') && hour >= 5 && hour < 17) {
+      return 'auto';
+    }
     return saved || 'auto';
   });
 
@@ -164,17 +181,17 @@ const TaskAssignments = () => {
     let activeThemeMode = themeMode;
     if (activeThemeMode === 'auto') {
       const hour = currentTime.getHours();
-      if (hour >= 5 && hour < 17) {
-        activeThemeMode = 'light';
-      } else if (hour >= 17 && hour < 19) {
-        activeThemeMode = 'evening';
+      if (hour >= 5 && hour < 12) {
+        activeThemeMode = 'morning';
+      } else if (hour >= 12 && hour < 17) {
+        activeThemeMode = 'afternoon';
       } else {
-        activeThemeMode = 'dark';
+        activeThemeMode = 'night';
       }
     }
     
-    // Day Theme (5 AM - 5 PM)
-    if (activeThemeMode === 'light') {
+    // Day Theme (morning and afternoon)
+    if (activeThemeMode === 'light' || activeThemeMode === 'morning' || activeThemeMode === 'afternoon') {
       return {
         name: 'day',
         background: 'from-blue-50 via-sky-100 to-blue-50',
@@ -295,11 +312,11 @@ const TaskAssignments = () => {
         {/* Main Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Header Section */}
-          <div className={`mb-10 rounded-3xl border ${theme.cardBorder} ${theme.cardBg} p-8 shadow-2xl backdrop-blur-md ${theme.cardHover} transition-all`}>
+          <div className={`mb-8 rounded-3xl border ${theme.cardBorder} ${theme.cardBg} p-4 shadow-2xl backdrop-blur-md ${theme.cardHover} transition-all sm:mb-10 sm:p-6 lg:p-8`}>
             <p className={`mb-3 inline-flex rounded-full ${theme.badge} px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em]`}>
               React practice dashboard
             </p>
-            <h2 className={`max-w-2xl text-4xl font-black tracking-tight ${theme.text} sm:text-5xl`}>
+            <h2 className={`max-w-2xl text-3xl font-black tracking-tight ${theme.text} sm:text-4xl lg:text-5xl`}>
               <span className={`bg-gradient-to-r ${theme.heading} bg-clip-text text-transparent`}>
                 React
               </span>
@@ -352,7 +369,7 @@ const TaskAssignments = () => {
                   
                   <button
                     onClick={() => nav(task.path)}
-                    className={`group/btn inline-flex items-center gap-2 rounded-xl bg-gradient-to-r ${theme.button} px-5 py-2.5 font-semibold text-white transition-all ${theme.buttonHover} hover:-translate-y-0.5`}
+                    className={`group/btn inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r ${theme.button} px-4 py-2.5 font-semibold text-white transition-all ${theme.buttonHover} hover:-translate-y-0.5 sm:w-auto sm:justify-start sm:px-5`}
                   >
                     <span>View Task</span>
                     <svg 
